@@ -1,7 +1,11 @@
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PantallaInicial extends JFrame{
     private JPanel panelContenido;
@@ -19,15 +23,28 @@ public class PantallaInicial extends JFrame{
     public PantallaInicial() {
         super("Pantalla Inicial");
         init();
+        loadListeners();
+    }
+
+    private void loadListeners() {
+        btnIniciarSesion.addActionListener(iniciarSesion());
+    }
+
+    private ActionListener iniciarSesion(){
+        return e -> {
+            new InicioSesion();
+            dispose();
+        };
     }
 
     private void init() {
         setContentPane(panelContenido);
-        setIconImage(logo.getImage());
+        setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
         lblAside.setIcon(aside);
         lblLogo.setIcon(logo);
 
         setResizable(false);
+        setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(1480, 900));
         setLocationRelativeTo(null);
@@ -35,12 +52,6 @@ public class PantallaInicial extends JFrame{
 
     public static void main(String[] args) {
         FlatMacDarkLaf.setup();
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame pantallaInicial = new PantallaInicial();
-                pantallaInicial.setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new PantallaInicial().setVisible(true));
     }
 }
