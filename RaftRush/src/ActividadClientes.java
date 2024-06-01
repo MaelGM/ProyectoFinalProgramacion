@@ -96,6 +96,7 @@ public class ActividadClientes extends JFrame{
             @Override
             public void run() {
                 JFrame frame = new ActividadClientes();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(1534,774);
                 frame.setResizable(false);
                 frame.setLocationRelativeTo(null);
