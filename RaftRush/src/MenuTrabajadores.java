@@ -1,14 +1,13 @@
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuTrabajadores extends JFrame{
 
     private JPanel menuTrabajadoresPane;
     private JLabel lblHeader;
-    private JButton gestionarTrabajadoresButton;
+    private JButton btnGestionarTrabajadores;
     private JButton gestionarReservasButton;
     private JButton gestionarActividadButton;
     private JButton btnGestAlmacen;
@@ -23,11 +22,19 @@ public class MenuTrabajadores extends JFrame{
 
     private void loadListeners(){
         btnGestAlmacen.addActionListener(gestMaterial());
+        btnGestionarTrabajadores.addActionListener(gestTrabajadores());
+
     }
 
     private ActionListener gestMaterial(){
         return e -> {
             new GestionarMateriales();
+        };
+    }
+
+    private ActionListener gestTrabajadores(){
+        return e -> {
+            new GestionarTrabajadores();
         };
     }
 

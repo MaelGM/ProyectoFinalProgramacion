@@ -64,7 +64,7 @@ public class GestionarMateriales extends JFrame{
     public void cargarDatos(){
 
         String[]header = {"Código", "Nombre", "Cantidad", "Precio"};
-        String[][]rows = new String[3][4];
+        String[][]rows = new String[3][header.length];
 
         //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
         rows[0][0] = "1";
