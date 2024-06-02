@@ -28,11 +28,19 @@ public class PantallaInicial extends JFrame{
 
     private void loadListeners() {
         btnIniciarSesion.addActionListener(iniciarSesion());
+        btnRegistrar.addActionListener(registrar());
     }
 
     private ActionListener iniciarSesion(){
         return e -> {
             new InicioSesion();
+            dispose();
+        };
+    }
+
+    private ActionListener registrar(){
+        return e -> {
+            new PantallaRegistro();
             dispose();
         };
     }

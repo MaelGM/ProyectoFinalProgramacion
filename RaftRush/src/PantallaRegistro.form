@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="PantallaRegistro">
+  <grid id="27dc6" binding="panelContenido" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="904" height="665"/>
+    </constraints>
+    <properties>
+      <background color="-16438980"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="d358a" class="javax.swing.JLabel" binding="lblAside">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <grid id="2004a" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="1070" height="900"/>
+            <maximum-size width="1070" height="900"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16438980"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="583b9" binding="panelCentrado" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="550" height="631"/>
+                <maximum-size width="550" height="631"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-16438980"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="d360a" binding="panelSuperior" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="550" height="120"/>
+                    <maximum-size width="550" height="120"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-16438980"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="c87f9" class="javax.swing.JLabel" binding="lblTitulo">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Inter" size="50" style="1"/>
+                      <text value="Crear Cuenta"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="c56ba" binding="panelCentral" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="550" height="422"/>
+                    <preferred-size width="550" height="422"/>
+                    <maximum-size width="550" height="422"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-680076"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="a4387" binding="panelUsuario" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="490" height="40"/>
+                        <maximum-size width="490" height="40"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-680076"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="e1491" class="javax.swing.JLabel" binding="lblImgUsuario">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="cdfdf" class="javax.swing.JTextField" binding="txtFldNombre">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="270" height="40"/>
+                            <preferred-size width="270" height="40"/>
+                            <maximum-size width="270" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="20" style="1"/>
+                        </properties>
+                      </component>
+                      <grid id="11f07" binding="panelLabelNombre" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="170" height="40"/>
+                            <maximum-size width="170" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-680076"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="9425e" class="javax.swing.JLabel" binding="lblNombre">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Inter" size="20" style="1"/>
+                              <text value="Nombre:"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
+                  <grid id="85af3" binding="panelTel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <minimum-size width="490" height="40"/>
+                        <preferred-size width="490" height="40"/>
+                        <maximum-size width="490" height="40"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-680076"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="ac8c5" class="javax.swing.JLabel" binding="lblImgTel">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="dcf1c" class="javax.swing.JFormattedTextField" binding="formTxtFldTel">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="270" height="40"/>
+                            <preferred-size width="270" height="40"/>
+                            <maximum-size width="270" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="20" style="1"/>
+                        </properties>
+                      </component>
+                      <grid id="45553" binding="panelLabelTel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="170" height="40"/>
+                            <maximum-size width="170" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-680076"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="46054" class="javax.swing.JLabel" binding="lblTelefono">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Inter" size="20" style="1"/>
+                              <text value="Telefono:"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
+                  <grid id="ae5b2" binding="panelEdad" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <minimum-size width="490" height="40"/>
+                        <preferred-size width="490" height="40"/>
+                        <maximum-size width="490" height="40"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-680076"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="e9d6d" class="javax.swing.JLabel" binding="lblImgEdad">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="67348" class="javax.swing.JFormattedTextField" binding="formTxtFldEdad">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="270" height="40"/>
+                            <preferred-size width="270" height="40"/>
+                            <maximum-size width="270" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="20" style="1"/>
+                        </properties>
+                      </component>
+                      <grid id="aa213" binding="panelLabelEdad" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="170" height="40"/>
+                            <maximum-size width="170" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-680076"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="b2977" class="javax.swing.JLabel" binding="lblEdad">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Inter" size="20" style="1"/>
+                              <text value="Edad:"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
+                  <grid id="e04fe" binding="panelNif" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <minimum-size width="490" height="40"/>
+                        <preferred-size width="490" height="40"/>
+                        <maximum-size width="490" height="40"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-680076"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="1675d" class="javax.swing.JLabel" binding="lblImgPassword">
+                        <constraints>
+                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <text value=""/>
+                        </properties>
+                      </component>
+                      <component id="9b96" class="javax.swing.JFormattedTextField" binding="formTxtFldNif">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="270" height="40"/>
+                            <preferred-size width="270" height="40"/>
+                            <maximum-size width="270" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="20" style="1"/>
+                        </properties>
+                      </component>
+                      <grid id="d778e" binding="panelLabelNif" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="170" height="40"/>
+                            <maximum-size width="170" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-680076"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="68a9d" class="javax.swing.JLabel" binding="lblNif">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Inter" size="20" style="1"/>
+                              <text value="Nif:"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+              <grid id="700ad" binding="panelInferior" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="550" height="89"/>
+                    <maximum-size width="550" height="89"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-16438980"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="63c2d" binding="panelBoton" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="270" height="56"/>
+                        <maximum-size width="270" height="56"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-16438980"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="a4a9f" class="javax.swing.JButton" binding="btnRegistrar">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="270" height="56"/>
+                            <maximum-size width="270" height="56"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-16400725"/>
+                          <font name="Inter" size="18" style="1"/>
+                          <text value="Registrar"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="84974" binding="panelIniciarSesion" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="275" height="56"/>
+                        <maximum-size width="275" height="56"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-16438980"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="d4c3d" class="javax.swing.JLabel" binding="lblIniciarSesion">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Inter" size="20" style="1"/>
+                          <text value="Iniciar sesión"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
