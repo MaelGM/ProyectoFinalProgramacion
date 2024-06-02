@@ -80,7 +80,7 @@ public class InicioSesion extends JFrame{
                 new PantallaInicial();
             }
         });
-        listenerButton();
+        Utils.cursorPointerBoton(btnIniciarSesion);
         listenerLabel();
     }
 
@@ -91,28 +91,8 @@ public class InicioSesion extends JFrame{
                 new PantallaRegistro();
                 dispose();
             }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                lblCrearCuenta.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                lblCrearCuenta.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
         });
-    }
-    private void listenerButton(){
-        btnIniciarSesion.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                btnIniciarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                btnIniciarSesion.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-        });
+        Utils.cursorPointerLabel(lblCrearCuenta);
     }
 
 

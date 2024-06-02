@@ -29,6 +29,8 @@ public class PantallaInicial extends JFrame{
     private void loadListeners() {
         btnIniciarSesion.addActionListener(iniciarSesion());
         btnRegistrar.addActionListener(registrar());
+        Utils.cursorPointerBoton(btnIniciarSesion);
+        Utils.cursorPointerBoton(btnRegistrar);
     }
 
     private ActionListener iniciarSesion(){
