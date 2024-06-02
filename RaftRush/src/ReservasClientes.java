@@ -5,6 +5,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ReservasClientes extends JFrame{
     private JPanel jplGeneral;
@@ -21,6 +23,19 @@ public class ReservasClientes extends JFrame{
 
         tblReservas.setShowGrid(true);//Mostrar grid color
 
+        // Add window listener to handle the close event
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                JFrame frame = new ActividadClientes();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(1534,774);
+                frame.setResizable(false);
+                frame.setLocationRelativeTo(null);
+
+                frame.setVisible(true);
+            }
+        });
     }
 
     private void cargarDato(){
@@ -69,21 +84,5 @@ public class ReservasClientes extends JFrame{
         ImageIcon background = new ImageIcon("resources/imagenes/cabeceraResClientes.png");
 
         lblBG.setIcon(background);
-    }
-
-    public static void main(String[] args) {
-        FlatMacDarkLaf.setup();
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new ReservasClientes();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(1480,774);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-
-                frame.setVisible(true);
-            }
-        });
     }
 }

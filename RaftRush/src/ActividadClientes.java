@@ -6,8 +6,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class ActividadClientes extends JFrame{
     private JPanel jplGeneral;
@@ -40,6 +39,44 @@ public class ActividadClientes extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
+            }
+        });
+        verReservasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new ReservasClientes();
+                frame.setSize(1480,774);
+                frame.setResizable(false);
+                frame.setLocationRelativeTo(null);
+
+                frame.setVisible(true);
+                dispose();
+            }
+        });
+        reservarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new DetallesActividad();
+                frame.setSize(660,1033);
+                frame.setResizable(false);
+                frame.setLocationRelativeTo(null);
+
+                frame.setVisible(true);
+                dispose();
+            }
+        });
+
+        lblNombreUsu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                JFrame frame = new MiPerfil();
+                frame.setSize(660,1033);
+                frame.setResizable(false);
+                frame.setLocationRelativeTo(null);
+
+                frame.setVisible(true);
+                dispose();
             }
         });
     }

@@ -2,6 +2,10 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MiPerfil extends JFrame{
     private JPanel jplGeneral;
@@ -29,6 +33,29 @@ public class MiPerfil extends JFrame{
         jplDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 20");
 
         background();
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                activarWindows();
+            }
+        });
+        btnAct.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                activarWindows();
+                dispose();
+            }
+        });
+    }
+
+    private void activarWindows(){
+        JFrame frame = new ActividadClientes();
+        frame.setSize(1534,774);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+
+        frame.setVisible(true);
     }
     private void background(){
         ImageIcon background = new ImageIcon("resources/imagenes/Montanyas.png");
@@ -41,22 +68,5 @@ public class MiPerfil extends JFrame{
         lblIcon2.setIcon(phone);
         ImageIcon key = new ImageIcon("resources/imagenes/Key_alt.png");
         lblIcon3.setIcon(key);
-    }
-
-
-    public static void main(String[] args) {
-        FlatMacDarkLaf.setup();
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new MiPerfil();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(660,1033);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-
-                frame.setVisible(true);
-            }
-        });
     }
 }
