@@ -41,7 +41,7 @@ public class PantallaAct extends JFrame {
 
     public void cargarDatos(){
         datosMainTable();
-        datosNewTrabajador();
+        datosActSeleccionada();
     }
 
     public void datosMainTable(){
@@ -76,7 +76,7 @@ public class PantallaAct extends JFrame {
         tblActividades.getTableHeader().setReorderingAllowed(false);
         tblActividades.setDefaultEditor(Override.class, null);
 
-        asignarTamanyoColumnasTrabajadores();
+        asignarTamanyoColumnasAct();
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -85,7 +85,7 @@ public class PantallaAct extends JFrame {
         }
     }
 
-    public void datosNewTrabajador(){
+    public void datosActSeleccionada(){
         String[]header = {"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"};
         String[][]rows = new String[1][header.length];
 
@@ -100,7 +100,7 @@ public class PantallaAct extends JFrame {
         tblActSeleccionada.getTableHeader().setReorderingAllowed(false);
         tblActSeleccionada.setDefaultEditor(Override.class, null);
 
-        asignarTamanyoColumnasNuevoTrabajador();
+        asignarTamanyoColumnasActSeleccionada();
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -109,7 +109,7 @@ public class PantallaAct extends JFrame {
         }
     }
 
-    public void tablaTrabajadoresProperties(){
+    public void tablaActProperties(){
         tblActividades.setShowGrid(true);
         tblActividades.setGridColor(Color.BLACK);
         tblActividades.getTableHeader().setOpaque(false);
@@ -118,7 +118,7 @@ public class PantallaAct extends JFrame {
         tblActividades.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
 
-    public void tablaNuevoTrabajadorProperties(){
+    public void tablaActSeleccionadaProperties(){
         tblActSeleccionada.setShowGrid(true);
         tblActSeleccionada.setGridColor(Color.BLACK);
         tblActSeleccionada.getTableHeader().setOpaque(false);
@@ -127,7 +127,7 @@ public class PantallaAct extends JFrame {
         tblActSeleccionada.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
 
-    public void panelNuevoTrabajadorProperties(){
+    public void panelActSeleccionadaProperties(){
         jpEliminarAct.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
@@ -139,7 +139,7 @@ public class PantallaAct extends JFrame {
         jpEliminarAct.setBorder(titleBorder);
     }
 
-    public void asignarTamanyoColumnasTrabajadores(){
+    public void asignarTamanyoColumnasAct(){
         TableColumn column;
         for (int i = 0; i < tblActividades.getColumnCount(); i++) {
             column = tblActividades.getColumnModel().getColumn(i);
@@ -155,7 +155,7 @@ public class PantallaAct extends JFrame {
         }
     }
 
-    public void asignarTamanyoColumnasNuevoTrabajador(){
+    public void asignarTamanyoColumnasActSeleccionada(){
         TableColumn column;
         for (int i = 0; i < tblActSeleccionada.getColumnCount(); i++) {
             column = tblActSeleccionada.getColumnModel().getColumn(i);
@@ -170,18 +170,15 @@ public class PantallaAct extends JFrame {
         }
     }
 
-
-
     public static void main(String[] args) {
         FlatMacDarkLaf.setup();
         inicio();
     }
     public void init(){
-        tablaTrabajadoresProperties();
-        tablaNuevoTrabajadorProperties();
-        panelNuevoTrabajadorProperties();
+        tablaActProperties();
+        tablaActSeleccionadaProperties();
+        panelActSeleccionadaProperties();
     }
-
 
     private static void inicio() {
         SwingUtilities.invokeLater(new Runnable() {
