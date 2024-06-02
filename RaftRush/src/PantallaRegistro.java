@@ -94,16 +94,41 @@ public class PantallaRegistro extends JFrame{
                 new PantallaInicial();
             }
         });
+        listenerLabel();
+        listenerButton();
+    }
+
+    private void listenerLabel(){
         lblIniciarSesion.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new InicioSesion();
                 dispose();
             }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lblIniciarSesion.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lblIniciarSesion.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
         });
     }
+    private void listenerButton(){
+        btnRegistrar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                btnRegistrar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
 
-
+            @Override
+            public void mouseExited(MouseEvent e) {
+                btnRegistrar.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
 
 
 }
