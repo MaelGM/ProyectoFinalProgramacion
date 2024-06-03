@@ -84,7 +84,7 @@ public class GestionarMateriales extends JFrame{
 
         tblMat.setModel(new DefaultTableModel(rows, header));
         tblMat.getTableHeader().setReorderingAllowed(false);
-        tblMat.setDefaultEditor(Override.class, null);
+        tblMat.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnas();
     }

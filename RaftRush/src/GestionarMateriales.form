@@ -79,6 +79,8 @@
                       <foreground color="-16250355"/>
                       <requestFocusEnabled value="true"/>
                       <rowHeight value="40"/>
+                      <selectionBackground color="-7077901"/>
+                      <selectionForeground color="-16777216"/>
                     </properties>
                   </component>
                 </children>
