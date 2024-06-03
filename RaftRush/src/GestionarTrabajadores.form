@@ -68,12 +68,18 @@
                     <constraints/>
                     <properties>
                       <background color="-9534578"/>
+<<<<<<< HEAD
                       <focusable value="false"/>
                       <font name="Inter" size="16" style="1"/>
                       <foreground color="-16250355"/>
                       <rowHeight value="40"/>
                       <selectionBackground color="-7077901"/>
                       <selectionForeground color="-16777216"/>
+=======
+                      <font name="Inter" size="16" style="1"/>
+                      <foreground color="-16250355"/>
+                      <rowHeight value="40"/>
+>>>>>>> f50fa0b1426647a835569658fd53fd77c9290653
                     </properties>
                   </component>
                 </children>
@@ -173,7 +179,10 @@
                     </constraints>
                     <properties>
                       <background color="-16438980"/>
+<<<<<<< HEAD
                       <focusable value="false"/>
+=======
+>>>>>>> f50fa0b1426647a835569658fd53fd77c9290653
                       <verticalScrollBarPolicy value="21"/>
                     </properties>
                     <border type="none"/>
@@ -182,14 +191,20 @@
                         <constraints/>
                         <properties>
                           <background color="-9534578"/>
+<<<<<<< HEAD
                           <focusable value="false"/>
+=======
+>>>>>>> f50fa0b1426647a835569658fd53fd77c9290653
                           <font name="Inter" size="16" style="1"/>
                           <foreground color="-16250355"/>
                           <preferredScrollableViewportSize width="450" height="200"/>
                           <preferredSize width="150" height="40"/>
                           <rowHeight value="40"/>
+<<<<<<< HEAD
                           <selectionBackground color="-7077901"/>
                           <selectionForeground color="-16777216"/>
+=======
+>>>>>>> f50fa0b1426647a835569658fd53fd77c9290653
                         </properties>
                       </component>
                     </children>

@@ -95,7 +95,11 @@ public class GestionarTrabajadores extends JFrame {
 
         tblTrabajadores.setModel(new DefaultTableModel(rows, header));
         tblTrabajadores.getTableHeader().setReorderingAllowed(false);
+<<<<<<< HEAD
         tblTrabajadores.setDefaultEditor(Object.class, null);
+=======
+        tblTrabajadores.setDefaultEditor(Override.class, null);
+>>>>>>> f50fa0b1426647a835569658fd53fd77c9290653
 
         asignarTamanyoColumnasTrabajadores();
 
