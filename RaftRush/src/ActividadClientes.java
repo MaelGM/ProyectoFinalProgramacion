@@ -27,6 +27,15 @@ public class ActividadClientes extends JFrame{
     private DefaultTableModel model;
 
     public ActividadClientes(){
+        super("Actividades Clientes");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1534,774);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        ImageIcon icon = new ImageIcon("resources/imagenes/Logo.png");
+        Image img = icon.getImage();
+        setIconImage(img);
+
         setContentPane(jplGeneral);
         background();
         cargarDato();
@@ -133,11 +142,6 @@ public class ActividadClientes extends JFrame{
             @Override
             public void run() {
                 JFrame frame = new ActividadClientes();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(1534,774);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-
                 frame.setVisible(true);
             }
         });
