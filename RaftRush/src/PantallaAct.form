@@ -46,6 +46,7 @@
                 <constraints/>
                 <properties>
                   <background color="-9534578"/>
+                  <focusable value="false"/>
                   <font name="Inter" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <maximumSize width="2147483647" height="80"/>
@@ -104,6 +105,7 @@
             <properties>
               <autoscrolls value="false"/>
               <background color="-16438980"/>
+              <focusable value="false"/>
             </properties>
             <border type="none"/>
             <children>
@@ -111,6 +113,7 @@
                 <constraints/>
                 <properties>
                   <background color="-9534578"/>
+                  <focusable value="false"/>
                   <foreground color="-16777216"/>
                   <rowHeight value="45"/>
                 </properties>

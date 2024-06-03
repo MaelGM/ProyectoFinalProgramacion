@@ -46,6 +46,7 @@
                 <constraints/>
                 <properties>
                   <background color="-9534578"/>
+                  <focusable value="false"/>
                   <font name="Inter" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <gridColor color="-9534578"/>
@@ -92,6 +93,7 @@
                 <constraints/>
                 <properties>
                   <background color="-9534578"/>
+                  <focusable value="false"/>
                   <foreground color="-16777216"/>
                   <gridColor color="-9534578"/>
                   <rowHeight value="45"/>
