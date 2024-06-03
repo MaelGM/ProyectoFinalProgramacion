@@ -107,8 +107,8 @@ public class DBManager {
 
 
     ///////////////////////
-    //TODO Este codigo lo hago para sacar el ultimo id u codigo que se ha creado para luego insertarlo a la nueva instancia
-    //TODO no he hecho la de tipo porque no estaba muy seguro de ello
+    //TODO Este codigo lo hago para sacar el ultimo id u codigo que se ha creado para luego insertarlo a la nueva instancia Author -->Hakeem
+    //TODO no he hecho la de tipo porque no estaba muy seguro de ello Author --> Hakeem
     public static ResultSet sacarUltimoIDCentro() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM centro ORDER BY centro.id DESC LIMIT 1");
     }
