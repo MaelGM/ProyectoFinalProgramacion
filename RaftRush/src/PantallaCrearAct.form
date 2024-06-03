@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="PantallaCrearAct">
+  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="693" height="538"/>
+    </constraints>
+    <properties>
+      <background color="-16438980"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="3d24d" binding="panelContenido" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-16438980"/>
+          <focusCycleRoot value="true"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="2f096" binding="panelCentrado" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="500" height="700"/>
+                <maximum-size width="500" height="750"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-16438980"/>
+              <doubleBuffered value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <grid id="30f83" binding="datosActPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="552" height="545"/>
+                    <maximum-size width="552" height="545"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-680076"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="4fb57" binding="panelTextfields" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <background color="-680076"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="24dd0" class="javax.swing.JTextField" binding="txtFldNombre">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="300" height="48"/>
+                            <maximum-size width="300" height="48"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="18"/>
+                        </properties>
+                      </component>
+                      <component id="bc7e1" class="javax.swing.JComboBox" binding="cBoxTipo">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="300" height="48"/>
+                            <maximum-size width="300" height="48"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="18"/>
+                          <model>
+                            <item value="Escalada"/>
+                            <item value="Tiro con arco"/>
+                            <item value="Senderismo"/>
+                            <item value="Tirolina"/>
+                            <item value="Rappel"/>
+                            <item value="Ciclismo"/>
+                            <item value="Canoa"/>
+                            <item value="Rafting"/>
+                            <item value="Paintball"/>
+                            <item value="Orientación"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <component id="6d218" class="javax.swing.JComboBox" binding="cBoxLocalidad">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="300" height="48"/>
+                            <maximum-size width="300" height="48"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="18"/>
+                          <model>
+                            <item value="Valencia"/>
+                            <item value="Alicane"/>
+                            <item value="Barcelona"/>
+                            <item value="Oviedo"/>
+                            <item value="Andorra"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <component id="1392f" class="javax.swing.JTextField" binding="txtFldPrecio">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="300" height="48"/>
+                            <maximum-size width="300" height="48"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="18"/>
+                        </properties>
+                      </component>
+                      <component id="d7c82" class="javax.swing.JComboBox" binding="cBoxDificultad">
+                        <constraints>
+                          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="300" height="48"/>
+                            <maximum-size width="300" height="48"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="18"/>
+                          <model>
+                            <item value="Fácil"/>
+                            <item value="Medio"/>
+                            <item value="Difícil"/>
+                            <item value="Extremo"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <component id="14918" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Inter" size="20" style="1"/>
+                          <text value="Nombre:"/>
+                        </properties>
+                      </component>
+                      <component id="fdd4d" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Inter" size="20" style="1"/>
+                          <text value="Tipo:"/>
+                        </properties>
+                      </component>
+                      <component id="cccf5" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Inter" size="20" style="1"/>
+                          <text value="Localidad:"/>
+                        </properties>
+                      </component>
+                      <component id="e421f" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Inter" size="20" style="1"/>
+                          <text value="Precio:"/>
+                        </properties>
+                      </component>
+                      <component id="abbd8" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Inter" size="20" style="1"/>
+                          <text value="Dificultad:"/>
+                        </properties>
+                      </component>
+                      <component id="f3d59" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <font name="Inter" size="20" style="1"/>
+                          <text value="Descripción:"/>
+                        </properties>
+                      </component>
+                      <scrollpane id="cfaa8" binding="envolturaDescArea">
+                        <constraints>
+                          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="300" height="154"/>
+                            <maximum-size width="300" height="154"/>
+                          </grid>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <component id="2ade2" class="javax.swing.JTextArea" binding="txtAreaDesc">
+                            <constraints/>
+                            <properties>
+                              <background color="-9145228"/>
+                              <focusable value="true"/>
+                              <font name="Inter" size="18"/>
+                              <text value=""/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+              <component id="7be67" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Inter" size="50" style="1"/>
+                  <text value="Crear actividad"/>
+                </properties>
+              </component>
+              <component id="6796a" class="javax.swing.JButton" binding="registrarActividadButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="357" height="56"/>
+                    <maximum-size width="357" height="56"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <autoscrolls value="true"/>
+                  <background color="-16400469"/>
+                  <font name="Inter" size="20" style="1"/>
+                  <text value="Registrar Actividad"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <component id="1f0da" class="javax.swing.JLabel" binding="imgCorporativaDer">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
