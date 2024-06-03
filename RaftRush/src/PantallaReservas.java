@@ -23,19 +23,27 @@ public class PantallaReservas extends JFrame {
     private JTable tblResSeleccionada;
     private JButton anularReservaButton;
 
-    private static final ImageIcon logo = new ImageIcon("resources/imagenes/iconoMarino.png");
+    private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloRes.png");
 
     public PantallaReservas() { //Constructor
         super("Lista de actividades");
+        init();
+        estilo();
         setContentPane(PanelPrincipal);
+
+        cargarDatos();
+        tablaReservasProperties();
+        tablaReservaSeleccionadaProperties();
+        panelReservasProperties();
+    }
+
+    private void estilo() {
         imgCorporativa.setIcon(imgCorporativaCabecera);
         JTableHeader headerActividades = tblReservas.getTableHeader();
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
         JTableHeader headerEliminarAct = tblResSeleccionada.getTableHeader();
         headerEliminarAct.setPreferredSize(new Dimension(headerEliminarAct.getPreferredSize().width, 40));
-        cargarDatos();
-        init();
     }
 
     public void cargarDatos(){
@@ -139,10 +147,8 @@ public class PantallaReservas extends JFrame {
             column = tblReservas.getColumnModel().getColumn(i);
             switch (i){
                 case 0-> column.setPreferredWidth(153);
-                case 1-> column.setPreferredWidth(100);
-                case 2-> column.setPreferredWidth(250);
-                case 3-> column.setPreferredWidth(250);
-                case 4-> column.setPreferredWidth(100);
+                case 1, 4 -> column.setPreferredWidth(100);
+                case 2, 3-> column.setPreferredWidth(250);
                 case 5-> column.setPreferredWidth(150);
                 case 6-> column.setPreferredWidth(200);
             }
@@ -154,39 +160,18 @@ public class PantallaReservas extends JFrame {
         for (int i = 0; i < tblResSeleccionada.getColumnCount(); i++) {
             column = tblResSeleccionada.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(200);
+                case 0, 3, 5 -> column.setPreferredWidth(200);
                 case 1-> column.setPreferredWidth(250);
-                case 2-> column.setPreferredWidth(150);
-                case 3-> column.setPreferredWidth(200);
-                case 4-> column.setPreferredWidth(150);
-                case 5-> column.setPreferredWidth(200);
+                case 2, 4 -> column.setPreferredWidth(150);
             }
         }
     }
 
-    public static void main(String[] args) {
-        FlatMacDarkLaf.setup();
-        inicio();
-    }
     public void init(){
-        tablaReservasProperties();
-        tablaReservaSeleccionadaProperties();
-        panelReservasProperties();
-    }
-
-
-    private static void inicio() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new PantallaReservas();
-                frame.setSize(1480, 774);
-                frame.setVisible(true);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                frame.setIconImage(logo.getImage());
-            }
-        });
+        setSize(1480, 774);
+        setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setIconImage(logo.getImage());
     }
 }

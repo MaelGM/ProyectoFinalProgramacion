@@ -24,13 +24,12 @@ public class PantallaAct extends JFrame {
     private JButton añadirActividadButton;
     private JButton eliminarButton;
 
-    private static final ImageIcon logo = new ImageIcon("resources/imagenes/iconoMarino.png");
+    private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloAct.png");
 
     public PantallaAct() { //Constructor
         super("Lista de actividades");
         setContentPane(PanelPrincipal);
-        imgCorporativa.setIcon(imgCorporativaCabecera);
         JTableHeader headerActividades = tblActividades.getTableHeader();
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
         JTableHeader headerEliminarAct = tblActSeleccionada.getTableHeader();
@@ -145,12 +144,10 @@ public class PantallaAct extends JFrame {
             column = tblActividades.getColumnModel().getColumn(i);
             switch (i){
                 case 0-> column.setPreferredWidth(53);
-                case 1-> column.setPreferredWidth(200);
-                case 2-> column.setPreferredWidth(250);
-                case 3-> column.setPreferredWidth(250);
+                case 1,6-> column.setPreferredWidth(200);
+                case 2,3-> column.setPreferredWidth(250);
                 case 4-> column.setPreferredWidth(100);
                 case 5-> column.setPreferredWidth(150);
-                case 6-> column.setPreferredWidth(200);
             }
         }
     }
@@ -160,21 +157,22 @@ public class PantallaAct extends JFrame {
         for (int i = 0; i < tblActSeleccionada.getColumnCount(); i++) {
             column = tblActSeleccionada.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(200);
-                case 1-> column.setPreferredWidth(250);
-                case 2-> column.setPreferredWidth(250);
+                case 0,5-> column.setPreferredWidth(200);
+                case 1,2-> column.setPreferredWidth(250);
                 case 3-> column.setPreferredWidth(100);
                 case 4-> column.setPreferredWidth(150);
-                case 5-> column.setPreferredWidth(200);
             }
         }
     }
 
-    public static void main(String[] args) {
-        FlatMacDarkLaf.setup();
-        inicio();
-    }
     public void init(){
+        setSize(1480, 774);
+        setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setIconImage(logo.getImage());
+        imgCorporativa.setIcon(imgCorporativaCabecera);
+
         tablaActProperties();
         tablaActSeleccionadaProperties();
         panelActSeleccionadaProperties();
@@ -185,12 +183,6 @@ public class PantallaAct extends JFrame {
             @Override
             public void run() {
                 JFrame frame = new PantallaAct();
-                frame.setSize(1480, 774);
-                frame.setVisible(true);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                frame.setIconImage(logo.getImage());
             }
         });
     }

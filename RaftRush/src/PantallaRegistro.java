@@ -4,10 +4,7 @@ import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.text.ParseException;
 
 public class PantallaRegistro extends JFrame{
@@ -94,15 +91,22 @@ public class PantallaRegistro extends JFrame{
                 new PantallaInicial();
             }
         });
+        btnRegistrar.addActionListener(registrarse());
         listenerLabel();
         Utils.cursorPointerBoton(btnRegistrar);
     }
 
+    private ActionListener registrarse(){
+        return e -> {
+            new PantallaMenu();
+            dispose();
+        };
+    }
     private void listenerLabel(){
         lblIniciarSesion.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new InicioSesion();
+                new PantallaInicioSesion();
                 dispose();
             }
         });

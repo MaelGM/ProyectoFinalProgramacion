@@ -1,10 +1,7 @@
-import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PantallaInicial extends JFrame{
@@ -35,7 +32,7 @@ public class PantallaInicial extends JFrame{
 
     private ActionListener iniciarSesion(){
         return e -> {
-            new InicioSesion();
+            new PantallaInicioSesion();
             dispose();
         };
     }

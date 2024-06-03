@@ -1,5 +1,3 @@
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -16,6 +14,7 @@ public class ReservasClientes extends JFrame{
     private DefaultTableModel model;
 
     public ReservasClientes(){
+        init();
         setContentPane(jplGeneral);
         background();
         cargarDato();
@@ -27,15 +26,17 @@ public class ReservasClientes extends JFrame{
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                JFrame frame = new ActividadClientes();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(1534,774);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-
-                frame.setVisible(true);
+                new PantallaActClientes();
             }
         });
+    }
+
+    private void init() {
+        setSize(1480,774);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
+        setVisible(true);
     }
 
     private void cargarDato(){
