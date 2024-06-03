@@ -1,9 +1,6 @@
-import Clases.Cliente;
+import Objetos.Cliente;
 
-import javax.swing.*;
-import javax.xml.transform.Result;
 import java.sql.*;
-import javax.sql.DataSource;
 
 
 public class DBManager {

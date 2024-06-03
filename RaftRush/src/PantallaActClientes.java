@@ -5,68 +5,75 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class PantallaActClientes extends JFrame{
-    private JPanel jplGeneral;
+    private JPanel panelGeneral;
     private JLabel lblBG;
-    private JPanel jplFill;
-    private JButton verReservasButton;
-    private JButton reservarButton;
-    private JPanel jplDataAct;
-    private JPanel jplTabla;
-    private JPanel jplData;
+    private JPanel panelFill;
+    private JButton btnVerReservas;
+    private JButton btnReservar;
+    private JPanel panelDataAct;
+    private JPanel panelTabla;
+    private JPanel panelData;
     private JPanel jplFiltro;
-    private JPanel jplUsuario;
+    private JPanel panelUsuario;
     private JLabel lblNombreUsu;
     private JComboBox comboBox1;
     private JComboBox comboBox2;
     private JTable tblActCli;
+    private JPanel panelSuperior;
+    private JPanel panelInferior;
     private JLayeredPane jlpBackground;
     private DefaultTableModel model;
 
     public PantallaActClientes(){
         super("Actividades Clientes");
         init();
-        setContentPane(jplGeneral);
+        cargarListners();
         background();
         cargarDato();
-
-        tblActCli.setShowGrid(true);//Mostrar grid color
-
-        cargarListners();
-
     }
 
-    private void cargarListners() {
-        verReservasButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new PantallaReservasClientes();
-                dispose();
-            }
-        });
-        reservarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new PantallaDetallesAct();
-                dispose();
-            }
-        });
-
-        lblNombreUsu.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                new PantallaPerfil();
-                dispose();
-            }
-        });
-    }
 
     private void init() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1534,774);
+        setContentPane(panelGeneral);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
+    }
+
+    private void cargarListners() {
+        btnVerReservas.addActionListener(verReservas());
+        Utils.cursorPointerBoton(btnVerReservas);
+        btnReservar.addActionListener(verDetalles());
+        Utils.cursorPointerBoton(btnReservar);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                new PantallaInicial();
+            }
+        });
+        lblNombreUsu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new PantallaPerfil();
+            }
+        });
+        Utils.cursorPointerLabel(lblNombreUsu);
+    }
+
+    private ActionListener verReservas(){
+        return e -> {
+            new PantallaReservasClientes();
+            dispose();
+        };
+    }
+    private ActionListener verDetalles(){
+        return e -> {
+            new PantallaDetallesAct();
+            dispose();
+        };
     }
 
     private void cargarDato(){
@@ -90,6 +97,7 @@ public class PantallaActClientes extends JFrame{
         tblActCli.setModel(model);
         //Color tableBG = new Color(110, 130, 141);
 
+        tblActCli.setShowGrid(true);//Mostrar grid color
         tblActCli.setGridColor(Color.black);
         tblActCli.getTableHeader().setOpaque(false);
         tblActCli.getTableHeader().setBackground(new Color(47, 75, 89));

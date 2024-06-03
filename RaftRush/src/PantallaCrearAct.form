@@ -35,7 +35,7 @@
             </properties>
             <border type="none"/>
             <children>
-              <grid id="30f83" binding="datosActPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="30f83" binding="panelDatosAct" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
@@ -143,7 +143,7 @@
                           </model>
                         </properties>
                       </component>
-                      <component id="14918" class="javax.swing.JLabel">
+                      <component id="14918" class="javax.swing.JLabel" binding="lblNombre">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -152,7 +152,7 @@
                           <text value="Nombre:"/>
                         </properties>
                       </component>
-                      <component id="fdd4d" class="javax.swing.JLabel">
+                      <component id="fdd4d" class="javax.swing.JLabel" binding="lblTipo">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -161,7 +161,7 @@
                           <text value="Tipo:"/>
                         </properties>
                       </component>
-                      <component id="cccf5" class="javax.swing.JLabel">
+                      <component id="cccf5" class="javax.swing.JLabel" binding="lblLocalidad">
                         <constraints>
                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -170,7 +170,7 @@
                           <text value="Localidad:"/>
                         </properties>
                       </component>
-                      <component id="e421f" class="javax.swing.JLabel">
+                      <component id="e421f" class="javax.swing.JLabel" binding="lblPrecio">
                         <constraints>
                           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -179,7 +179,7 @@
                           <text value="Precio:"/>
                         </properties>
                       </component>
-                      <component id="abbd8" class="javax.swing.JLabel">
+                      <component id="abbd8" class="javax.swing.JLabel" binding="lblDificultad">
                         <constraints>
                           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -188,7 +188,7 @@
                           <text value="Dificultad:"/>
                         </properties>
                       </component>
-                      <component id="f3d59" class="javax.swing.JLabel">
+                      <component id="f3d59" class="javax.swing.JLabel" binding="lblDescripcion">
                         <constraints>
                           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -222,7 +222,7 @@
                   </grid>
                 </children>
               </grid>
-              <component id="7be67" class="javax.swing.JLabel">
+              <component id="7be67" class="javax.swing.JLabel" binding="lblTitulo">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -231,7 +231,7 @@
                   <text value="Crear actividad"/>
                 </properties>
               </component>
-              <component id="6796a" class="javax.swing.JButton" binding="registrarActividadButton" default-binding="true">
+              <component id="6796a" class="javax.swing.JButton" binding="btnRegistrar">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="357" height="56"/>

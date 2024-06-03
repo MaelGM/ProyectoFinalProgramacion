@@ -30,32 +30,13 @@ public class PantallaMateriales extends JFrame{
         init();
         cargarDatos();
         cargaModTabla();//ESTO SERIA TEMPORAL, ES PARA COMPROBAR QUE FUNCIONE LA TABLA AUTHOR-->HAKEEM
-        loadListeners();
         cargarListeners();
-    }
-
-    private void cargarListeners() {
-        btnVerEntregas.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new PantallaEntregas();
-            }
-        });
-    }
-
-    public void loadListeners(){
-        tblMat.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-            }
-        });
     }
 
     public void init(){
         setContentPane(gestionMaterialesPane);
         //Imágenes
-        ImageIcon imgHeader = new ImageIcon("resources/imagenes/cabeceraConTituloEntregas.png");
+        ImageIcon imgHeader = new ImageIcon("resources/imagenes/cabeceraConTituloMaterial.png");
         lblHeader.setIcon(imgHeader);
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
 
@@ -63,7 +44,6 @@ public class PantallaMateriales extends JFrame{
         setSize(1480, 770);
         setResizable(false);
         setVisible(true);
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         tablaMaterialProperties();
@@ -72,6 +52,40 @@ public class PantallaMateriales extends JFrame{
         btnSolicitar.putClientProperty("JButton.buttonType", "roundRect");
 
     }
+
+    private void cargarListeners() {
+        btnVerEntregas.addActionListener(e -> new PantallaEntregas());
+        Utils.cursorPointerBoton(btnModificar); // Te saldra para seleccionar un proveedor, en caso de que se haya aumentado la cantidad del stock
+        Utils.cursorPointerBoton(btnSolicitar); // No me ha quedado claro que pasa si se le da a Solicitar --> Mael
+        Utils.cursorPointerBoton(btnVerEntregas);
+        btnModificar.addActionListener(asignarProveedor());
+    }
+
+    private ActionListener asignarProveedor() {
+        return e -> {
+            // Crear los ComboBox con las opciones de contraseñas
+            String[] passwordOptions = {"proveedor1", "proveedor2", "proveedor3"};
+            JComboBox<String> passwordComboBox = new JComboBox<>(passwordOptions);
+
+            // Crear el panel que contendrá los ComboBox
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            panel.add(new JLabel("Seleccione el proveedor de la entrega:"));
+            panel.add(passwordComboBox);
+
+            // Mostrar el cuadro de diálogo de entrada
+            int option = JOptionPane.showConfirmDialog(
+                    null,
+                    panel,
+                    "Selección de proveedor",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+            );
+        };
+    }
+
+
+
 
     public void cargarDatos(){
 

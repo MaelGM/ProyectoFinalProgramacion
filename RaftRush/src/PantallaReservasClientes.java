@@ -12,7 +12,7 @@ public class PantallaReservasClientes extends JFrame{
     private JLabel lblBG;
     private JPanel jplTabla;
     private JPanel panelCentrado;
-    private JButton anularReservaButton;
+    private JButton btnAnularReserva;
     private DefaultTableModel model;
 
     public PantallaReservasClientes(){
@@ -20,17 +20,19 @@ public class PantallaReservasClientes extends JFrame{
         setContentPane(jplGeneral);
         background();
         cargarDato();
-
+        cargarListeners();
 
         tblReservas.setShowGrid(true);//Mostrar grid color
+    }
 
-        // Add window listener to handle the close event
+    private void cargarListeners() {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 new PantallaActClientes();
             }
         });
+        Utils.cursorPointerBoton(btnAnularReserva); // TODO: Funcion que elimine una reserva seleccionada
     }
 
     private void init() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="PantallaGestionarTrabajadores">
-  <grid id="27dc6" binding="gestionarTrabajadoresPane" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="1510" height="628"/>
@@ -10,7 +10,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="d6b07" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="d6b07" binding="panelHeader" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -31,7 +31,7 @@
           </component>
         </children>
       </grid>
-      <grid id="8313d" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="8313d" binding="panelContenido" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -41,11 +41,12 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="90397" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="90397" binding="panelTabla" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="1195" height="330"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="994" height="332"/>
+                <maximum-size width="994" height="332"/>
               </grid>
             </constraints>
             <properties>
@@ -102,7 +103,7 @@
             </properties>
             <border type="none" title="Nuevo trabajador"/>
             <children>
-              <grid id="62a88" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="62a88" binding="panelBotones" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
@@ -114,7 +115,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <component id="90fb4" class="javax.swing.JButton" binding="añadirButton" default-binding="true">
+                  <component id="90fb4" class="javax.swing.JButton" binding="btnAdd">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="160" height="40"/>
@@ -127,18 +128,19 @@
                       <text value="Añadir"/>
                     </properties>
                   </component>
-                  <component id="b21d0" class="javax.swing.JButton" binding="eliminarButton" default-binding="true">
+                  <component id="b21d0" class="javax.swing.JButton" binding="btnDelete">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="160" height="40"/>
                       </grid>
                     </constraints>
                     <properties>
+                      <background color="-16400725"/>
                       <font name="Inter" size="18" style="1"/>
                       <text value="Eliminar"/>
                     </properties>
                   </component>
-                  <component id="da1b" class="javax.swing.JButton" binding="editarButton" default-binding="true">
+                  <component id="da1b" class="javax.swing.JButton" binding="btnEdit">
                     <constraints>
                       <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="160" height="40"/>
@@ -153,11 +155,13 @@
                   </component>
                 </children>
               </grid>
-              <grid id="e86dc" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="e86dc" binding="panelTablaSelect" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="1150" height="10"/>
+                    <minimum-size width="1150" height="30"/>
+                    <preferred-size width="1150" height="30"/>
+                    <maximum-size width="1150" height="30"/>
                   </grid>
                 </constraints>
                 <properties>
@@ -167,7 +171,7 @@
                 <children>
                   <scrollpane id="6356e">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false">
                         <preferred-size width="1150" height="30"/>
                       </grid>
                     </constraints>
@@ -184,7 +188,7 @@
                           <background color="-9534578"/>
                           <focusable value="false"/>
                           <font name="Inter" size="16" style="1"/>
-                          <foreground color="-16250355"/>
+                          <foreground color="-9145228"/>
                           <preferredScrollableViewportSize width="450" height="200"/>
                           <preferredSize width="150" height="40"/>
                           <rowHeight value="40"/>
@@ -194,13 +198,6 @@
                       </component>
                     </children>
                   </scrollpane>
-                  <vspacer id="45edb">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
-                        <preferred-size width="-1" height="60"/>
-                      </grid>
-                    </constraints>
-                  </vspacer>
                 </children>
               </grid>
               <hspacer id="4cb78">

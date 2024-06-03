@@ -1,19 +1,18 @@
 import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
 
 public class PantallaPerfil extends JFrame{
-    private JPanel jplGeneral;
-    private JPanel jplDatos;
+    private JPanel panelGeneral;
+    private JPanel panelDatos;
     private JTextField txtTelefono;
     private JTextField txtNif;
     private JTextField txtNombre;
     private JButton btnAct;
     private JButton btnLogOut;
     private JLabel lblMiPerfil;
-    private JPanel jplPerfilDatos;
+    private JPanel panelPerfilDatos;
     private JLabel lblAvatar;
     private JLabel lblBG;
     private JLabel lblNombre;
@@ -25,23 +24,20 @@ public class PantallaPerfil extends JFrame{
 
     public PantallaPerfil(){
         init();
-        setContentPane(jplGeneral);
-        jplDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 20");
+        setContentPane(panelGeneral);
+        panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 20");
         background();
 
         cargarListeners();
     }
 
     private void cargarListeners() {
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                new PantallaActClientes();
+        btnAct.addActionListener(e -> dispose());
+        btnLogOut.addActionListener(e -> {
+            for (Window window : Window.getWindows()) {
+                window.dispose();
             }
-        });
-        btnAct.addActionListener(e -> {
-            new PantallaActClientes();
-            dispose();
+            new PantallaInicial();
         });
     }
 

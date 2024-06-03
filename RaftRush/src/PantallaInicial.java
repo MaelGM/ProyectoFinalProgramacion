@@ -56,9 +56,4 @@ public class PantallaInicial extends JFrame{
         setSize(new Dimension(1480, 900));
         setLocationRelativeTo(null);
     }
-
-    public static void main(String[] args) {
-        FlatMacDarkLaf.setup();
-        SwingUtilities.invokeLater(() -> new PantallaInicial().setVisible(true));
-    }
 }

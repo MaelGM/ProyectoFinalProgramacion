@@ -1,5 +1,4 @@
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
 import javax.swing.*;
@@ -13,15 +12,15 @@ import java.awt.*;
 
 public class PantallaReservas extends JFrame {
 
-    private JLabel imgCorporativa;
-    private JPanel PanelPrincipal;
-    private JPanel PanelContenido;
-    private JPanel jpEliminarRes;
+    private JLabel lblImgCorporativa;
+    private JPanel panelPrincipal;
+    private JPanel panelContenido;
+    private JPanel panelEliminarRes;
     private JScrollPane PanelDeTabla;
     private JTable tblReservas;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblResSeleccionada;
-    private JButton anularReservaButton;
+    private JButton btnAnularReserva;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloRes.png");
@@ -30,20 +29,33 @@ public class PantallaReservas extends JFrame {
         super("Lista de actividades");
         init();
         estilo();
-        setContentPane(PanelPrincipal);
-
+        cargarListeners();
         cargarDatos();
         tablaReservasProperties();
         tablaReservaSeleccionadaProperties();
         panelReservasProperties();
     }
 
+    public void init(){
+        setSize(1480, 774);
+        setContentPane(panelPrincipal);
+        setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setIconImage(logo.getImage());
+    }
+
     private void estilo() {
-        imgCorporativa.setIcon(imgCorporativaCabecera);
+        lblImgCorporativa.setIcon(imgCorporativaCabecera);
         JTableHeader headerActividades = tblReservas.getTableHeader();
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
         JTableHeader headerEliminarAct = tblResSeleccionada.getTableHeader();
         headerEliminarAct.setPreferredSize(new Dimension(headerEliminarAct.getPreferredSize().width, 40));
+    }
+
+    private void cargarListeners() {
+        Utils.cursorPointerBoton(btnAnularReserva);
+        // TODO: Al clicar, se leen los datos de la tabla inferior y se elimina esa reserva de la BD
     }
 
     public void cargarDatos(){
@@ -130,7 +142,7 @@ public class PantallaReservas extends JFrame {
     }
 
     public void panelReservasProperties(){
-        jpEliminarRes.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        panelEliminarRes.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
         Font titleFont = new Font("Inter", Font.BOLD, 16);
@@ -138,7 +150,7 @@ public class PantallaReservas extends JFrame {
         TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "RESERVA", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
         titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
 
-        jpEliminarRes.setBorder(titleBorder);
+        panelEliminarRes.setBorder(titleBorder);
     }
 
     public void asignarTamanyoColumnasReservas(){
@@ -167,11 +179,5 @@ public class PantallaReservas extends JFrame {
         }
     }
 
-    public void init(){
-        setSize(1480, 774);
-        setVisible(true);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setIconImage(logo.getImage());
-    }
+
 }

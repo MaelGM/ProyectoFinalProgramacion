@@ -1,25 +1,27 @@
-package Clases;
+package Objetos;
 
 import Excepciones.ExceptionCliente;
 
-public class Cliente {
+public class Trabajador {
     private String nif;
     private String contrasenya;
-    private String telefono;
     private String nombre;
+    private String apellido;
+    private double salario;
     private int edad;
+    private int idCentro;
 
-    public Cliente(String nif, String contrasenya, String telefono, String nombre, int edad) throws ExceptionCliente {
-        if (validaNif(nif)) {
-            setNif(nif);
-        }
-        validaContrasenya(contrasenya);
-        validaTelefono(telefono);
-        validaNombre(nombre);
-        validaEdad(edad);
+    public Trabajador(String nif, String contrasenya, String nombre, String apellido, double salario, int edad, int idCentro) {
+        this.nif = nif;
+        this.contrasenya = contrasenya;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.salario = salario;
+        this.edad = edad;
+        this.idCentro = idCentro;
     }
 
-    ///////////////////////////
+    ///////////////////////////////
     public String getNif() {
         return nif;
     }
@@ -35,8 +37,7 @@ public class Cliente {
     public void setNif(String nif) {
         this.nif = nif;
     }
-    ///////////////////////////
-
+    ///////////////////////////////
     public String getContrasenya() {
         return contrasenya;
     }
@@ -49,26 +50,10 @@ public class Cliente {
         }
     }
 
-    public void setContrasenya(String contrasenya) {
-        this.contrasenya = contrasenya;
+    public void setContrasenya(String contrasanya) {
+        this.contrasenya = contrasanya;
     }
-    ///////////////////////////
-    public String getTelefono() {
-        return telefono;
-    }
-
-    private void validaTelefono(String telefono) throws ExceptionCliente {
-        if (telefono.length() <= 20) {
-            setTelefono(telefono);
-        }else{
-            throw new ExceptionCliente("El telefono esta mal formateado");
-        }
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-    ///////////////////////////
+    ///////////////////////////////
     public String getNombre() {
         return nombre;
     }
@@ -84,7 +69,32 @@ public class Cliente {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    ///////////////////////////
+    ///////////////////////////////
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    ///////////////////////////////
+    public double getSalario() {
+        return salario;
+    }
+
+    private void validaSalario(double salario) throws ExceptionCliente {
+        if (salario > 0) {
+            setSalario(salario);
+        }else{
+            throw new ExceptionCliente("La edad no puede ser menor de 0");
+        }
+    }
+
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+    ///////////////////////////////
     public int getEdad() {
         return edad;
     }
@@ -100,9 +110,17 @@ public class Cliente {
     public void setEdad(int edad) {
         this.edad = edad;
     }
-    ///////////////////////////
+    ///////////////////////////////
+    public int getIdCentro() {
+        return idCentro;
+    }
+
+    public void setIdCentro(int idCentro) {
+        this.idCentro = idCentro;
+    }
+    ///////////////////////////////
     @Override
     public String toString() {
-        return nif + ";" + contrasenya + ";" + telefono + ";" + nombre + ";" + edad;
+        return nif + ";" + contrasenya + ";" + nombre + ";" + apellido + ";" + salario + ";" + edad + ";" + idCentro;
     }
 }

@@ -1,4 +1,4 @@
-package Clases;
+package Objetos;
 
 public enum Tipo {
     ESCALADA,

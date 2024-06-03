@@ -1,4 +1,4 @@
-package Clases;
+package Objetos;
 
 public class Actividad {
     private int id;
@@ -32,7 +32,6 @@ public class Actividad {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -40,7 +39,6 @@ public class Actividad {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -48,7 +46,6 @@ public class Actividad {
     public String getDescripcion() {
         return descripcion;
     }
-
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -56,7 +53,6 @@ public class Actividad {
     public String getDificultad() {
         return dificultad;
     }
-
     public void setDificultad(String dificultad) {
         this.dificultad = dificultad;
     }
@@ -64,7 +60,6 @@ public class Actividad {
     public double getPrecio() {
         return precio;
     }
-
     public void setPrecio(double precio) {
         this.precio = precio;
     }
@@ -72,7 +67,6 @@ public class Actividad {
     public Tipo getTipo() {
         return tipo;
     }
-
     public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
@@ -80,7 +74,6 @@ public class Actividad {
     public int getIdCentro() {
         return idCentro;
     }
-
     public void setIdCentro(int idCentro) {
         this.idCentro = idCentro;
     }

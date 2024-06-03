@@ -11,36 +11,52 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 
 public class PantallaCentros extends JFrame {
-    private JPanel gestionCentrosPane;
+    private JPanel panelContenido;
     private JLabel imgCorporativa;
     private JTable tblCentros;
-    private JPanel jplNueCentro;
+    private JPanel panelDatos;
     private JPanel panelPrincipal;
-    private JPanel jpContenidoTabla;
+    private JPanel panelTabla;
     private JTextField txtFldNombre;
     private JTextField txtFldLocalidad;
     private JTextField txtFldPresupuesto;
     private JButton btnEditar;
     private JButton btnEliminar;
     private JButton btnAnyadir;
+    private JPanel panelCentrado;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
-    ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerCentros.png");
+    private static final ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerCentros.png");
 
     public PantallaCentros() {
         super("Lista de centros");
         init();
         estilo();
-        setContentPane(panelPrincipal);
+        cargarListeners();
         cargarDatos();
         panelProveedorProperties();
         tablaCentrosProperties();
+    }
+
+    public void init(){
+        setSize(1480, 774);
+        setContentPane(panelPrincipal);
+        setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setIconImage(logo.getImage());
     }
 
     private void estilo() {
         imgCorporativa.setIcon(imgCorporativaCabecera);
         JTableHeader headerActividades = tblCentros.getTableHeader();
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
+    }
+
+    private void cargarListeners() {
+        Utils.cursorPointerBoton(btnAnyadir);
+        Utils.cursorPointerBoton(btnEditar);
+        Utils.cursorPointerBoton(btnEliminar);
     }
 
     public void cargarDatos(){
@@ -87,15 +103,14 @@ public class PantallaCentros extends JFrame {
             switch (i){
                 case 0-> column.setPreferredWidth(100);
                 case 1, 4 -> column.setPreferredWidth(250);
-                case 2, 3-> column.setPreferredWidth(150);
-                case 5-> column.setPreferredWidth(150);
+                case 2, 3, 5-> column.setPreferredWidth(150);
                 case 6-> column.setPreferredWidth(200);
             }
         }
     }
 
     public void panelProveedorProperties(){
-        jplNueCentro.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
         Font titleFont = new Font("Inter", Font.BOLD, 16);
@@ -103,7 +118,7 @@ public class PantallaCentros extends JFrame {
         TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "CENTRO", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
         titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
 
-        jplNueCentro.setBorder(titleBorder);
+        panelDatos.setBorder(titleBorder);
     }
 
     public void tablaCentrosProperties(){
@@ -115,11 +130,5 @@ public class PantallaCentros extends JFrame {
         tblCentros.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
 
-    public void init(){
-        setSize(1480, 774);
-        setVisible(true);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setIconImage(logo.getImage());
-    }
+
 }

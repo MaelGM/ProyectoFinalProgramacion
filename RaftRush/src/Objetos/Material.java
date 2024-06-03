@@ -1,4 +1,4 @@
-package Clases;
+package Objetos;
 
 public class Material {
     private int codigo;

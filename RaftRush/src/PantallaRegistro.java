@@ -40,6 +40,11 @@ public class PantallaRegistro extends JFrame{
     private JLabel lblNombre;
     private JPanel panelLabelNif;
     private JLabel lblNif;
+    private JPasswordField passwordField;
+    private JLabel lblContrasenya;
+    private JPanel panelLabelContrasenya;
+    private JLabel lblIconoContrasenya;
+    private JPanel panelContrasenya;
 
     ImageIcon aside = new ImageIcon("resources/imagenes/asideSimple.png");
 
@@ -80,6 +85,7 @@ public class PantallaRegistro extends JFrame{
         lblImgEdad.setIcon(new ImageIcon("resources/imagenes/edad.png"));
         lblImgTel.setIcon(new ImageIcon("resources/imagenes/telefono.png"));
         lblImgPassword.setIcon(new ImageIcon("resources/imagenes/password.png"));
+        lblContrasenya.setIcon(new ImageIcon("resources/imagenes/password.png"));
     }
     private void cargarEstilo() {
         panelCentral.putClientProperty(FlatClientProperties.STYLE, "arc: 40");

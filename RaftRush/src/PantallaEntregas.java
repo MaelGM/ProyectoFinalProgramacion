@@ -1,25 +1,22 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class PantallaEntregas extends JFrame{
-    private JPanel jplGeneral;
+    private JPanel panelGeneral;
     private JLabel lblBG;
-    private JPanel panelCentrado;
-    private JPanel jplTabla;
+    private JPanel panelTabla;
     private JTable tblReservas;
     private DefaultTableModel model;
     public PantallaEntregas(){
+        super("Entregas");
         init();
-        setContentPane(jplGeneral);
+        setContentPane(panelGeneral);
         background();
         cargarDato();
-
-
         tblReservas.setShowGrid(true);//Mostrar grid color
     }
 
@@ -71,7 +68,7 @@ public class PantallaEntregas extends JFrame{
     }
 
     private void background(){
-        ImageIcon background = new ImageIcon("resources/imagenes/cabeceraResClientes.png");
+        ImageIcon background = new ImageIcon("resources/imagenes/cabeceraConTituloEntregas.png");
 
         lblBG.setIcon(background);
     }

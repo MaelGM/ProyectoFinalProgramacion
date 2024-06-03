@@ -1,5 +1,4 @@
 import com.formdev.flatlaf.FlatClientProperties;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
 import javax.swing.*;
@@ -10,37 +9,69 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class PantallaAct extends JFrame {
+public class PantallaActividades extends JFrame {
 
     private JLabel imgCorporativa;
-    private JPanel PanelPrincipal;
-    private JPanel PanelContenido;
-    private JPanel jpEliminarAct;
+    private JPanel panelPrincipal;
+    private JPanel panelContenido;
+    private JPanel panelEliminarAct;
     private JScrollPane PanelDeTabla;
     private JTable tblActividades;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblActSeleccionada;
-    private JButton añadirActividadButton;
-    private JButton eliminarButton;
+    private JButton btnAddActividad;
+    private JButton btnEliminarActividad;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloAct.png");
 
-    public PantallaAct() { //Constructor
+    public PantallaActividades() { //Constructor
         super("Lista de actividades");
-        setContentPane(PanelPrincipal);
+        init();
+        setContentPane(panelPrincipal);
+        definirTablas();
+        cargarDatos();
+        cargarListeners();
+    }
+
+    public void init(){
+        setSize(1480, 774);
+        setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setIconImage(logo.getImage());
+        imgCorporativa.setIcon(imgCorporativaCabecera);
+    }
+
+    private void definirTablas() {
+        tablaActProperties();
+        tablaActSeleccionadaProperties();
+        panelActSeleccionadaProperties();
+
         JTableHeader headerActividades = tblActividades.getTableHeader();
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
         JTableHeader headerEliminarAct = tblActSeleccionada.getTableHeader();
         headerEliminarAct.setPreferredSize(new Dimension(headerEliminarAct.getPreferredSize().width, 40));
-        cargarDatos();
-        init();
     }
 
     public void cargarDatos(){
         datosMainTable();
         datosActSeleccionada();
+    }
+
+    private void cargarListeners() {
+        btnAddActividad.addActionListener(addActividad());
+        Utils.cursorPointerBoton(btnAddActividad);
+        Utils.cursorPointerBoton(btnEliminarActividad);
+    }
+
+    private ActionListener addActividad() {
+        return e -> {
+            new PantallaCrearAct();
+            dispose(); // ¿La dejamos abierta para que vea las ya existentes o no?
+        };
     }
 
     public void datosMainTable(){
@@ -83,7 +114,6 @@ public class PantallaAct extends JFrame {
             tblActividades.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
-
     public void datosActSeleccionada(){
         String[]header = {"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"};
         String[][]rows = new String[1][header.length];
@@ -116,7 +146,6 @@ public class PantallaAct extends JFrame {
         tblActividades.getTableHeader().setForeground(new Color(245, 159, 116));
         tblActividades.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
-
     public void tablaActSeleccionadaProperties(){
         tblActSeleccionada.setShowGrid(true);
         tblActSeleccionada.setGridColor(Color.BLACK);
@@ -125,9 +154,8 @@ public class PantallaAct extends JFrame {
         tblActSeleccionada.getTableHeader().setForeground(new Color(245, 159, 116));
         tblActSeleccionada.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
-
     public void panelActSeleccionadaProperties(){
-        jpEliminarAct.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        panelEliminarAct.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
         Font titleFont = new Font("Inter", Font.BOLD, 16);
@@ -135,7 +163,7 @@ public class PantallaAct extends JFrame {
         TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "ACTIVIDAD", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
         titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
 
-        jpEliminarAct.setBorder(titleBorder);
+        panelEliminarAct.setBorder(titleBorder);
     }
 
     public void asignarTamanyoColumnasAct(){
@@ -151,7 +179,6 @@ public class PantallaAct extends JFrame {
             }
         }
     }
-
     public void asignarTamanyoColumnasActSeleccionada(){
         TableColumn column;
         for (int i = 0; i < tblActSeleccionada.getColumnCount(); i++) {
@@ -163,27 +190,5 @@ public class PantallaAct extends JFrame {
                 case 4-> column.setPreferredWidth(150);
             }
         }
-    }
-
-    public void init(){
-        setSize(1480, 774);
-        setVisible(true);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setIconImage(logo.getImage());
-        imgCorporativa.setIcon(imgCorporativaCabecera);
-
-        tablaActProperties();
-        tablaActSeleccionadaProperties();
-        panelActSeleccionadaProperties();
-    }
-
-    private static void inicio() {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new PantallaAct();
-            }
-        });
     }
 }

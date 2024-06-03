@@ -16,11 +16,10 @@ public class PantallaInicioSesion extends JFrame{
     private JPanel panelSuperior;
     private JPanel panelLabel;
     private JPanel panelInferior;
+    private JPanel panelPasswd;
     private JPanel panelNif;
-    private JPanel panelUsuario;
-    private JPanel panelLabelUsuario;
     private JPanel panelLabelNif;
-    private JTextField txtFldUsuario;
+    private JPanel panelLabelPasswd;
     private JFormattedTextField formTxtFldNif;
     private JButton btnIniciarSesion;
     private JLabel lblAside;
@@ -30,6 +29,7 @@ public class PantallaInicioSesion extends JFrame{
     private JLabel lblUsuario;
     private JLabel lblPassword;
     private JLabel lblNif;
+    private JPasswordField passwdField;
 
     ImageIcon aside = new ImageIcon("resources/imagenes/asideSimple.png");
 

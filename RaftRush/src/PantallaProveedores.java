@@ -29,9 +29,8 @@ public class PantallaProveedores extends JFrame{
 
     public PantallaProveedores() {
         super("Lista de proveedores");
-        estilo();
         init();
-        setContentPane(panelPrincipal);
+        estilo();
         cargarDatos();
         tablaProveedoresProperties();
         tablaProveedorSeleccionadoProperties();
@@ -164,6 +163,7 @@ public class PantallaProveedores extends JFrame{
     }
 
     public void init(){
+        setContentPane(panelPrincipal);
         setSize(1480, 774);
         setVisible(true);
         setResizable(false);

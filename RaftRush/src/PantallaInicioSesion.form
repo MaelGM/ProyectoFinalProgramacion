@@ -49,7 +49,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <grid id="aba81" binding="panelUsuario" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="aba81" binding="panelNif" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -62,18 +62,6 @@
                     </properties>
                     <border type="none"/>
                     <children>
-                      <component id="95aed" class="javax.swing.JTextField" binding="txtFldUsuario">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                            <preferred-size width="237" height="40"/>
-                            <maximum-size width="237" height="40"/>
-                          </grid>
-                        </constraints>
-                        <properties>
-                          <background color="-9145228"/>
-                          <font name="Inter" size="20" style="1"/>
-                        </properties>
-                      </component>
                       <component id="75b3e" class="javax.swing.JLabel" binding="lblImgUsuario">
                         <constraints>
                           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -82,7 +70,7 @@
                           <text value=""/>
                         </properties>
                       </component>
-                      <grid id="ebb2" binding="panelLabelUsuario" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="ebb2" binding="panelLabelNif" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -101,14 +89,26 @@
                             </constraints>
                             <properties>
                               <font name="Inter" size="20" style="1"/>
-                              <text value="Nuevo Usuario:"/>
+                              <text value="NIF:"/>
                             </properties>
                           </component>
                         </children>
                       </grid>
+                      <component id="c0b13" class="javax.swing.JFormattedTextField" binding="formTxtFldNif">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="237" height="40"/>
+                            <maximum-size width="237" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-9145228"/>
+                          <font name="Inter" size="20" style="1"/>
+                        </properties>
+                      </component>
                     </children>
                   </grid>
-                  <grid id="b93fe" binding="panelNif" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="b93fe" binding="panelPasswd" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -129,7 +129,7 @@
                           <text value=""/>
                         </properties>
                       </component>
-                      <grid id="503f8" binding="panelLabelNif" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                      <grid id="503f8" binding="panelLabelPasswd" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                         <margin top="0" left="0" bottom="0" right="0"/>
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -149,12 +149,12 @@
                             <properties>
                               <enabled value="true"/>
                               <font name="Inter" size="20" style="1"/>
-                              <text value="NIF:"/>
+                              <text value="Contraseña:"/>
                             </properties>
                           </component>
                         </children>
                       </grid>
-                      <component id="c0b13" class="javax.swing.JFormattedTextField" binding="formTxtFldNif">
+                      <component id="144e8" class="javax.swing.JPasswordField" binding="passwdField">
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
                             <preferred-size width="237" height="40"/>

@@ -1,11 +1,10 @@
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
 
 public class PantallaMenu extends JFrame{
 
-    private JPanel menuTrabajadoresPane;
+    private JPanel panelPrincipal;
     private JLabel lblHeader;
     private JButton btnGestionarTrabajadores;
     private JButton btnGestionarReservas;
@@ -31,6 +30,9 @@ public class PantallaMenu extends JFrame{
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                for (Window window : Window.getWindows()) {
+                    window.dispose();
+                }
                 new PantallaInicial();
             }
         });
@@ -40,6 +42,20 @@ public class PantallaMenu extends JFrame{
         btnGestionarActividad.addActionListener(gestAct());
         btnGestionarCentros.addActionListener(gestCentros());
         btnGestionarProveedores.addActionListener(gestProveedores());
+        Utils.cursorPointerBoton(btnGestionarAlmacen);
+        Utils.cursorPointerBoton(btnGestionarTrabajadores);
+        Utils.cursorPointerBoton(btnGestionarReservas);
+        Utils.cursorPointerBoton(btnGestionarActividad);
+        Utils.cursorPointerBoton(btnGestionarCentros);
+        Utils.cursorPointerBoton(btnGestionarProveedores);
+
+
+        panelUsuario.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new PantallaPerfil();
+            }
+        });
     }
 
     private ActionListener gestMaterial(){
@@ -47,31 +63,26 @@ public class PantallaMenu extends JFrame{
             new PantallaMateriales();
         };
     }
-
     private ActionListener gestTrabajadores(){
         return e -> {
             new PantallaGestionarTrabajadores();
         };
     }
-
     private ActionListener gestAct(){
         return e -> {
-            new PantallaAct();
+            new PantallaActividades();
         };
     }
-
     private ActionListener gestReservas(){
         return e -> {
             new PantallaReservas();
         };
     }
-
     private ActionListener gestProveedores() {
         return e -> {
             new PantallaProveedores();
         };
     }
-
     private ActionListener gestCentros() {
         return e -> {
             new PantallaCentros();
@@ -79,7 +90,7 @@ public class PantallaMenu extends JFrame{
     }
 
     private void init(){
-        setContentPane(menuTrabajadoresPane);
+        setContentPane(panelPrincipal);
         ImageIcon imgHeader = new ImageIcon("resources/imagenes/cabeceraConTituloTrabajadores.png");
         ImageIcon imgAvatar = new ImageIcon("resources/imagenes/miniAvatarUser.png");
         lblHeader.setIcon(imgHeader);
