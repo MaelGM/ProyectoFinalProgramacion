@@ -18,6 +18,8 @@ public class PantallaMenu extends JFrame{
     private JPanel panelSuperior;
     private JPanel panelUsuario;
     private JLabel lblUsuario;
+    private JButton btnGestionarProveedores;
+    private JButton btnGestionarCentros;
 
     public PantallaMenu(){
         super("Menú Trabajadores");
@@ -36,6 +38,8 @@ public class PantallaMenu extends JFrame{
         btnGestionarTrabajadores.addActionListener(gestTrabajadores());
         btnGestionarReservas.addActionListener(gestReservas());
         btnGestionarActividad.addActionListener(gestAct());
+        btnGestionarCentros.addActionListener(gestCentros());
+        btnGestionarProveedores.addActionListener(gestProveedores());
     }
 
     private ActionListener gestMaterial(){
@@ -59,6 +63,18 @@ public class PantallaMenu extends JFrame{
     private ActionListener gestReservas(){
         return e -> {
             new PantallaReservas();
+        };
+    }
+
+    private ActionListener gestProveedores() {
+        return e -> {
+            new PantallaProveedores();
+        };
+    }
+
+    private ActionListener gestCentros() {
+        return e -> {
+            new PantallaCentros();
         };
     }
 
