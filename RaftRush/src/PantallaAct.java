@@ -74,7 +74,7 @@ public class PantallaAct extends JFrame {
 
         tblActividades.setModel(new DefaultTableModel(rows, header));
         tblActividades.getTableHeader().setReorderingAllowed(false);
-        tblActividades.setDefaultEditor(Override.class, null);
+        tblActividades.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasAct();
 
@@ -98,7 +98,7 @@ public class PantallaAct extends JFrame {
 
         tblActSeleccionada.setModel(new DefaultTableModel(rows, header));
         tblActSeleccionada.getTableHeader().setReorderingAllowed(false);
-        tblActSeleccionada.setDefaultEditor(Override.class, null);
+        tblActSeleccionada.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasActSeleccionada();
 

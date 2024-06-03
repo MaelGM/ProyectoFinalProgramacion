@@ -68,7 +68,7 @@ public class PantallaReservas extends JFrame {
 
         tblReservas.setModel(new DefaultTableModel(rows, header));
         tblReservas.getTableHeader().setReorderingAllowed(false);
-        tblReservas.setDefaultEditor(Override.class, null);
+        tblReservas.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasReservas();
 
@@ -92,7 +92,7 @@ public class PantallaReservas extends JFrame {
 
         tblResSeleccionada.setModel(new DefaultTableModel(rows, header));
         tblResSeleccionada.getTableHeader().setReorderingAllowed(false);
-        tblResSeleccionada.setDefaultEditor(Override.class, null);
+        tblResSeleccionada.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasReservaSeleccionada();
 

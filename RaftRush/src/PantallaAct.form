@@ -54,6 +54,8 @@
                   <preferredSize width="1194" height="330"/>
                   <requestFocusEnabled value="true"/>
                   <rowHeight value="40"/>
+                  <selectionBackground color="-7077901"/>
+                  <selectionForeground color="-16777216"/>
                 </properties>
               </component>
             </children>
@@ -116,6 +118,8 @@
                   <focusable value="false"/>
                   <foreground color="-16777216"/>
                   <rowHeight value="45"/>
+                  <selectionBackground color="-7077901"/>
+                  <selectionForeground color="-16777216"/>
                 </properties>
               </component>
             </children>
