@@ -84,7 +84,7 @@ public class PantallaInicioSesion extends JFrame{
 
     private ActionListener iniciarSesion() {
         return e -> {
-            new PantallaActClientes();
+            new PantallaMenu();
             dispose();
         };
     }
