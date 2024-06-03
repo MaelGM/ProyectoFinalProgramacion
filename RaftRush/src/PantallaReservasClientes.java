@@ -6,14 +6,16 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class ReservasClientes extends JFrame{
+public class PantallaReservasClientes extends JFrame{
     private JPanel jplGeneral;
     private JTable tblReservas;
     private JLabel lblBG;
     private JPanel jplTabla;
+    private JPanel panelCentrado;
+    private JButton anularReservaButton;
     private DefaultTableModel model;
 
-    public ReservasClientes(){
+    public PantallaReservasClientes(){
         init();
         setContentPane(jplGeneral);
         background();

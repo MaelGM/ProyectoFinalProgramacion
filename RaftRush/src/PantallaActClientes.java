@@ -39,7 +39,7 @@ public class PantallaActClientes extends JFrame{
         verReservasButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ReservasClientes();
+                new PantallaReservasClientes();
                 dispose();
             }
         });
