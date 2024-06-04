@@ -23,6 +23,11 @@ public class PantallaActividades extends JFrame {
     private JTable tblActSeleccionada;
     private JButton btnAddActividad;
     private JButton btnEliminarActividad;
+    private JPanel panelDatos;
+    private JComboBox cmbCentro;
+    private JComboBox cmbTipo;
+    private JPanel panelDerecho;
+    private JPanel panelTabla;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloAct.png");
@@ -34,6 +39,7 @@ public class PantallaActividades extends JFrame {
         definirTablas();
         cargarDatos();
         cargarListeners();
+        panelActividadesProperties();
     }
 
     public void init(){
@@ -164,6 +170,18 @@ public class PantallaActividades extends JFrame {
         titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
 
         panelEliminarAct.setBorder(titleBorder);
+    }
+
+    public void panelActividadesProperties(){
+        panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
+
+        Font titleFont = new Font("Inter", Font.BOLD, 16);
+
+        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "FILTRO", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
+        titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
+
+        panelDatos.setBorder(titleBorder);
     }
 
     public void asignarTamanyoColumnasAct(){

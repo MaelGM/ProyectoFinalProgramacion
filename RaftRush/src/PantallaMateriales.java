@@ -24,6 +24,10 @@ public class PantallaMateriales extends JFrame{
     private JTextField txtFldID;
     private JTextField txtFldCantidad;
     private JTable tblMat;
+    private JPanel panelDatos;
+    private JComboBox cmbCentro;
+    private JPanel panelContenido;
+    private JPanel panelDerecha;
     private JComboBox cbxProveedor;
     private JPanel jplNuePedido;
 
@@ -34,6 +38,7 @@ public class PantallaMateriales extends JFrame{
         cargarDatos();
         cargaModTabla();//ESTO SERIA TEMPORAL, ES PARA COMPROBAR QUE FUNCIONE LA TABLA AUTHOR-->HAKEEM
         cargarListeners();
+        panelMaterialesProperties();
     }
 
     public void init(){
@@ -174,6 +179,18 @@ public class PantallaMateriales extends JFrame{
         titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
 
         panelModMaterial.setBorder(titleBorder);
+    }
+
+    public void panelMaterialesProperties(){
+        panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
+
+        Font titleFont = new Font("Inter", Font.BOLD, 16);
+
+        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "FILTRO", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
+        titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
+
+        panelDatos.setBorder(titleBorder);
     }
 
     public void asignarTamanyoColumnas(){
