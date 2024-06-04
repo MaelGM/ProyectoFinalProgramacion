@@ -6,6 +6,6 @@ public class Main {
 
     public static void main(String[] args) {
         FlatMacDarkLaf.setup();
-        SwingUtilities.invokeLater(() -> new PantallaGestionarTrabajadores().setVisible(true));
+        SwingUtilities.invokeLater(() -> new PantallaEntregas().setVisible(true));
     }
 }

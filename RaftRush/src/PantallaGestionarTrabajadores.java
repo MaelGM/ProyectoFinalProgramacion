@@ -24,15 +24,21 @@ public class PantallaGestionarTrabajadores extends JFrame {
     private JButton btnDelete;
     private JButton btnEdit;
     private JPanel panelHeader;
-    private JPanel panelContenido;
+    private JPanel panelCentrado;
     private JPanel panelTabla;
     private JPanel panelTablaSelect;
     private JPanel panelBotones;
+    private JPanel panelContenido;
+    private JPanel panelSuperior;
+    private JPanel panelFiltro;
+    private JComboBox cmbCentro;
+    private JLabel lblCentro;
 
 
     public PantallaGestionarTrabajadores(){
         super("Gestión de trabajadores");
         init();
+        estilo();
         cargarDatos();
         loadListeners();
     }
@@ -40,21 +46,25 @@ public class PantallaGestionarTrabajadores extends JFrame {
     public void init(){
         setContentPane(panelPrincipal);
 
+
+        //Ventana
+        setSize(1480, 774);
+        setResizable(false);
+        setVisible(true);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setLocationRelativeTo(null);
+    }
+
+    private void estilo() {
         //Imágenes
         ImageIcon imgHeader = new ImageIcon("resources/imagenes/cabeceraConTituloTrabajadores.png");
         lblHeader.setIcon(imgHeader);
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
 
-        //Ventana
-        setSize(1480, 770);
-        setResizable(false);
-        setVisible(true);
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
-        setLocationRelativeTo(null);
-
         tablaTrabajadoresProperties();
         tablaNuevoTrabajadorProperties();
         panelNuevoTrabajadorProperties();
+        panelFiltroBorder();
     }
 
     public void cargarDatos(){
@@ -168,6 +178,18 @@ public class PantallaGestionarTrabajadores extends JFrame {
 
         JTableHeader headerActividades = tblTrabajadores.getTableHeader();
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
+    }
+
+    private void panelFiltroBorder() {
+        panelFiltro.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
+
+        Font titleFont = new Font("Inter", Font.BOLD, 16);
+
+        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "FILTRO", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
+        titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
+
+        panelFiltro.setBorder(titleBorder);
     }
 
     public void tablaNuevoTrabajadorProperties(){

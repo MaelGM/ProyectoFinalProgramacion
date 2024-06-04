@@ -16,11 +16,13 @@ public class PantallaActClientes extends JFrame{
     private JPanel jplFiltro;
     private JPanel panelUsuario;
     private JLabel lblNombreUsu;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
+    private JComboBox cmbCentro;
+    private JComboBox cmbTipo;
     private JTable tblActCli;
     private JPanel panelSuperior;
     private JPanel panelInferior;
+    private JLabel lblCentro;
+    private JLabel lblTipo;
     private JLayeredPane jlpBackground;
     private DefaultTableModel model;
 
