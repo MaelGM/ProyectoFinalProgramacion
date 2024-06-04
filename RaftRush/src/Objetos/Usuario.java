@@ -21,9 +21,8 @@ public abstract class Usuario {
 
     private void setNif(String nif) throws ExceptionUsuario {
         this.nif = nif;
-        //HE DESACTIVADO ESTO PORQUE LOS Nif no iban bien
-        /*if (validaNif(nif)) this.nif = nif;
-        else throw new ExceptionUsuario("Nif incorrecto.");*/
+        if (validaNif(nif)) this.nif = nif;
+        else throw new ExceptionUsuario("Nif incorrecto.");
     }
     public static boolean validaNif(String nif){
         if (nif == null || nif.length() != 9 || !nif.substring(0,8).matches("\\d+")) return false;
@@ -55,8 +54,7 @@ public abstract class Usuario {
     }
     public void setContrasenya(String contrasenya) throws ExceptionUsuario {
         this.contrasenya = contrasenya;
-        //Tambien he desactivado esto
-        //if (isValid(contrasenya)) this.contrasenya = contrasenya;
+        if (isValid(contrasenya)) this.contrasenya = contrasenya;
     }
     private boolean isValid(String contrasenya) throws ExceptionUsuario {
         String mensaje = validaContrasenya(contrasenya);
@@ -65,11 +63,11 @@ public abstract class Usuario {
     }
     private  String validaContrasenya(String contrasenya) {
         if (contrasenya.length() < 8) {
-            return "La contraseña es demasiado corta";
+            return "La contraseña es demasiado corta (8 caracteres)";
         }else if (!Pattern.compile("[A-Za-z]").matcher(contrasenya).find()){
-            return "Debe haber al menos una palabra";
+            return "La contraseña debe tener al menos una letra";
         }else if (!Pattern.compile("[0-9]").matcher(contrasenya).find()){
-            return "Debe contener al menos un numero";
+            return "La contraseña debe contener al menos un numero";
         }
         return "";
     }

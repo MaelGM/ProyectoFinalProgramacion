@@ -6,7 +6,7 @@ import Excepciones.ExceptionUsuario;
 public class Cliente extends Usuario{
     private String telefono;
 
-    public Cliente(String nif, String contrasenya, String telefono, String nombre, int edad) throws ExceptionCliente, ExceptionUsuario {
+    public Cliente(String nif, String contrasenya, String telefono, String nombre, int edad) throws ExceptionUsuario {
         super(nif, nombre, edad, contrasenya);
         validaTelefono(telefono);
     }

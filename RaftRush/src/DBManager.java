@@ -77,15 +77,23 @@ public class DBManager {
         return conn.createStatement().executeQuery("SELECT * FROM tipo WHERE tipo.id = " + id);
     }
 
-    public static int agregarCliente(String nif, String contrasenya, String telefono, String nombre, int edad) throws SQLException {
+    public static ResultSet getCliente(String nif) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM cliente WHERE cliente.nif = '" + nif + "'");
+    }
+
+    public static ResultSet getTrabajador(String nif) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM trabajador WHERE trabajador.nif = '" + nif + "'");
+    }
+
+    public static int agregarCliente(Cliente cliente) throws SQLException {
         String query = "INSERT INTO cliente (nif, contrasenya, telefono, nombre, edad) VALUES (?,?,?,?,?)";
 
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1,nif);
-            pstmt.setString(2,contrasenya);
-            pstmt.setString(3,telefono);
-            pstmt.setString(4,nombre);
-            pstmt.setInt(5,edad);
+            pstmt.setString(1,cliente.getNif());
+            pstmt.setString(2,cliente.getContrasenya());
+            pstmt.setString(3,cliente.getTelefono());
+            pstmt.setString(4,cliente.getNombre());
+            pstmt.setInt(5,cliente.getEdad());
 
             return pstmt.executeUpdate();
         }
