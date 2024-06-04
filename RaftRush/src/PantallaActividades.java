@@ -1,3 +1,4 @@
+import Objetos.Actividad;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -17,7 +18,7 @@ public class PantallaActividades extends JFrame {
     private JPanel panelPrincipal;
     private JPanel panelContenido;
     private JPanel panelEliminarAct;
-    private JScrollPane PanelDeTabla;
+    private JScrollPane jspTabla;
     private JTable tblActividades;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblActSeleccionada;
@@ -63,7 +64,7 @@ public class PantallaActividades extends JFrame {
     }
 
     public void cargarDatos(){
-        datosMainTable();
+        cargarActividades();
         datosActSeleccionada();
     }
 
@@ -80,33 +81,27 @@ public class PantallaActividades extends JFrame {
         };
     }
 
+    private void cargarActividades(){
+        if (DataManager.getActividades()) {
+            datosMainTable();
+        }
+    }
+
     public void datosMainTable(){
         String[]header = {"ID", "Nombre", "Tipo", "Localidad", "Dificultad", "Precio"};
-        String[][]rows = new String[3][header.length];
+        Object[][]rows = new Object[DataManager.getListActividades().size()][header.length];
 
-        //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
-        rows[0][0] = "1";
-        rows[0][1] = "Rafting en el rio";
-        rows[0][2] = "Rafting";
-        rows[0][3] = "Madrid";
-        rows[0][4] = "Intermedio";
-        rows[0][5] = "50.00€";
+        int i = 0;
+        for (Actividad actividad:DataManager.getListActividades()) {
+            rows[i][0] = actividad.getId();
+            rows[i][1] = actividad.getNombre();
+            rows[i][2] = actividad.getTipo();
+            rows[i][3] = DataManager.getLocalidad(actividad.getIdCentro());
+            rows[i][4] = actividad.getDificultad();
+            rows[i][5] = actividad.getPrecio();
 
-
-        rows[1][0] = "2";
-        rows[1][1] = "Escalada en roca";
-        rows[1][2] = "Escalada";
-        rows[1][3] = "Barcelona";
-        rows[1][4] = "Avanzado";
-        rows[1][5] = "75.00€";
-
-        rows[2][0] = "3";
-        rows[2][1] = "Circuito de tirolinas";
-        rows[2][2] = "Tirolina";
-        rows[2][3] = "Sevilla";
-        rows[2][4] = "Intermedio";
-        rows[2][5] = "45.00€";
-
+            i++;
+        }
 
         tblActividades.setModel(new DefaultTableModel(rows, header));
         tblActividades.getTableHeader().setReorderingAllowed(false);
@@ -116,8 +111,8 @@ public class PantallaActividades extends JFrame {
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < tblActividades.getColumnCount(); i++) {
-            tblActividades.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int j = 0; i < tblActividades.getColumnCount(); i++) {
+            tblActividades.getColumnModel().getColumn(j).setCellRenderer(centerRenderer);
         }
     }
     public void datosActSeleccionada(){

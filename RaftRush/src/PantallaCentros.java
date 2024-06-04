@@ -1,3 +1,4 @@
+import Objetos.Centro;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -60,28 +61,23 @@ public class PantallaCentros extends JFrame {
     }
 
     public void cargarDatos(){
-        datosMainTable();
+        if (DataManager.getCentros()) {
+            datosMainTable();
+        }
     }
 
     public void datosMainTable(){
         String[]header = {"ID", "Nombre", "Localidad", "Presupuesto"};
-        String[][]rows = new String[3][header.length];
+        Object[][]rows = new Object[DataManager.getListCentros().size()][header.length];
 
-        //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
-        rows[0][0] = "1";
-        rows[0][1] = "RaftRush Barcelona";
-        rows[0][2] = "Barcelona";
-        rows[0][3] = "28000€";
-
-        rows[1][0] = "2";
-        rows[1][1] = "RaftRush Valencia";
-        rows[1][2] = "Valencia";
-        rows[1][3] = "15000€";
-
-        rows[2][0] = "3";
-        rows[2][1] = "RaftRush Madrid";
-        rows[2][2] = "Madrid";
-        rows[2][3] = "25000€";
+        int i = 0;
+        for (Centro centro:DataManager.getListCentros()) {
+            rows[i][0] = centro.getId();
+            rows[i][1] = centro.getNombre();
+            rows[i][2] = centro.getLocalidad();
+            rows[i][3] = centro.getPresupuesto();
+            i++;
+        }
 
         tblCentros.setModel(new DefaultTableModel(rows, header));
         tblCentros.getTableHeader().setReorderingAllowed(false);
@@ -91,8 +87,8 @@ public class PantallaCentros extends JFrame {
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < tblCentros.getColumnCount(); i++) {
-            tblCentros.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int j = 0; j < tblCentros.getColumnCount(); j++) {
+            tblCentros.getColumnModel().getColumn(j).setCellRenderer(centerRenderer);
         }
     }
 

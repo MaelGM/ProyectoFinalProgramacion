@@ -7,7 +7,7 @@ public class DBManager {
     private static Connection conn = null;
     private static final String DB_HOST = "127.0.0.1";
     private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "";
+    private static final String DB_NAME = "raftrush";
     private static final String DB_URL = "jdbc:mysql://"+DB_HOST+":"+DB_PORT+"/"+DB_NAME;
     private static final String DB_USER = "root";
     private static final String DB_PASS = "";
@@ -18,7 +18,7 @@ public class DBManager {
     public static boolean loadDriver(){
         try{
             System.out.println("CARGANDO DRIVER");
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("OK!");
             return true;
         } catch (Exception e) {
@@ -67,6 +67,14 @@ public class DBManager {
     }
     public static ResultSet getProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor");
+    }
+
+    public static ResultSet getCentro(int id) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM centro WHERE centro.id = " + id);
+    }
+
+    public static ResultSet getTipo(int id) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM tipo WHERE tipo.id = " + id);
     }
 
     public static int agregarCliente(String nif, String contrasenya, String telefono, String nombre, int edad) throws SQLException {

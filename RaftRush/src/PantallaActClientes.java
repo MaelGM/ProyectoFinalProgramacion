@@ -1,3 +1,5 @@
+import Objetos.Actividad;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -78,25 +80,29 @@ public class PantallaActClientes extends JFrame{
         };
     }
 
-    private void cargarDato(){
-        Object[][] data = new Object[2][5];
+    public void cargarDato(){
+        if (DataManager.getActividades()) {
+            cargarActTabla();
+        }
+    }
 
-        data[0][0] = "Rafting en el Río";
-        data[0][1] = "Rafting";
-        data[0][2] = "Madrid";
-        data[0][3] = "Intermedio";
-        data[0][4] = "50.00€";
+    private void cargarActTabla(){
+        Object[][] data = new Object[DataManager.getListActividades().size()][5];
 
-        data[1][0] = "Escalada en Roca";
-        data[1][1] = "Escalada";
-        data[1][2] = "Barcelona";
-        data[1][3] = "Avanzado";
-        data[1][4] = "75.00€";
+        int i = 0;
+        for (Actividad actividad:DataManager.getListActividades()) {
+            data[i][0] = actividad.getNombre();
+            data[i][1] = DataManager.getTipo(actividad.getTipo());
+            data[i][2] = DataManager.getLocalidad(actividad.getIdCentro());
+            data[i][3] = actividad.getDificultad();
+            data[i][4] = actividad.getPrecio();
 
-
+            i++;
+        }
 
         model = new DefaultTableModel(data, new String[]{"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"});
         tblActCli.setModel(model);
+
         //Color tableBG = new Color(110, 130, 141);
 
         tblActCli.setShowGrid(true);//Mostrar grid color
@@ -108,9 +114,10 @@ public class PantallaActClientes extends JFrame{
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < tblActCli.getColumnCount(); i++) {
-            tblActCli.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int j = 0; j < tblActCli.getColumnCount(); j++) {
+            tblActCli.getColumnModel().getColumn(j).setCellRenderer(centerRenderer);
         }
+
 
         tblActCli.getTableHeader().setReorderingAllowed(false);
         tblActCli.setDefaultEditor(Object.class,null);

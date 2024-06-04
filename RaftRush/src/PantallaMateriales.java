@@ -1,3 +1,4 @@
+import Objetos.Material;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -7,6 +8,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -93,28 +95,28 @@ public class PantallaMateriales extends JFrame{
     }
 
     public void cargarDatos(){
+        if (DataManager.getMaterial()) {
+            datosMaterialTable();
+        }
+    }
+
+    public void datosMaterialTable(){
 
         String[]header = {"Código", "Nombre", "Cantidad", "Precio", "Nombre Centro"};
-        String[][]rows = new String[3][header.length];
+        Object[][]rows = new Object[DataManager.getListMaterial().size()][header.length];
 
-        //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
-        rows[0][0] = "1";
-        rows[0][1] = "Mosquetón tipo D";
-        rows[0][2] = "40";
-        rows[0][3] = "8";
-        rows[0][4] = "Centro 1";
+        int j = 0;
+        for (Material material:DataManager.getListMaterial()) {
 
-        rows[1][0] = "2";
-        rows[1][1] = "Arnés espeleo";
-        rows[1][2] = "15";
-        rows[1][3] = "45";
-        rows[1][4] = "centro 2";
+            rows[j][0] = material.getCodigo();
+            rows[j][1] = material.getNombre();
+            rows[j][2] = material.getCantidad();
+            rows[j][3] = material.getPrecio();
+            rows[j][4] = DataManager.getNomCentro(material.getIdCentro());
 
-        rows[2][0] = "3";
-        rows[2][1] = "Cuerda dinámica 20mts";
-        rows[2][2] = "10";
-        rows[2][3] = "40";
-        rows[2][4] = "centro 3";
+            j++;
+        }
+
 
         tblMat.setModel(new DefaultTableModel(rows, header));
 
