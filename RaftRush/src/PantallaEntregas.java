@@ -54,20 +54,18 @@ public class PantallaEntregas extends JFrame{
         panelFiltro.setBorder(titleBorder);
     }
 
-    private void cargarDato(){
+    public void cargarDato(){
+        //No estoy seguro de como cargar todos las entregas si no tiene que haber una clase
+        /*if (DataManager.getEntregas()) {
+            cargarEntregaTable();
+        }*/
+    }
+
+    private void cargarEntregaTable(){
         tblReservas.setShowGrid(true);//Mostrar grid color
 
         Object[][] data = new Object[2][4];
 
-        data[0][0] = "2024-05-01";
-        data[0][1] = "Prov 1";
-        data[0][2] = "Comba";
-        data[0][3] = "Centro 1";
-
-        data[1][0] = "2024-05-0";
-        data[1][1] = "Prov 2";
-        data[1][2] = "Cuerda";
-        data[1][3] = "centro 2";
 
 
         model = new DefaultTableModel(data, new String[]{"Fecha de entrega", "Proveedor", "Material", "Centro"});

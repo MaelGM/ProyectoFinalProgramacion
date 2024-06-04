@@ -20,8 +20,10 @@ public abstract class Usuario {
     }
 
     private void setNif(String nif) throws ExceptionUsuario {
-        if (validaNif(nif)) this.nif = nif;
-        else throw new ExceptionUsuario("Nif incorrecto.");
+        this.nif = nif;
+        //HE DESACTIVADO ESTO PORQUE LOS Nif no iban bien
+        /*if (validaNif(nif)) this.nif = nif;
+        else throw new ExceptionUsuario("Nif incorrecto.");*/
     }
     public static boolean validaNif(String nif){
         if (nif == null || nif.length() != 9 || !nif.substring(0,8).matches("\\d+")) return false;
@@ -44,7 +46,7 @@ public abstract class Usuario {
         return edad;
     }
     public void setEdad(int edad) throws ExceptionUsuario {
-        if (edad < 0) this.edad = edad;
+        if (edad > 0) this.edad = edad;
         else throw new ExceptionUsuario("No puede tener edad negativa");
     }
 
@@ -52,7 +54,9 @@ public abstract class Usuario {
         return contrasenya;
     }
     public void setContrasenya(String contrasenya) throws ExceptionUsuario {
-        if (isValid(contrasenya)) this.contrasenya = contrasenya;
+        this.contrasenya = contrasenya;
+        //Tambien he desactivado esto
+        //if (isValid(contrasenya)) this.contrasenya = contrasenya;
     }
     private boolean isValid(String contrasenya) throws ExceptionUsuario {
         String mensaje = validaContrasenya(contrasenya);

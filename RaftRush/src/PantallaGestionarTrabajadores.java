@@ -1,3 +1,6 @@
+import Objetos.Actividad;
+import Objetos.Proveedor;
+import Objetos.Trabajador;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -33,6 +36,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
     private JPanel panelFiltro;
     private JComboBox cmbCentro;
     private JLabel lblCentro;
+    private DefaultTableModel model;
 
 
     public PantallaGestionarTrabajadores(){
@@ -68,8 +72,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
     }
 
     public void cargarDatos(){
-        datosMainTable();
-        datosNewTrabajador();
+        if (DataManager.getTrabajador()) {
+            datosMainTable();
+            datosNewTrabajador();
+        }
     }
 
     public void loadListeners(){
@@ -113,35 +119,34 @@ public class PantallaGestionarTrabajadores extends JFrame {
     }
 
     public void datosMainTable(){
-        String[]header = {"NIF", "Nombre", "Apellidos", "Edad", "Salario", "Centro"};
-        String[][]rows = new String[2][header.length];
+        Object[][] data = new Object[DataManager.getListTrabajador().size()][7];
 
-        //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
-        rows[0][0] = "1";
-        rows[0][1] = "Juan";
-        rows[0][2] = "García";
-        rows[0][3] = "35";
-        rows[0][4] = "2500.00€";
-        rows[0][5] = "Madrid";
+        int j = 0;
+        for (Trabajador trabajador:DataManager.getListTrabajador()) {
+            data[j][0] = trabajador.getNif();
+            data[j][1] = trabajador.getNombre();
+            data[j][2] = trabajador.getApellido();
+            data[j][3] = trabajador.getEdad();
+            data[j][4] = trabajador.getSalario();
+            data[j][5] = DataManager.getNomCentro(trabajador.getIdCentro());
 
-        rows[1][0] = "2";
-        rows[1][1] = "María";
-        rows[1][2] = "López";
-        rows[1][3] = "28";
-        rows[1][4] = "2800.00€";
-        rows[1][5] = "Barcelona";
+            j++;
+        }
 
-        tblTrabajadores.setModel(new DefaultTableModel(rows, header));
+        model = new DefaultTableModel(data, new String[]{"NIF", "Nombre", "Apellidos", "Edad", "Salario", "Centro"});
+
+        tblTrabajadores.setModel(model);
         tblTrabajadores.getTableHeader().setReorderingAllowed(false);
         tblTrabajadores.setDefaultEditor(Object.class, null);
-
-        asignarTamanyoColumnasTrabajadores();
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < tblTrabajadores.getColumnCount(); i++) {
             tblTrabajadores.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+
+
+        asignarTamanyoColumnasTrabajadores();
     }
 
     public void datosNewTrabajador(){
@@ -221,9 +226,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         for (int i = 0; i < tblTrabajadores.getColumnCount(); i++) {
             column = tblTrabajadores.getColumnModel().getColumn(i);
             switch (i){
-                case 0,4 -> column.setPreferredWidth(150);
-                case 1,2 -> column.setPreferredWidth(250);
-                case 3 -> column.setPreferredWidth(100);
+                case 0,4 -> column.setPreferredWidth(40);
+                case 1,2 -> column.setPreferredWidth(40);
+                case 3 -> column.setPreferredWidth(40);
                 case 5 -> column.setPreferredWidth(200);
             }
         }

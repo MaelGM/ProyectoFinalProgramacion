@@ -200,10 +200,9 @@ public class PantallaMateriales extends JFrame{
         for (int i = 0; i < tblMat.getColumnCount(); i++) {
             column = tblMat.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(90);
-                case 1-> column.setPreferredWidth(400);
-                case 2-> column.setPreferredWidth(150);
-                case 3-> column.setPreferredWidth(150);
+                case 0-> column.setPreferredWidth(10);
+                case 1,2,3-> column.setPreferredWidth(40);
+                case 4-> column.setPreferredWidth(200);
             }
         }
     }
