@@ -181,7 +181,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
 
         Font titleFont = new Font("Inter", Font.BOLD, 16);
 
-        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "Nuevo Pedido", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
+        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "TRABAJADOR", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
         titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
 
         jplNuevoTrabajador.setBorder(titleBorder);

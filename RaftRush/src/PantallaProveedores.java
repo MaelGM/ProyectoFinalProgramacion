@@ -17,7 +17,7 @@ public class PantallaProveedores extends JFrame{
     private JPanel PanelContenido;
     private JScrollPane PanelDeTabla;
     private JTable tblProveedores;
-    private JPanel jpEliminarRes;
+    private JPanel panelEliminarProveedor;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblProvSeleccionado;
     private JButton btnAnyadir;
@@ -125,15 +125,15 @@ public class PantallaProveedores extends JFrame{
     }
 
     public void panelProveedorProperties(){
-        jpEliminarRes.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        panelEliminarProveedor.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
         Font titleFont = new Font("Inter", Font.BOLD, 16);
 
-        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "RESERVA", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
+        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "PROVEEDOR", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
         titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
 
-        jpEliminarRes.setBorder(titleBorder);
+        panelEliminarProveedor.setBorder(titleBorder);
     }
 
     public void asignarTamanyoColumnasProveedores(){

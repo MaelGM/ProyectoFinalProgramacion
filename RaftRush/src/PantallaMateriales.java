@@ -1,6 +1,9 @@
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.ui.FlatLineBorder;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -12,7 +15,7 @@ public class PantallaMateriales extends JFrame{
     private JPanel jplTabla;
     private JScrollPane PanelDeTabla;
     private JButton btnVerEntregas;
-    private JPanel jplModMaterial;
+    private JPanel panelModMaterial;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblModMaterial;
     private JButton btnSolicitar;
@@ -83,9 +86,6 @@ public class PantallaMateriales extends JFrame{
             );
         };
     }
-
-
-
 
     public void cargarDatos(){
 
@@ -165,8 +165,15 @@ public class PantallaMateriales extends JFrame{
     }
 
     public void panelNuevoPedidoProperties(){
-        jplModMaterial.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        panelModMaterial.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
+        Font titleFont = new Font("Inter", Font.BOLD, 16);
+
+        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "MATERIAL", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
+        titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
+
+        panelModMaterial.setBorder(titleBorder);
     }
 
     public void asignarTamanyoColumnas(){
