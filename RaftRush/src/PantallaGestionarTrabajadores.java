@@ -6,6 +6,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -17,7 +18,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
     private JLabel lblHeader;
     private JTable tblTrabajadores;
     private JPanel panelPrincipal;
-    private JPanel jplNuevoTrabajador;
+    private JPanel panelNuevoTrabajador;
     private JTable tblNuevoTrabajador;
     private JButton btnAdd;
     private JButton btnDelete;
@@ -102,7 +103,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
     }
 
     public void datosMainTable(){
-        String[]header = {"ID", "Nombre", "Apellidos", "Edad", "Salario", "Localidad"};
+        String[]header = {"NIF", "Nombre", "Apellidos", "Edad", "Salario", "Centro"};
         String[][]rows = new String[2][header.length];
 
         //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
@@ -134,7 +135,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
     }
 
     public void datosNewTrabajador(){
-        String[]header = {"Nombre", "Apellidos", "Edad", "Salario", "Localidad"};
+        String[]header = {"NIF","Nombre", "Apellidos", "Edad", "Salario", "Centro"};
         String[][]rows = new String[1][header.length];
 
         ///Todo De cara a tomar datos, propongo tomar la información de cada celda.
@@ -164,6 +165,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         tblTrabajadores.getTableHeader().setBackground(new Color(47, 75, 89));
         tblTrabajadores.getTableHeader().setForeground(new Color(245, 159, 116));
         tblTrabajadores.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
+
+        JTableHeader headerActividades = tblTrabajadores.getTableHeader();
+        headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
     }
 
     public void tablaNuevoTrabajadorProperties(){
@@ -173,10 +177,13 @@ public class PantallaGestionarTrabajadores extends JFrame {
         tblNuevoTrabajador.getTableHeader().setBackground(new Color(47, 75, 89));
         tblNuevoTrabajador.getTableHeader().setForeground(new Color(245, 159, 116));
         tblNuevoTrabajador.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
+
+        JTableHeader headerActividades = tblNuevoTrabajador.getTableHeader();
+        headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
     }
 
     public void panelNuevoTrabajadorProperties(){
-        jplNuevoTrabajador.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        panelNuevoTrabajador.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
         Font titleFont = new Font("Inter", Font.BOLD, 16);
@@ -184,7 +191,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
         TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "TRABAJADOR", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
         titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
 
-        jplNuevoTrabajador.setBorder(titleBorder);
+        panelNuevoTrabajador.setBorder(titleBorder);
     }
 
     public void asignarTamanyoColumnasTrabajadores(){
@@ -192,9 +199,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
         for (int i = 0; i < tblTrabajadores.getColumnCount(); i++) {
             column = tblTrabajadores.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(53);
-                case 1,2, 5 -> column.setPreferredWidth(200);
-                case 3,4-> column.setPreferredWidth(100);
+                case 0,4 -> column.setPreferredWidth(150);
+                case 1,2 -> column.setPreferredWidth(250);
+                case 3 -> column.setPreferredWidth(100);
+                case 5 -> column.setPreferredWidth(200);
             }
         }
     }
@@ -204,8 +212,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
         for (int i = 0; i < tblNuevoTrabajador.getColumnCount(); i++) {
             column = tblNuevoTrabajador.getColumnModel().getColumn(i);
             switch (i){
-                case 0,1, 4 -> column.setPreferredWidth(200);
-                case 2,3-> column.setPreferredWidth(100);
+                case 0,4 -> column.setPreferredWidth(150);
+                case 1,2 -> column.setPreferredWidth(250);
+                case 3 -> column.setPreferredWidth(100);
+                case 5 -> column.setPreferredWidth(200);
             }
         }
     }

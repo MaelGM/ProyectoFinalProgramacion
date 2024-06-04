@@ -86,7 +86,7 @@ public class DBManager {
     public static int editarCliente(Cliente cliente) throws SQLException {
         String query = "UPDATE cliente SET nif= ?, contrasenya= ?, telefono= ?, nombre= ?,edad= ? WHERE cliente.nif = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
-            //pstmt.setString(1,cliente.getNif());
+            pstmt.setString(1,cliente.getNif());
             pstmt.setString(2,cliente.getContrasenya());
             pstmt.setString(3,cliente.getTelefono());
             pstmt.setInt(4,Integer.parseInt(cliente.getNombre()));
