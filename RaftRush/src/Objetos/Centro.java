@@ -14,7 +14,6 @@ public class Centro {
     }
 
     public Centro(String nombre, String localidad, double presupuesto) {
-        this.id = 0;
         this.nombre = nombre;
         this.localidad = localidad;
         this.presupuesto = presupuesto;

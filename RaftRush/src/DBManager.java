@@ -21,10 +21,7 @@ public class DBManager {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             System.out.println("OK!");
             return true;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -89,7 +86,7 @@ public class DBManager {
     public static int editarCliente(Cliente cliente) throws SQLException {
         String query = "UPDATE cliente SET nif= ?, contrasenya= ?, telefono= ?, nombre= ?,edad= ? WHERE cliente.nif = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1,cliente.getNif());
+            //pstmt.setString(1,cliente.getNif());
             pstmt.setString(2,cliente.getContrasenya());
             pstmt.setString(3,cliente.getTelefono());
             pstmt.setInt(4,Integer.parseInt(cliente.getNombre()));
@@ -102,6 +99,8 @@ public class DBManager {
         }
     }
 
+    /*
+        Esto no hace falta, ya que al ser incremental, se asigna el ID automaticamente
 
     ///////////////////////
     //TODO Este codigo lo hago para sacar el ultimo id u codigo que se ha creado para luego insertarlo a la nueva instancia Author -->Hakeem
@@ -122,4 +121,5 @@ public class DBManager {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor ORDER BY proveedor.id DESC LIMIT 1");
     }
     ///////////////////////
+    */
 }

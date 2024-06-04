@@ -1,5 +1,3 @@
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;

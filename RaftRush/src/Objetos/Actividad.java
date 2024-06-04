@@ -20,7 +20,6 @@ public class Actividad {
     }
 
     public Actividad(String nombre, String descripcion, String dificultad, double precio, Tipo tipo, int idCentro) {
-        this.id = 0;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.dificultad = dificultad;
