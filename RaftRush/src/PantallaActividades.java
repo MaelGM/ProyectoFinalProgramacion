@@ -11,6 +11,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PantallaActividades extends JFrame {
 
@@ -25,7 +27,7 @@ public class PantallaActividades extends JFrame {
     private JButton btnAddActividad;
     private JButton btnEliminarActividad;
     private JPanel panelDatos;
-    private JComboBox cmbCentro;
+    private JComboBox cmbLocalidad;
     private JComboBox cmbTipo;
     private JPanel panelDerecho;
     private JPanel panelTabla;
@@ -41,6 +43,8 @@ public class PantallaActividades extends JFrame {
         cargarDatos();
         cargarListeners();
         panelActividadesProperties();
+        rellenarTablaModificar();
+        actualizaComboBox();
     }
 
     public void init(){
@@ -201,6 +205,38 @@ public class PantallaActividades extends JFrame {
                 case 1,2-> column.setPreferredWidth(250);
                 case 3-> column.setPreferredWidth(100);
                 case 4-> column.setPreferredWidth(150);
+            }
+        }
+    }
+
+    /**
+     * Metodo para rellenar la tabla con los datos de la fila seleccionada de la tabla actividades
+     */
+    public void rellenarTablaModificar() {
+        tblActividades.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblActividades.getSelectedRow();
+                if (e.getClickCount() == 2 && row != -1) {
+                    Actividad act = DataManager.getListActividades().get(row);
+                    tblActSeleccionada.getModel().setValueAt(act.getNombre(), 0, 0);
+                    tblActSeleccionada.getModel().setValueAt(act.getTipo(), 0, 1);
+                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(act.getIdCentro()), 0, 2);
+                    tblActSeleccionada.getModel().setValueAt(act.getDificultad(), 0, 3);
+                    tblActSeleccionada.getModel().setValueAt(act.getPrecio(), 0, 4);
+                }
+            }
+        });
+    }
+
+    /**
+     * Metodo para que el combobox de localidad se actualice si hay nuevas localidades
+     */
+    private void actualizaComboBox() {
+        if (DataManager.getCentros() && DataManager.getTipos()) {
+            for (int i = 0; i < DataManager.getLocalidadesCentro().size(); i++) {
+                cmbLocalidad.addItem(DataManager.getLocalidadesCentro().get(i));
+                cmbTipo.addItem(DataManager.getTiposActividadesCentro().get(i));
             }
         }
     }

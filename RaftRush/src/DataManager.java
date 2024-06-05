@@ -1,7 +1,6 @@
 import Excepciones.ExceptionUsuario;
 import Objetos.*;
 
-import javax.sound.sampled.Port;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ public class DataManager {
     private static List<Proveedor> listProveedor = new ArrayList<>();
     private static List<Trabajador> listTrabajador = new ArrayList<>();
     private static List<Cliente> listClientes = new ArrayList<>();
+    private static List<Tipos> listTipos = new ArrayList<>();
 
 
     public static boolean getUsuarios() {
@@ -136,6 +136,25 @@ public class DataManager {
         return false;
     }
 
+    public static boolean getTipos() {
+        if (DBManager.connect()) {
+            try {
+               listTipos.clear();
+               ResultSet rs = DBManager.getTipos();
+               while (rs.next()) {
+                   listTipos.add(new Tipos(rs.getInt(1), rs.getString(2)));
+               }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                DBManager.close();
+                return false;
+            }
+            DBManager.close();
+            return true;
+        }
+        return false;
+    }
+
     public static String getLocalidad(int id){
         String result = "";
         if (DBManager.connect()) {
@@ -232,7 +251,12 @@ public class DataManager {
     }
     public static List<Proveedor> getListProveedor(){return listProveedor;}
     public static List<Trabajador> getListTrabajador(){return listTrabajador;}
-
+    public static List<String> getLocalidadesCentro() {
+        return listCentros.stream().map(Centro::getLocalidad).distinct().toList();
+    }
+    public static List<String> getTiposActividadesCentro() {
+        return listTipos.stream().map(Tipos::getNombre).distinct().toList();
+    }
 
 
 }

@@ -50,6 +50,9 @@ public class DBManager {
         }
     }
 
+    public static ResultSet getTipos() throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM tipo");
+    }
     public static ResultSet getClientes() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM cliente");
     }
