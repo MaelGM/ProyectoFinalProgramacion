@@ -150,7 +150,7 @@ public class PantallaInicioSesion extends JFrame{
     private void checkPassword(Usuario user) {
         if (DataManager.checkPassword(user, new String(passwdField.getPassword()))) {
             if (user instanceof Trabajador) new PantallaMenu(user); // TODO: Tendriamos que enviarle el usuario (Constructor nuevo) para asi que cambie la pestaña perfil
-            else if (user instanceof Cliente) new PantallaActClientes();
+            else if (user instanceof Cliente) new PantallaActClientes(user);
             dispose();
 
         }else

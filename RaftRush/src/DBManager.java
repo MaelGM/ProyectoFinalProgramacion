@@ -115,6 +115,27 @@ public class DBManager {
         }
     }
 
+    public static int editarUsuTrabajador(String nombre, String nif) throws SQLException {
+        String query = "UPDATE trabajador SET nombre= ? WHERE trabajador.nif = ?";
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1,nombre);
+            pstmt.setString(2,nif);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    public static int editarUsuCliente(String nombre, String telefono, String nif) throws SQLException {
+        String query = "UPDATE cliente SET nombre= ?, telefono= ? WHERE cliente.nif = ?";
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1,nombre);
+            pstmt.setString(2,telefono);
+            pstmt.setString(3,nif);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
     /*
         Esto no hace falta, ya que al ser incremental, se asigna el ID automaticamente
 

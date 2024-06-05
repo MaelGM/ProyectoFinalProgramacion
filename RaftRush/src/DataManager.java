@@ -207,6 +207,40 @@ public class DataManager {
         }else return false;
     }
 
+    public static int editarUsuarioTrab(String nombre, String nif){
+        if (DBManager.connect()) {
+            try{
+                int rs = DBManager.editarUsuTrabajador(nombre, nif);
+
+                if (rs > 0) {
+                    DBManager.close();
+                    return rs;
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    public static int editarUsuarioCli(String nombre, String telefono, String nif){
+        if (DBManager.connect()) {
+            try{
+                int rs = DBManager.editarUsuCliente(nombre, telefono, nif);
+
+                if (rs > 0) {
+                    DBManager.close();
+                    return rs;
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return 0;
+            }
+        }
+        return 0;
+    }
+
     public static Usuario findUsuario(String nif){
         for (Trabajador t: listTrabajador) {
             if (t.getNif().equals(nif)) return t;

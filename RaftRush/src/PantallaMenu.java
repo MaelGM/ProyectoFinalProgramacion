@@ -27,6 +27,7 @@ public class PantallaMenu extends JFrame{
     public PantallaMenu(Usuario trabajador){
         super("Menú Trabajadores");
         init();
+        lblNombre.setText(trabajador.getNombre());
         loadListeners(trabajador);
     }
 
@@ -58,6 +59,7 @@ public class PantallaMenu extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 new PantallaPerfil(trabajador);
+                dispose();
             }
         });
     }

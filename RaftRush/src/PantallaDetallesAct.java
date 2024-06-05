@@ -1,3 +1,5 @@
+import Objetos.Usuario;
+
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -14,7 +16,7 @@ public class PantallaDetallesAct extends JFrame{
     private JLabel lblPrecio;
     private JLabel lblFoto;
 
-    public PantallaDetallesAct(){
+    public PantallaDetallesAct(Usuario cliente){
         init();
         setContentPane(jplGeneral);
         btnFecha.putClientProperty("JButton.buttonType", "roundRect");
@@ -22,18 +24,18 @@ public class PantallaDetallesAct extends JFrame{
         //comboCantidad.putClientProperty("JComponent.roundRect", true);
         background();
 
-        cargarListeners();
+        cargarListeners(cliente);
     }
 
-    private void cargarListeners() {
+    private void cargarListeners(Usuario cliente) {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                new PantallaActClientes();
+                new PantallaActClientes(cliente);
             }
         });
         btnReserva.addActionListener(e -> {
-            new PantallaActClientes();
+            new PantallaActClientes(cliente);
             dispose();
         });
     }

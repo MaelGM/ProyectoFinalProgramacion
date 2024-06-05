@@ -115,6 +115,7 @@
                 </constraints>
                 <properties>
                   <background color="-9145228"/>
+                  <font name="Inter" size="16" style="1"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -138,6 +139,7 @@
                 </constraints>
                 <properties>
                   <background color="-9145228"/>
+                  <font name="Inter" size="16" style="1"/>
                 </properties>
               </component>
               <hspacer id="d4a6f">

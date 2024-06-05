@@ -40,6 +40,7 @@ public class PantallaPerfil extends JFrame{
     private void cargarDatos(Usuario usu) {
         if (usu instanceof Trabajador) {
             txtTelefono.setEditable(false);
+            txtTelefono.setText("*********");
         }
         txtNif.setText(usu.getNif());
     }
@@ -56,7 +57,6 @@ public class PantallaPerfil extends JFrame{
 
 
     private void cargarListeners(Usuario usu) {
-        btnAct.addActionListener(e -> dispose());
         btnLogOut.addActionListener(e -> {
             for (Window window : Window.getWindows()) {
                 window.dispose();
@@ -68,6 +68,7 @@ public class PantallaPerfil extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 actualizarUsu(usu);
+                dispose();
             }
         });
     }
@@ -75,21 +76,35 @@ public class PantallaPerfil extends JFrame{
     private void actualizarUsu(Usuario usu){
         if (usu instanceof Trabajador) {
             if (!txtNombre.getText().isEmpty()) {
-                try {
-                    usu.setNombre(txtNombre.getText());
-                } catch (ExceptionUsuario e) {
-                    e.printStackTrace();
+                if (DataManager.editarUsuarioTrab(txtNombre.getText(), txtNif.getText()) > 0) {
+                    try {
+                        usu.setNombre(txtNombre.getText());
+                        JOptionPane.showMessageDialog(null, "Perfil De " + usu.getNombre() +" actualizado correctamente", "Actualizar Perfil Trabajador", JOptionPane.INFORMATION_MESSAGE);
+                        new PantallaMenu(usu);
+                    } catch (ExceptionUsuario e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }else if (usu instanceof Cliente) {
+            String nombre = txtNombre.getText();
+            String telefono = txtTelefono.getText();
             if (!txtNombre.getText().isEmpty() || !txtTelefono.getText().isEmpty()) {
-                try {
-                    usu.setNombre(txtNombre.getText());
-                    ((Cliente) usu).setTelefono(txtTelefono.getText());
-
-
-                } catch (ExceptionUsuario e) {
-                    e.printStackTrace();
+                if (txtNombre.getText().isEmpty()) {
+                    nombre = usu.getNombre();
+                }
+                if (txtTelefono.getText().isEmpty()) {
+                    telefono = ((Cliente) usu).getTelefono();
+                }
+                if (DataManager.editarUsuarioCli(nombre, telefono, txtNif.getText()) > 0) {
+                    try {
+                        usu.setNombre(nombre);
+                        ((Cliente) usu).setTelefono(telefono);
+                        JOptionPane.showMessageDialog(null, "Perfil De " + usu.getNombre() +" actualizado correctamente", "Actualizar Perfil Cliente", JOptionPane.INFORMATION_MESSAGE);
+                        new PantallaActClientes(usu);
+                    } catch (ExceptionUsuario e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
