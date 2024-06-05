@@ -1,7 +1,6 @@
 import Excepciones.ExceptionUsuario;
 import Objetos.*;
 
-import javax.sound.sampled.Port;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class DataManager {
     private static List<Proveedor> listProveedor = new ArrayList<>();
     private static List<Trabajador> listTrabajador = new ArrayList<>();
     private static List<Cliente> listClientes = new ArrayList<>();
-
+    private static List<Tipos> listTipos = new ArrayList<>();
 
     public static boolean getUsuarios() {
         return getClientes() && getTrabajador();
@@ -193,6 +192,45 @@ public class DataManager {
         return result;
     }
 
+    public static Tipos getTipo(String nombre){
+        for (Tipos tipo: listTipos) {
+            if (tipo.getNombre().equalsIgnoreCase(nombre)) return tipo;
+        }
+        return null;
+    }
+
+    public static Centro getCentroByLocalidad(String localidad){
+        for (Centro centro: listCentros) {
+            if (centro.getLocalidad().equalsIgnoreCase(localidad)) return centro;
+        }
+        return null;
+    }
+    public static Centro getCentroByName(String nombre){
+        for (Centro centro: listCentros) {
+            if (centro.getNombre().equalsIgnoreCase(nombre)) return centro;
+        }
+        return null;
+    }
+
+    public static boolean getTipos() {
+        if (DBManager.connect()) {
+            try{
+                listTipos.clear();
+                ResultSet rs = DBManager.getTipo();//Select all tipos de actividades
+                while(rs.next()){
+                    listTipos.add(new Tipos(rs.getInt(1), rs.getString(2)));
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+                DBManager.close();
+                return false;
+            }
+            DBManager.close();
+            return true;
+        }
+        return false;
+    }
+
     public static boolean addCliente(Cliente cliente){
         if (findUsuario(cliente.getNif()) != null) return false;
         if (DBManager.connect()){
@@ -232,7 +270,8 @@ public class DataManager {
     }
     public static List<Proveedor> getListProveedor(){return listProveedor;}
     public static List<Trabajador> getListTrabajador(){return listTrabajador;}
-
-
+    public static List<Tipos> getListTipos(){
+        return listTipos;
+    }
 
 }

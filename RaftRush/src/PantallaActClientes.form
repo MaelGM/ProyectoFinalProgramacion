@@ -117,10 +117,10 @@
                         </constraints>
                         <properties>
                           <background color="-16400469"/>
-                          <font name="Inter" size="20" style="1"/>
+                          <font name="Inter" size="18" style="1"/>
                           <foreground color="-15461356"/>
                           <model>
-                            <item value="Select"/>
+                            <item value="Todos"/>
                           </model>
                         </properties>
                       </component>
@@ -128,14 +128,15 @@
                         <constraints>
                           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false">
                             <preferred-size width="218" height="51"/>
+                            <maximum-size width="218" height="51"/>
                           </grid>
                         </constraints>
                         <properties>
                           <background color="-16400469"/>
-                          <font name="Inter" size="20" style="1"/>
+                          <font name="Inter" size="18" style="1"/>
                           <foreground color="-15461356"/>
                           <model>
-                            <item value="Select"/>
+                            <item value="Todos"/>
                           </model>
                         </properties>
                       </component>
@@ -147,7 +148,7 @@
                           <background color="-1"/>
                           <font name="Inter" size="18" style="1"/>
                           <foreground color="-1"/>
-                          <text value="Centro"/>
+                          <text value="Localidad"/>
                         </properties>
                       </component>
                       <component id="6fae3" class="javax.swing.JLabel" binding="lblTipo">

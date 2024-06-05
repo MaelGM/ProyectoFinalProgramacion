@@ -1,4 +1,6 @@
+import Objetos.Centro;
 import Objetos.Material;
+import Objetos.Trabajador;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -8,9 +10,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class PantallaMateriales extends JFrame{
     private JPanel gestionMaterialesPane;
@@ -69,6 +71,17 @@ public class PantallaMateriales extends JFrame{
         Utils.cursorPointerBoton(btnSolicitar); // No me ha quedado claro que pasa si se le da a Solicitar --> Mael
         Utils.cursorPointerBoton(btnVerEntregas);
         btnModificar.addActionListener(asignarProveedor());
+        cmbCentro.addActionListener(filtrar());
+    }
+
+    private ActionListener filtrar() {
+        return e -> {
+            Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
+            List<Material> materiales = DataManager.getListMaterial();
+
+            if (centro != null) materiales = materiales.stream().filter(material -> material.getIdCentro() == centro.getId()).toList();
+            datosMaterialTable(materiales);
+        };
     }
 
     private ActionListener asignarProveedor() {
@@ -95,19 +108,25 @@ public class PantallaMateriales extends JFrame{
     }
 
     public void cargarDatos(){
-        if (DataManager.getMaterial()) {
-            datosMaterialTable();
+        if (DataManager.getMaterial() && DataManager.getCentros()) {
+            datosMaterialTable(DataManager.getListMaterial());
+            cargarFiltro();
         }
     }
 
-    public void datosMaterialTable(){
+    private void cargarFiltro() {
+        List<Centro> centros = DataManager.getListCentros();
+        for (Centro c: centros) {
+            cmbCentro.addItem(c.getNombre());
+        }
+    }
 
+    public void datosMaterialTable(List<Material> materiales){
         String[]header = {"Código", "Nombre", "Cantidad", "Precio", "Nombre Centro"};
-        Object[][]rows = new Object[DataManager.getListMaterial().size()][header.length];
+        Object[][]rows = new Object[materiales.size()][header.length];
 
         int j = 0;
-        for (Material material:DataManager.getListMaterial()) {
-
+        for (Material material: materiales) {
             rows[j][0] = material.getCodigo();
             rows[j][1] = material.getNombre();
             rows[j][2] = material.getCantidad();
