@@ -1,10 +1,10 @@
 package Tests;
 
-import Excepciones.ExceptionUsuario;
+/*import Excepciones.ExceptionUsuario;
 import Objetos.Usuario;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;*/
 
 class UsuarioTest {
     /*

@@ -126,6 +126,8 @@
                 </constraints>
                 <properties>
                   <background color="-9145228"/>
+                  <editable value="false"/>
+                  <font name="Inter" size="16" style="1"/>
                 </properties>
               </component>
               <component id="bc0a5" class="javax.swing.JTextField" binding="txtTelefono">

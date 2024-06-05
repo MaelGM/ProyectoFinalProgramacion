@@ -35,6 +35,9 @@ public class PantallaInicioSesion extends JFrame{
     private JLabel lblNif;
     private JPasswordField passwdField;
 
+    public static String nifGuardar;
+    public Usuario user;
+
     ImageIcon aside = new ImageIcon("resources/imagenes/asideSimple.png");
 
     /**
@@ -126,11 +129,14 @@ public class PantallaInicioSesion extends JFrame{
     private ActionListener iniciarSesion() {
         return e -> {
             if (checkTextFields() && DataManager.getUsuarios()){
-                Usuario user = DataManager.findUsuario(formTxtFldNif.getText());
-                if (user != null) checkPassword(user);
-                else
+                user = DataManager.findUsuario(formTxtFldNif.getText());
+                if (user != null) {
+                    checkPassword(user);
+                }
+                else {
                     JOptionPane.showMessageDialog(null, "No se ha encontrado un usuario con nif: "
-                            +formTxtFldNif.getText(), "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+                            + formTxtFldNif.getText(), "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+                }
             }
         };
     }
@@ -143,9 +149,10 @@ public class PantallaInicioSesion extends JFrame{
      */
     private void checkPassword(Usuario user) {
         if (DataManager.checkPassword(user, new String(passwdField.getPassword()))) {
-            if (user instanceof Trabajador) new PantallaMenu(); // TODO: Tendriamos que enviarle el usuario (Constructor nuevo) para asi que cambie la pestaña perfil
+            if (user instanceof Trabajador) new PantallaMenu(user); // TODO: Tendriamos que enviarle el usuario (Constructor nuevo) para asi que cambie la pestaña perfil
             else if (user instanceof Cliente) new PantallaActClientes();
             dispose();
+
         }else
             JOptionPane.showMessageDialog(null, "La contraseña no es correcta",
                     "Error en los datos", JOptionPane.ERROR_MESSAGE);

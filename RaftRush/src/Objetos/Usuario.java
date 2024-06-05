@@ -19,6 +19,8 @@ public abstract class Usuario {
         setContrasenya(contrasenya);
     }
 
+
+
     private void setNif(String nif) throws ExceptionUsuario {
         this.nif = nif;
         if (validaNif(nif)) this.nif = nif;
@@ -36,7 +38,7 @@ public abstract class Usuario {
     public String getNombre() {
         return nombre;
     }
-    private void setNombre(String nombre) throws ExceptionUsuario {
+    public void setNombre(String nombre) throws ExceptionUsuario {
         if (nombre.length() <= 100) this.nombre = nombre;
         else throw new ExceptionUsuario("Nombre demasiado largo");
     }

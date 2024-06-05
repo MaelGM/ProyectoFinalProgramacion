@@ -34,6 +34,7 @@ public class PantallaActClientes extends JFrame{
         cargarListners();
         background();
         cargarDato();
+
     }
 
 

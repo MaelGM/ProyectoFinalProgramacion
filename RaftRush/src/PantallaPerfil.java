@@ -1,7 +1,13 @@
+import Excepciones.ExceptionUsuario;
+import Objetos.Cliente;
+import Objetos.Trabajador;
+import Objetos.Usuario;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PantallaPerfil extends JFrame{
     private JPanel panelGeneral;
@@ -22,16 +28,34 @@ public class PantallaPerfil extends JFrame{
     private JLabel lblIcon2;
     private JLabel lblIcon3;
 
+    public PantallaPerfil(Usuario usu){
+        init();
+        setContentPane(panelGeneral);
+        panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 20");
+        background();
+        cargarDatos(usu);
+        cargarListeners(usu);
+    }
+
+    private void cargarDatos(Usuario usu) {
+        if (usu instanceof Trabajador) {
+            txtTelefono.setEditable(false);
+        }
+        txtNif.setText(usu.getNif());
+    }
+
     public PantallaPerfil(){
         init();
         setContentPane(panelGeneral);
         panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 20");
         background();
 
-        cargarListeners();
+        //cargarListeners();
     }
 
-    private void cargarListeners() {
+
+
+    private void cargarListeners(Usuario usu) {
         btnAct.addActionListener(e -> dispose());
         btnLogOut.addActionListener(e -> {
             for (Window window : Window.getWindows()) {
@@ -39,6 +63,36 @@ public class PantallaPerfil extends JFrame{
             }
             new PantallaInicial();
         });
+
+        btnAct.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actualizarUsu(usu);
+            }
+        });
+    }
+
+    private void actualizarUsu(Usuario usu){
+        if (usu instanceof Trabajador) {
+            if (!txtNombre.getText().isEmpty()) {
+                try {
+                    usu.setNombre(txtNombre.getText());
+                } catch (ExceptionUsuario e) {
+                    e.printStackTrace();
+                }
+            }
+        }else if (usu instanceof Cliente) {
+            if (!txtNombre.getText().isEmpty() || !txtTelefono.getText().isEmpty()) {
+                try {
+                    usu.setNombre(txtNombre.getText());
+                    ((Cliente) usu).setTelefono(txtTelefono.getText());
+
+
+                } catch (ExceptionUsuario e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void init() {
