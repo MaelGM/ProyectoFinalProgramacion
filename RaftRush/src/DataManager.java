@@ -13,7 +13,7 @@ public class DataManager {
     private static List<Proveedor> listProveedor = new ArrayList<>();
     private static List<Trabajador> listTrabajador = new ArrayList<>();
     private static List<Cliente> listClientes = new ArrayList<>();
-    private static List<Tipos> listTipos = new ArrayList<>(
+    private static List<Tipo> listTipos = new ArrayList<>();
 
     public static boolean getUsuarios() {
         return getClientes() && getTrabajador();
@@ -44,6 +44,8 @@ public class DataManager {
                 listActividades.clear();
                 ResultSet rs = DBManager.getActividad();//Select all actividades
                 while(rs.next()){
+                    int tipoId = rs.getInt(4);
+                    Tipo tipo = filterTipoById(tipoId);
                     listActividades.add(new Actividad(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getString(4),rs.getDouble(5),rs.getInt(6),
                             rs.getInt(7)));
@@ -56,6 +58,15 @@ public class DataManager {
             return true;
         }
         return false;
+    }
+
+    public static Tipo filterTipoById(int id) {
+        for (int i = 0; i < listTipos.size(); i++) {
+            if (listTipos.get(i).getId() == id) {
+                return listTipos.get(i);
+            }
+        }
+        return null;
     }
 
     public static boolean getMaterial(){
@@ -141,7 +152,7 @@ public class DataManager {
                listTipos.clear();
                ResultSet rs = DBManager.getTipos();
                while (rs.next()) {
-                   listTipos.add(new Tipos(rs.getInt(1), rs.getString(2)));
+                   listTipos.add(new Tipo(rs.getInt(1), rs.getString(2)));
                }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -211,8 +222,8 @@ public class DataManager {
         return result;
     }
 
-    public static Tipos getTipo(String nombre){
-        for (Tipos tipo: listTipos) {
+    public static Tipo getTipo(String nombre){
+        for (Tipo tipo: listTipos) {
             if (tipo.getNombre().equalsIgnoreCase(nombre)) return tipo;
         }
         return null;
@@ -231,30 +242,13 @@ public class DataManager {
         return null;
     }
 
-    public static boolean getTipos() {
-        if (DBManager.connect()) {
-            try{
-                listTipos.clear();
-                ResultSet rs = DBManager.getTipo();//Select all tipos de actividades
-                while(rs.next()){
-                    listTipos.add(new Tipos(rs.getInt(1), rs.getString(2)));
-                }
-            }catch (SQLException e){
-                e.printStackTrace();
-                DBManager.close();
-                return false;
-            }
-            DBManager.close();
-            return true;
-        }
-        return false;
-    }
-
     public static boolean addCliente(Cliente cliente){
         if (findUsuario(cliente.getNif()) != null) return false;
         if (DBManager.connect()){
             try {
                 int res = DBManager.agregarCliente(cliente);
+                listClientes.add(cliente);
+                //TODO Actualizar caché en inserts, deletes y updates de todas las clases
                 DBManager.close();
                 return res != 0;
             } catch (SQLException e) {
@@ -289,13 +283,13 @@ public class DataManager {
     }
     public static List<Proveedor> getListProveedor(){return listProveedor;}
     public static List<Trabajador> getListTrabajador(){return listTrabajador;}
-    public static List<Tipos> getListTipos(){
+    public static List<Tipo> getListTipos(){
         return listTipos;
     }
     public static List<String> getLocalidadesCentro() {
         return listCentros.stream().map(Centro::getLocalidad).distinct().toList();
     }
     public static List<String> getTiposActividadesCentro() {
-        return listTipos.stream().map(Tipos::getNombre).distinct().toList();
+        return listTipos.stream().map(Tipo::getNombre).distinct().toList();
     }
 }

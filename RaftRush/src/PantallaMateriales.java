@@ -34,6 +34,7 @@ public class PantallaMateriales extends JFrame{
     private JPanel panelDerecha;
     private JComboBox cbxProveedor;
     private JPanel jplNuePedido;
+    private static Material materialSeleccionado = null;
 
     ///ToDo, el tamaño del ComboBox
     public PantallaMateriales(){
@@ -72,6 +73,7 @@ public class PantallaMateriales extends JFrame{
         Utils.cursorPointerBoton(btnVerEntregas);
         btnModificar.addActionListener(asignarProveedor());
         cmbCentro.addActionListener(filtrar());
+        rellenarTablaModificar();
     }
 
     private ActionListener filtrar() {
@@ -224,5 +226,24 @@ public class PantallaMateriales extends JFrame{
                 case 4-> column.setPreferredWidth(200);
             }
         }
+    }
+
+    /**
+     * Metodo para rellenar tabla de material seleccionado
+     */
+    public void rellenarTablaModificar() {
+        tblMat.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblMat.getSelectedRow();
+                if(e.getClickCount() == 2 && row != -1) {
+                    materialSeleccionado = DataManager.getListMaterial().get(row);
+                    tblModMaterial.getModel().setValueAt(materialSeleccionado.getNombre(), 0, 0);
+                    tblModMaterial.getModel().setValueAt(materialSeleccionado.getCantidad(), 0, 1);
+                    tblModMaterial.getModel().setValueAt(materialSeleccionado.getPrecio(), 0, 2);
+                    tblModMaterial.getModel().setValueAt(DataManager.getNomCentro(materialSeleccionado.getIdCentro()), 0, 3);
+                }
+            }
+        });
     }
 }

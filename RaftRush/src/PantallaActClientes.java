@@ -1,6 +1,6 @@
 import Objetos.Actividad;
 import Objetos.Centro;
-import Objetos.Tipos;
+import Objetos.Tipo;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
 import javax.swing.*;
@@ -8,12 +8,9 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PantallaActClientes extends JFrame{
     private JPanel panelGeneral;
@@ -81,7 +78,7 @@ public class PantallaActClientes extends JFrame{
     // AVISO: Lo tengo que hacer usando los centros, ya que la actividad tiene idCentro, pero en caso de que haya dos centros en la misma ciudad, no se diferenciaran.
     private ActionListener filtrar() {
         return e -> {
-            Tipos tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
+            Tipo tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
             Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
             List<Actividad> actividades = DataManager.getListActividades();
 
@@ -105,7 +102,7 @@ public class PantallaActClientes extends JFrame{
     }
 
     public void cargarDato(){
-        if (DataManager.getActividades() && DataManager.getCentros() && DataManager.getTipos()) {
+        if (DataManager.getTipos() && DataManager.getActividades() && DataManager.getCentros()) {
             cargarTabla(DataManager.getListActividades());
         }
     }
