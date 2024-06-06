@@ -9,6 +9,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
+import java.util.List;
 
 public class PantallaReservas extends JFrame {
 
@@ -21,6 +25,7 @@ public class PantallaReservas extends JFrame {
     private JScrollPane ScrollPanelRegAct;
     private JTable tblResSeleccionada;
     private JButton btnAnularReserva;
+    private List<Map<String, Object>> reservaSeleccionada = new ArrayList<>();
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloRes.png");
@@ -56,6 +61,7 @@ public class PantallaReservas extends JFrame {
     private void cargarListeners() {
         Utils.cursorPointerBoton(btnAnularReserva);
         // TODO: Al clicar, se leen los datos de la tabla inferior y se elimina esa reserva de la BD
+        rellenaTablaModificar();
     }
 
     public void cargarDatos(){
@@ -179,5 +185,38 @@ public class PantallaReservas extends JFrame {
         }
     }
 
-
+    /**
+     * Metodo para la carga de lista de reservas
+     */
+    private void cargaReservasTable() {
+        tblReservas.setShowGrid(true);
+        Object[][] data = new Object[Objects.requireNonNull(DataManager.getListReservas()).size()][4];
+        int i = 0;
+        for (int j = 0; j < DataManager.getListReservas().size(); j++) {
+            data[i][0] = DataManager.getListReservas().get(j).get("columna1");
+            data[i][1] = DataManager.getListReservas().get(j).get("columna2");
+            data[i][2] = DataManager.getListReservas().get(j).get("columna3");
+            data[i][3] = DataManager.getListReservas().get(j).get("columna4");
+            i++;
+        }
+    }
+    /**
+     * Metodo para modificar la reserva seleccionada
+     */
+    public void rellenaTablaModificar() {
+        tblReservas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblReservas.getSelectedRow();
+                if (e.getClickCount() == 2 && row != -1) {
+                    Map<String, Object> reservaSeleccionada = Objects.requireNonNull(DataManager.getListReservas()).get(row);
+                    tblResSeleccionada.getModel().setValueAt(reservaSeleccionada.get("columna1"), 0, 0);
+                    tblResSeleccionada.getModel().setValueAt(reservaSeleccionada.get("columna2"), 0, 1);
+                    tblResSeleccionada.getModel().setValueAt(reservaSeleccionada.get("columna3"), 0, 2);
+                    tblResSeleccionada.getModel().setValueAt(reservaSeleccionada.get("columna4"), 0, 3);
+                    //tblResSeleccionada.getModel().setValueAt(reservaSeleccionada.get(Integer.parseInt("columna5")), 0, 4);
+                }
+            }
+        });
+    }
 }

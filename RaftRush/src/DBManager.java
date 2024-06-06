@@ -1,3 +1,4 @@
+import Objetos.Actividad;
 import Objetos.Cliente;
 
 import java.sql.*;
@@ -119,6 +120,11 @@ public class DBManager {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public static ResultSet getEntregas(Cliente cliente, Actividad actividad) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM reservaclienteactividad WHERE reservaclienteactividad.idActividad = "
+                + actividad.getId() + " AND reservaclienteactividad.nifCli = " + cliente.getNif());
     }
 
     /*

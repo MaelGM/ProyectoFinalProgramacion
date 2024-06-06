@@ -4,7 +4,9 @@ import Objetos.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DataManager {
     private static List<Actividad> listActividades = new ArrayList<>();
@@ -291,5 +293,38 @@ public class DataManager {
     }
     public static List<String> getTiposActividadesCentro() {
         return listTipos.stream().map(Tipo::getNombre).distinct().toList();
+    }
+
+    /**
+     * Metodo para hacer una lista de reservas
+     */
+    public static List<Map<String, Object>> getListReservas(){
+        List<Map<String, Object>> reservas = new ArrayList<>();
+
+        if (DBManager.connect()) {
+            for (Cliente cliente : listClientes) {
+                for (Actividad actividad : listActividades) {
+                    try {
+                        ResultSet rs = DBManager.getEntregas(cliente, actividad);
+                        if (rs != null) {
+                            while (rs.next()) {
+                                Map<String, Object> reserva = new HashMap<>();
+                                reserva.put("columna1", rs.getArray(1));
+                                reserva.put("columna2", rs.getArray(2));
+                                reserva.put("columna3", rs.getArray(3));
+                                reserva.put("columna4", rs.getArray(4));
+                                reservas.add(reserva);
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        DBManager.close();
+                        return null;
+                    }
+                }
+            }
+        }
+        DBManager.close();
+        return reservas;
     }
 }
