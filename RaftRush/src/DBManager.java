@@ -71,6 +71,9 @@ public class DBManager {
     public static ResultSet getProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor");
     }
+    public static ResultSet getTipo() throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM tipo");
+    }
 
     public static ResultSet getCentro(int id) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM centro WHERE centro.id = " + id);

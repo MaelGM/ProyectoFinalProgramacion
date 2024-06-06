@@ -1,10 +1,19 @@
 import Objetos.Actividad;
+import Objetos.Centro;
+import Objetos.Tipos;
+import com.formdev.flatlaf.ui.FlatLineBorder;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PantallaActClientes extends JFrame{
     private JPanel panelGeneral;
@@ -28,14 +37,14 @@ public class PantallaActClientes extends JFrame{
     private JLayeredPane jlpBackground;
     private DefaultTableModel model;
 
-    public PantallaActClientes(){
+    public PantallaActClientes() {
         super("Actividades Clientes");
         init();
         cargarListners();
-        background();
         cargarDato();
-    }
+        estilo();
 
+    }
 
     private void init() {
         setSize(1534,774);
@@ -48,9 +57,9 @@ public class PantallaActClientes extends JFrame{
 
     private void cargarListners() {
         btnVerReservas.addActionListener(verReservas());
-        Utils.cursorPointerBoton(btnVerReservas);
         btnReservar.addActionListener(verDetalles());
-        Utils.cursorPointerBoton(btnReservar);
+        cmbCentro.addActionListener(filtrar());
+        cmbTipo.addActionListener(filtrar());
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -65,6 +74,21 @@ public class PantallaActClientes extends JFrame{
             }
         });
         Utils.cursorPointerLabel(lblNombreUsu);
+        Utils.cursorPointerBoton(btnReservar);
+        Utils.cursorPointerBoton(btnVerReservas);
+    }
+
+    // AVISO: Lo tengo que hacer usando los centros, ya que la actividad tiene idCentro, pero en caso de que haya dos centros en la misma ciudad, no se diferenciaran.
+    private ActionListener filtrar() {
+        return e -> {
+            Tipos tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
+            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
+            List<Actividad> actividades = DataManager.getListActividades();
+
+            if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo.getId()).toList();
+            if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getIdCentro() == centro.getId()).toList();
+            cargarTabla(actividades);
+        };
     }
 
     private ActionListener verReservas(){
@@ -81,16 +105,16 @@ public class PantallaActClientes extends JFrame{
     }
 
     public void cargarDato(){
-        if (DataManager.getActividades()) {
-            cargarActTabla();
+        if (DataManager.getActividades() && DataManager.getCentros() && DataManager.getTipos()) {
+            cargarTabla(DataManager.getListActividades());
         }
     }
 
-    private void cargarActTabla(){
-        Object[][] data = new Object[DataManager.getListActividades().size()][5];
+    private void cargarTabla(List<Actividad> actividades){
+        Object[][] data = new Object[actividades.size()][5];
 
         int i = 0;
-        for (Actividad actividad:DataManager.getListActividades()) {
+        for (Actividad actividad : actividades) {
             data[i][0] = actividad.getNombre();
             data[i][1] = DataManager.getTipo(actividad.getTipo());
             data[i][2] = DataManager.getLocalidad(actividad.getIdCentro());
@@ -103,26 +127,38 @@ public class PantallaActClientes extends JFrame{
         model = new DefaultTableModel(data, new String[]{"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"});
         tblActCli.setModel(model);
 
-        //Color tableBG = new Color(110, 130, 141);
+        tblActCli.getTableHeader().setReorderingAllowed(false);
+        tblActCli.setDefaultEditor(Object.class,null);
+        tblActCli.setEnabled(true);
 
+    }
+
+    private void estilo() {
+        setBorderPanel();
+        background();
+        // Estilo de la tabla
         tblActCli.setShowGrid(true);//Mostrar grid color
         tblActCli.setGridColor(Color.black);
         tblActCli.getTableHeader().setOpaque(false);
         tblActCli.getTableHeader().setBackground(new Color(47, 75, 89));
         tblActCli.getTableHeader().setForeground(new Color(245, 159, 116));
         tblActCli.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
-
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int j = 0; j < tblActCli.getColumnCount(); j++) {
             tblActCli.getColumnModel().getColumn(j).setCellRenderer(centerRenderer);
         }
+    }
 
+    private void setBorderPanel() {
+        Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
-        tblActCli.getTableHeader().setReorderingAllowed(false);
-        tblActCli.setDefaultEditor(Object.class,null);
-        tblActCli.setEnabled(true);
+        Font titleFont = new Font("Inter", Font.BOLD, 16);
 
+        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "FILTRO", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
+        titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
+
+        jplFiltro.setBorder(titleBorder);
     }
 
     private void background(){

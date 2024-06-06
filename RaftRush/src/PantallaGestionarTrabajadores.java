@@ -1,6 +1,4 @@
-import Objetos.Actividad;
-import Objetos.Proveedor;
-import Objetos.Trabajador;
+import Objetos.*;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -15,6 +13,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PantallaGestionarTrabajadores extends JFrame {
 
@@ -50,7 +50,6 @@ public class PantallaGestionarTrabajadores extends JFrame {
     public void init(){
         setContentPane(panelPrincipal);
 
-
         //Ventana
         setSize(1480, 774);
         setResizable(false);
@@ -72,9 +71,17 @@ public class PantallaGestionarTrabajadores extends JFrame {
     }
 
     public void cargarDatos(){
-        if (DataManager.getTrabajador()) {
-            datosMainTable();
+        if (DataManager.getTrabajador() && DataManager.getCentros()) {
+            cargarFiltro();
+            datosMainTable(DataManager.getListTrabajador());
             datosNewTrabajador();
+        }
+    }
+
+    private void cargarFiltro() {
+        List<Centro> centros = DataManager.getListCentros();
+        for (Centro c: centros) {
+            cmbCentro.addItem(c.getNombre());
         }
     }
 
@@ -90,12 +97,21 @@ public class PantallaGestionarTrabajadores extends JFrame {
         });
         tblNuevoTrabajador.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+            public void mouseClicked(MouseEvent e) {super.mouseClicked(e);
             }
         });
-
+        cmbCentro.addActionListener(filtrar());
         btnAdd.addActionListener(pedirPassword());
+    }
+
+    private ActionListener filtrar() {
+        return e -> {
+            Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
+            List<Trabajador> trabajadores = DataManager.getListTrabajador();
+
+            if (centro != null) trabajadores = trabajadores.stream().filter(trabajador -> trabajador.getIdCentro() == centro.getId()).toList();
+            datosMainTable(trabajadores);
+        };
     }
 
     private ActionListener pedirPassword() {
@@ -118,11 +134,11 @@ public class PantallaGestionarTrabajadores extends JFrame {
         };
     }
 
-    public void datosMainTable(){
-        Object[][] data = new Object[DataManager.getListTrabajador().size()][7];
+    public void datosMainTable(List<Trabajador> trabajadores){
+        Object[][] data = new Object[trabajadores.size()][7];
 
         int j = 0;
-        for (Trabajador trabajador:DataManager.getListTrabajador()) {
+        for (Trabajador trabajador:trabajadores) {
             data[j][0] = trabajador.getNif();
             data[j][1] = trabajador.getNombre();
             data[j][2] = trabajador.getApellido();
@@ -226,9 +242,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
         for (int i = 0; i < tblTrabajadores.getColumnCount(); i++) {
             column = tblTrabajadores.getColumnModel().getColumn(i);
             switch (i){
-                case 0,4 -> column.setPreferredWidth(40);
-                case 1,2 -> column.setPreferredWidth(40);
-                case 3 -> column.setPreferredWidth(40);
+                case 0, 4, 3, 1, 2 -> column.setPreferredWidth(40);
                 case 5 -> column.setPreferredWidth(200);
             }
         }

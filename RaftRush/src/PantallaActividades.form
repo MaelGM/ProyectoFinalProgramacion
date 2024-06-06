@@ -85,10 +85,10 @@
                     </constraints>
                     <properties>
                       <background color="-16400469"/>
-                      <font name="Inter" size="16" style="1"/>
+                      <font name="Inter" size="18" style="1"/>
                       <foreground color="-16777216"/>
                       <model>
-                        <item value="SELECT"/>
+                        <item value="Todos"/>
                       </model>
                     </properties>
                   </component>
@@ -102,10 +102,10 @@
                     </constraints>
                     <properties>
                       <background color="-16400469"/>
-                      <font name="Inter" size="16" style="1"/>
+                      <font name="Inter" size="18" style="1"/>
                       <foreground color="-16777216"/>
                       <model>
-                        <item value="SELECT"/>
+                        <item value="Todos"/>
                       </model>
                     </properties>
                   </component>
@@ -147,10 +147,7 @@
             <children>
               <scrollpane id="98df2" binding="jspTabla">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false">
-                    <preferred-size width="1194" height="381"/>
-                    <maximum-size width="1194" height="381"/>
-                  </grid>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <background color="-16438980"/>
@@ -167,9 +164,10 @@
                       <focusable value="false"/>
                       <font name="Inter" size="16" style="1"/>
                       <foreground color="-16777216"/>
+                      <gridColor color="-16777216"/>
                       <maximumSize width="2147483647" height="80"/>
                       <minimumSize width="30" height="80"/>
-                      <preferredSize width="1194" height="330"/>
+                      <preferredSize width="10" height="330"/>
                       <requestFocusEnabled value="true"/>
                       <rowHeight value="40"/>
                       <selectionBackground color="-7077901"/>

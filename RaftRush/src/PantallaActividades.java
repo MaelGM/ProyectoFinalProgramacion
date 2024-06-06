@@ -1,4 +1,6 @@
 import Objetos.Actividad;
+import Objetos.Centro;
+import Objetos.Tipos;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -11,6 +13,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -38,13 +41,11 @@ public class PantallaActividades extends JFrame {
     public PantallaActividades() { //Constructor
         super("Lista de actividades");
         init();
-        setContentPane(panelPrincipal);
-        definirTablas();
         cargarDatos();
+        estilo();
         cargarListeners();
         panelActividadesProperties();
         rellenarTablaModificar();
-        actualizaComboBox();
     }
 
     public void init(){
@@ -52,30 +53,45 @@ public class PantallaActividades extends JFrame {
         setVisible(true);
         setResizable(false);
         setLocationRelativeTo(null);
+        setContentPane(panelPrincipal);
         setIconImage(logo.getImage());
         imgCorporativa.setIcon(imgCorporativaCabecera);
     }
 
-    private void definirTablas() {
+    private void estilo() {
         tablaActProperties();
+        panelActividadesProperties();
         tablaActSeleccionadaProperties();
         panelActSeleccionadaProperties();
-
-        JTableHeader headerActividades = tblActividades.getTableHeader();
-        headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
-        JTableHeader headerEliminarAct = tblActSeleccionada.getTableHeader();
-        headerEliminarAct.setPreferredSize(new Dimension(headerEliminarAct.getPreferredSize().width, 40));
     }
 
     public void cargarDatos(){
-        cargarActividades();
-        datosActSeleccionada();
+        if (DataManager.getActividades() && DataManager.getCentros() && DataManager.getTipos()) {
+            actualizaComboBox();
+            datosMainTable(DataManager.getListActividades());
+            datosActSeleccionada();
+        }
     }
 
     private void cargarListeners() {
         btnAddActividad.addActionListener(addActividad());
+        cmbCentro.addActionListener(filtrar());
+        cmbTipo.addActionListener(filtrar());
         Utils.cursorPointerBoton(btnAddActividad);
         Utils.cursorPointerBoton(btnEliminarActividad);
+    }
+
+    // AVISO: Lo tengo que hacer usando los centros, ya que la actividad tiene idCentro, pero en caso de que haya dos centros en la misma ciudad, no se diferenciaran.
+    private ActionListener filtrar() {
+        return e -> {
+            Tipos tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
+            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
+            List<Actividad> actividades = DataManager.getListActividades();
+
+            if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo.getId()).toList();
+            if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getIdCentro() == centro.getId()).toList();
+            datosMainTable(actividades);
+        };
     }
 
     private ActionListener addActividad() {
@@ -85,21 +101,15 @@ public class PantallaActividades extends JFrame {
         };
     }
 
-    private void cargarActividades(){
-        if (DataManager.getActividades()) {
-            datosMainTable();
-        }
-    }
-
-    public void datosMainTable(){
+    public void datosMainTable(List<Actividad> actividades){
         String[]header = {"ID", "Nombre", "Tipo", "Localidad", "Dificultad", "Precio"};
-        Object[][]rows = new Object[DataManager.getListActividades().size()][header.length];
+        Object[][]rows = new Object[actividades.size()][header.length];
 
         int i = 0;
-        for (Actividad actividad:DataManager.getListActividades()) {
+        for (Actividad actividad: actividades) {
             rows[i][0] = actividad.getId();
             rows[i][1] = actividad.getNombre();
-            rows[i][2] = actividad.getTipo();
+            rows[i][2] = DataManager.getTipo(actividad.getTipo());
             rows[i][3] = DataManager.getLocalidad(actividad.getIdCentro());
             rows[i][4] = actividad.getDificultad();
             rows[i][5] = actividad.getPrecio();
@@ -112,12 +122,13 @@ public class PantallaActividades extends JFrame {
         tblActividades.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasAct();
-
+        // Centrar los datos
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int j = 0; i < tblActividades.getColumnCount(); i++) {
+        for (int j = 0; j < tblActividades.getColumnCount(); j++) {
             tblActividades.getColumnModel().getColumn(j).setCellRenderer(centerRenderer);
         }
+
     }
     public void datosActSeleccionada(){
         String[]header = {"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"};
@@ -150,6 +161,9 @@ public class PantallaActividades extends JFrame {
         tblActividades.getTableHeader().setBackground(new Color(47, 75, 89));
         tblActividades.getTableHeader().setForeground(new Color(245, 159, 116));
         tblActividades.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
+
+        JTableHeader headerActividades = tblActividades.getTableHeader();
+        headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
     }
     public void tablaActSeleccionadaProperties(){
         tblActSeleccionada.setShowGrid(true);
@@ -158,6 +172,8 @@ public class PantallaActividades extends JFrame {
         tblActSeleccionada.getTableHeader().setBackground(new Color(47, 75, 89));
         tblActSeleccionada.getTableHeader().setForeground(new Color(245, 159, 116));
         tblActSeleccionada.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
+        JTableHeader headerEliminarAct = tblActSeleccionada.getTableHeader();
+        headerEliminarAct.setPreferredSize(new Dimension(headerEliminarAct.getPreferredSize().width, 40));
     }
     public void panelActSeleccionadaProperties(){
         panelEliminarAct.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
@@ -188,11 +204,9 @@ public class PantallaActividades extends JFrame {
         for (int i = 0; i < tblActividades.getColumnCount(); i++) {
             column = tblActividades.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(53);
-                case 1,6-> column.setPreferredWidth(200);
-                case 2,3-> column.setPreferredWidth(250);
-                case 4-> column.setPreferredWidth(100);
-                case 5-> column.setPreferredWidth(150);
+                case 0, 6 -> column.setPreferredWidth(50);
+                case 1, 2 -> column.setPreferredWidth(200);
+                case 3, 5, 4 -> column.setPreferredWidth(150);
             }
         }
     }
