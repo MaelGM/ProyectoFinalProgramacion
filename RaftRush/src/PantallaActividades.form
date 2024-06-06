@@ -75,7 +75,7 @@
                 </properties>
                 <border type="none" title="FILTRO"/>
                 <children>
-                  <component id="315ea" class="javax.swing.JComboBox" binding="cmbCentro">
+                  <component id="315ea" class="javax.swing.JComboBox" binding="cmbLocalidad">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <minimum-size width="165" height="39"/>
@@ -151,6 +151,7 @@
                 </constraints>
                 <properties>
                   <background color="-16438980"/>
+                  <enabled value="true"/>
                   <horizontalScrollBarPolicy value="30"/>
                   <verticalScrollBarPolicy value="20"/>
                 </properties>
@@ -213,6 +214,7 @@
                 <properties>
                   <background color="-9534578"/>
                   <focusable value="false"/>
+                  <font name="Inter" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <rowHeight value="45"/>
                   <selectionBackground color="-7077901"/>

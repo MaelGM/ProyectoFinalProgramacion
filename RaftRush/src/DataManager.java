@@ -13,7 +13,7 @@ public class DataManager {
     private static List<Proveedor> listProveedor = new ArrayList<>();
     private static List<Trabajador> listTrabajador = new ArrayList<>();
     private static List<Cliente> listClientes = new ArrayList<>();
-    private static List<Tipos> listTipos = new ArrayList<>();
+    private static List<Tipos> listTipos = new ArrayList<>(
 
     public static boolean getUsuarios() {
         return getClientes() && getTrabajador();
@@ -125,6 +125,25 @@ public class DataManager {
                             rs.getString(4), rs.getInt(5)));
                 }
             }catch (SQLException | ExceptionUsuario e){
+                e.printStackTrace();
+                DBManager.close();
+                return false;
+            }
+            DBManager.close();
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean getTipos() {
+        if (DBManager.connect()) {
+            try {
+               listTipos.clear();
+               ResultSet rs = DBManager.getTipos();
+               while (rs.next()) {
+                   listTipos.add(new Tipos(rs.getInt(1), rs.getString(2)));
+               }
+            } catch (SQLException e) {
                 e.printStackTrace();
                 DBManager.close();
                 return false;
@@ -273,5 +292,10 @@ public class DataManager {
     public static List<Tipos> getListTipos(){
         return listTipos;
     }
-
+    public static List<String> getLocalidadesCentro() {
+        return listCentros.stream().map(Centro::getLocalidad).distinct().toList();
+    }
+    public static List<String> getTiposActividadesCentro() {
+        return listTipos.stream().map(Tipos::getNombre).distinct().toList();
+    }
 }
