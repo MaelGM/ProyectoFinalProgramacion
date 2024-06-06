@@ -55,7 +55,6 @@ public abstract class Usuario {
         return contrasenya;
     }
     public void setContrasenya(String contrasenya) throws ExceptionUsuario {
-        this.contrasenya = contrasenya;
         if (isValid(contrasenya)) this.contrasenya = contrasenya;
     }
     private boolean isValid(String contrasenya) throws ExceptionUsuario {

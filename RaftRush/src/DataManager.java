@@ -207,27 +207,10 @@ public class DataManager {
         }else return false;
     }
 
-    public static int editarUsuarioTrab(String nombre, String nif){
+    public static int editarUsuario(Usuario usu, String nombre, String contrasenya, String nif){
         if (DBManager.connect()) {
             try{
-                int rs = DBManager.editarUsuTrabajador(nombre, nif);
-
-                if (rs > 0) {
-                    DBManager.close();
-                    return rs;
-                }
-            }catch (SQLException e){
-                DBManager.close();
-                return 0;
-            }
-        }
-        return 0;
-    }
-
-    public static int editarUsuarioCli(String nombre, String telefono, String nif){
-        if (DBManager.connect()) {
-            try{
-                int rs = DBManager.editarUsuCliente(nombre, telefono, nif);
+                int rs = DBManager.editarUsu(usu, nombre, contrasenya, nif);
 
                 if (rs > 0) {
                     DBManager.close();

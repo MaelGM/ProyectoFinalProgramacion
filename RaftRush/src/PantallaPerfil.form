@@ -68,6 +68,7 @@
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <enabled value="true"/>
                   <font name="Inter" size="20" style="1"/>
                   <foreground color="-1"/>
                   <text value="NIF:"/>
@@ -97,14 +98,14 @@
                   <text value=""/>
                 </properties>
               </component>
-              <component id="f616b" class="javax.swing.JLabel" binding="lblTelefono">
+              <component id="f616b" class="javax.swing.JLabel" binding="lblContra">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font name="Inter" size="20" style="1"/>
                   <foreground color="-1"/>
-                  <text value="Telefono:"/>
+                  <text value="Contraseña:"/>
                 </properties>
               </component>
               <component id="c4846" class="javax.swing.JTextField" binding="txtNombre">
@@ -128,10 +129,11 @@
                 <properties>
                   <background color="-9145228"/>
                   <editable value="false"/>
+                  <enabled value="true"/>
                   <font name="Inter" size="16" style="1"/>
                 </properties>
               </component>
-              <component id="bc0a5" class="javax.swing.JTextField" binding="txtTelefono">
+              <component id="bc0a5" class="javax.swing.JTextField" binding="txtContra">
                 <constraints>
                   <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="200" height="40"/>

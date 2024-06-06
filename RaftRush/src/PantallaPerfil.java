@@ -8,11 +8,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.concurrent.ExecutionException;
 
 public class PantallaPerfil extends JFrame{
     private JPanel panelGeneral;
     private JPanel panelDatos;
-    private JTextField txtTelefono;
+    private JTextField txtContra;
     private JTextField txtNif;
     private JTextField txtNombre;
     private JButton btnAct;
@@ -22,7 +25,7 @@ public class PantallaPerfil extends JFrame{
     private JLabel lblAvatar;
     private JLabel lblBG;
     private JLabel lblNombre;
-    private JLabel lblTelefono;
+    private JLabel lblContra;
     private JLabel lblNif;
     private JLabel lblIcon1;
     private JLabel lblIcon2;
@@ -33,30 +36,25 @@ public class PantallaPerfil extends JFrame{
         setContentPane(panelGeneral);
         panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 20");
         background();
-        cargarDatos(usu);
+        txtNif.setText(usu.getNif());
         cargarListeners(usu);
     }
 
-    private void cargarDatos(Usuario usu) {
-        if (usu instanceof Trabajador) {
-            txtTelefono.setEditable(false);
-            txtTelefono.setText("*********");
-        }
-        txtNif.setText(usu.getNif());
-    }
-
-    public PantallaPerfil(){
-        init();
-        setContentPane(panelGeneral);
-        panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 20");
-        background();
-
-        //cargarListeners();
-    }
-
-
-
     private void cargarListeners(Usuario usu) {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                for (Window window : Window.getWindows()) {
+                    window.dispose();
+                }
+                if (usu instanceof Trabajador) {
+                    new PantallaMenu(usu);
+                }else if (usu instanceof Cliente){
+                    new  PantallaActClientes(usu);
+                }
+            }
+        });
+
         btnLogOut.addActionListener(e -> {
             for (Window window : Window.getWindows()) {
                 window.dispose();
@@ -74,38 +72,40 @@ public class PantallaPerfil extends JFrame{
     }
 
     private void actualizarUsu(Usuario usu){
-        if (usu instanceof Trabajador) {
-            if (!txtNombre.getText().isEmpty()) {
-                if (DataManager.editarUsuarioTrab(txtNombre.getText(), txtNif.getText()) > 0) {
-                    try {
-                        usu.setNombre(txtNombre.getText());
-                        JOptionPane.showMessageDialog(null, "Perfil De " + usu.getNombre() +" actualizado correctamente", "Actualizar Perfil Trabajador", JOptionPane.INFORMATION_MESSAGE);
-                        new PantallaMenu(usu);
-                    } catch (ExceptionUsuario e) {
-                        e.printStackTrace();
-                    }
-                }
+        String nombre = txtNombre.getText();
+        String contrasenya = txtContra.getText();
+
+        if (!txtNombre.getText().isEmpty() || !txtContra.getText().isEmpty()) {
+            if (txtNombre.getText().isEmpty()) {
+                nombre = usu.getNombre();
             }
-        }else if (usu instanceof Cliente) {
-            String nombre = txtNombre.getText();
-            String telefono = txtTelefono.getText();
-            if (!txtNombre.getText().isEmpty() || !txtTelefono.getText().isEmpty()) {
-                if (txtNombre.getText().isEmpty()) {
-                    nombre = usu.getNombre();
-                }
-                if (txtTelefono.getText().isEmpty()) {
-                    telefono = ((Cliente) usu).getTelefono();
-                }
-                if (DataManager.editarUsuarioCli(nombre, telefono, txtNif.getText()) > 0) {
-                    try {
-                        usu.setNombre(nombre);
-                        ((Cliente) usu).setTelefono(telefono);
-                        JOptionPane.showMessageDialog(null, "Perfil De " + usu.getNombre() +" actualizado correctamente", "Actualizar Perfil Cliente", JOptionPane.INFORMATION_MESSAGE);
-                        new PantallaActClientes(usu);
-                    } catch (ExceptionUsuario e) {
-                        e.printStackTrace();
+            if (txtContra.getText().isEmpty()) {
+                contrasenya = ((Cliente) usu).getTelefono();
+            }
+
+            Usuario tempUsu = usu;
+            try{
+                tempUsu.setNombre(nombre);
+                tempUsu.setContrasenya(contrasenya);
+                if (DataManager.editarUsuario(usu, nombre, contrasenya, txtNif.getText()) > 0) {
+                    //usu.setNombre(nombre);
+                    //usu.setContrasenya(contrasenya);
+                    JOptionPane.showMessageDialog(null, "Perfil De " + usu.getNombre() +" actualizado correctamente", "Actualizar Perfil", JOptionPane.INFORMATION_MESSAGE);
+
+                    if (usu instanceof Trabajador) {
+                        new PantallaMenu(usu);
+                    }else if (usu instanceof Cliente){
+                        new  PantallaActClientes(usu);
                     }
                 }
+            }catch (ExceptionUsuario e) {
+                JOptionPane.showMessageDialog(null, "Los datos de tu perfil no se puede actualizar debido de un error", "Actualizar Perfil", JOptionPane.ERROR_MESSAGE);
+                if (usu instanceof Trabajador) {
+                    new PantallaMenu(usu);
+                }else if (usu instanceof Cliente){
+                    new  PantallaActClientes(usu);
+                }
+                e.printStackTrace();
             }
         }
     }

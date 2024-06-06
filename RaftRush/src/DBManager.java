@@ -1,4 +1,6 @@
 import Objetos.Cliente;
+import Objetos.Trabajador;
+import Objetos.Usuario;
 
 import java.sql.*;
 
@@ -125,11 +127,16 @@ public class DBManager {
         }
     }
 
-    public static int editarUsuCliente(String nombre, String telefono, String nif) throws SQLException {
-        String query = "UPDATE cliente SET nombre= ?, telefono= ? WHERE cliente.nif = ?";
+    public static int editarUsu(Usuario usu, String nombre, String contrasenya, String nif) throws SQLException {
+        String query = "";
+        if (usu instanceof Trabajador) {
+            query = "UPDATE trabajador SET nombre= ?, contrasenya= ? WHERE trabajador.nif = ?";
+        }else if (usu instanceof Cliente) {
+            query = "UPDATE cliente SET nombre= ?, contrasenya= ? WHERE cliente.nif = ?";
+        }
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
             pstmt.setString(1,nombre);
-            pstmt.setString(2,telefono);
+            pstmt.setString(2,contrasenya);
             pstmt.setString(3,nif);
 
             return pstmt.executeUpdate();
