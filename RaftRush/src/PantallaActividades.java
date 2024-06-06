@@ -233,11 +233,9 @@ public class PantallaActividades extends JFrame {
      * Metodo para que el combobox de localidad se actualice si hay nuevas localidades
      */
     private void actualizaComboBox() {
-        if (DataManager.getCentros() && DataManager.getTipos()) {
-            for (int i = 0; i < DataManager.getLocalidadesCentro().size(); i++) {
-                cmbLocalidad.addItem(DataManager.getLocalidadesCentro().get(i));
-                cmbTipo.addItem(DataManager.getTiposActividadesCentro().get(i));
-            }
+        for (int i = 0; i < DataManager.getLocalidadesCentro().size(); i++) {
+            cmbLocalidad.addItem(DataManager.getLocalidadesCentro().get(i));
+            cmbTipo.addItem(DataManager.getTiposActividadesCentro().get(i));
         }
     }
 }
