@@ -80,7 +80,7 @@ public class PantallaPerfil extends JFrame{
                 nombre = usu.getNombre();
             }
             if (txtContra.getText().isEmpty()) {
-                contrasenya = ((Cliente) usu).getTelefono();
+                contrasenya = usu.getContrasenya();
             }
 
             Usuario tempUsu = usu;

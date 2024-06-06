@@ -1,6 +1,4 @@
-import Objetos.Cliente;
-import Objetos.Trabajador;
-import Objetos.Usuario;
+import Objetos.*;
 
 import java.sql.*;
 
@@ -134,6 +132,15 @@ public class DBManager {
 
             return pstmt.executeUpdate();
         }
+    }
+
+    public static ResultSet getEntregas(Material material, Proveedor proveedor) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM entregaproveedormaterial WHERE entregaproveedormaterial.idProv = "
+                + proveedor.getId() + " AND entregaproveedormaterial.codMaterial = " + material.getCodigo());
+    }
+
+    public static ResultSet getHashPassword(String nif) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM cliente where cliente.nif = '" + nif+"'");
     }
 
     /*

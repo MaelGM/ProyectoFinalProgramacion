@@ -4,7 +4,9 @@ import Objetos.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DataManager {
     private static List<Actividad> listActividades = new ArrayList<>();
@@ -13,7 +15,7 @@ public class DataManager {
     private static List<Proveedor> listProveedor = new ArrayList<>();
     private static List<Trabajador> listTrabajador = new ArrayList<>();
     private static List<Cliente> listClientes = new ArrayList<>();
-    private static List<Tipos> listTipos = new ArrayList<>(
+    private static List<Tipos> listTipos = new ArrayList<>();
 
     public static boolean getUsuarios() {
         return getClientes() && getTrabajador();
@@ -231,25 +233,6 @@ public class DataManager {
         return null;
     }
 
-    public static boolean getTipos() {
-        if (DBManager.connect()) {
-            try{
-                listTipos.clear();
-                ResultSet rs = DBManager.getTipo();//Select all tipos de actividades
-                while(rs.next()){
-                    listTipos.add(new Tipos(rs.getInt(1), rs.getString(2)));
-                }
-            }catch (SQLException e){
-                e.printStackTrace();
-                DBManager.close();
-                return false;
-            }
-            DBManager.close();
-            return true;
-        }
-        return false;
-    }
-
     public static boolean addCliente(Cliente cliente){
         if (findUsuario(cliente.getNif()) != null) return false;
         if (DBManager.connect()){
@@ -291,8 +274,23 @@ public class DataManager {
         return null;
     }
 
-    public static boolean checkPassword(Usuario user, String password){
-        return user.getContrasenya().equals(password);
+    public static String getHashPassword(String nif){
+        String result = "";
+        if (DBManager.connect()) {
+            try{
+                ResultSet rs = DBManager.getHashPassword(nif);
+
+                if (rs != null && rs.next()) {
+                    result = rs.getString("contrasenya");
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return "";
+            }
+            DBManager.close();
+            return result;
+        }
+        return result;
     }
 
     public static List<Actividad> getListActividades(){
@@ -314,5 +312,34 @@ public class DataManager {
     }
     public static List<String> getTiposActividadesCentro() {
         return listTipos.stream().map(Tipos::getNombre).distinct().toList();
+    }
+
+    public static List<Map<String, Object>> getListEntregas(){
+        List<Map<String, Object>> entregas = new ArrayList<>();
+
+        if (DBManager.connect()) {
+            for (Material material:listMaterial) {
+                for (Proveedor proveedor:listProveedor) {
+                    try {
+                        ResultSet rs = DBManager.getEntregas(material,proveedor);
+                        if (rs != null) {
+                            while (rs.next()){
+                                Map<String, Object> entrega = new HashMap<>();
+                                entrega.put("column1", rs.getString(1));
+                                entrega.put("column2", rs.getInt(2));
+                                entrega.put("column3", rs.getInt(3));
+                                entrega.put("column4", rs.getInt(4));
+                                entregas.add(entrega);
+                            }
+                        }
+                    } catch (SQLException e) {
+                        DBManager.close();
+                        return null;
+                    }
+                }
+            }
+        }
+        DBManager.close();
+        return entregas;
     }
 }

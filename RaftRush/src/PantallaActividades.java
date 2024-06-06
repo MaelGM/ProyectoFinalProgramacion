@@ -75,7 +75,7 @@ public class PantallaActividades extends JFrame {
 
     private void cargarListeners() {
         btnAddActividad.addActionListener(addActividad());
-        cmbCentro.addActionListener(filtrar());
+        cmbLocalidad.addActionListener(filtrar());
         cmbTipo.addActionListener(filtrar());
         Utils.cursorPointerBoton(btnAddActividad);
         Utils.cursorPointerBoton(btnEliminarActividad);
@@ -85,7 +85,7 @@ public class PantallaActividades extends JFrame {
     private ActionListener filtrar() {
         return e -> {
             Tipos tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
-            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
+            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbLocalidad.getSelectedItem()));
             List<Actividad> actividades = DataManager.getListActividades();
 
             if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo.getId()).toList();

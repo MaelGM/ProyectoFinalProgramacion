@@ -87,7 +87,7 @@ public class PantallaActClientes extends JFrame{
             }
         });
         Utils.cursorPointerLabel(lblUsuario);
-        Utils.cursorPointerLabel(lblNombreUsu);
+        Utils.cursorPointerLabel(lblNombre);
         Utils.cursorPointerBoton(btnReservar);
         Utils.cursorPointerBoton(btnVerReservas);
     }
