@@ -106,26 +106,7 @@ public class PantallaActClientes extends JFrame{
 
     public void cargarDato(){
         if (DataManager.getActividades() && DataManager.getCentros() && DataManager.getTipos()) {
-            cargarFiltro();
             cargarTabla(DataManager.getListActividades());
-        }
-    }
-
-    private void cargarFiltro() {
-        rellenarFiltroLocalidad();
-        rellenarFiltroTipo();
-    }
-
-    private void rellenarFiltroLocalidad() {
-        List<Centro> centros = DataManager.getListCentros();
-        for (Centro c: centros) {
-            cmbCentro.addItem(c.getLocalidad());
-        }
-    }
-    private void rellenarFiltroTipo() {
-        List<Tipos> tipos = DataManager.getListTipos();
-        for (Tipos tipo: tipos) {
-            cmbTipo.addItem(tipo.getNombre());
         }
     }
 
