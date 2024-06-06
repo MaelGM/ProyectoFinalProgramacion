@@ -151,7 +151,7 @@ public class PantallaRegistro extends JFrame{
             Cliente cliente;
             if (DataManager.getUsuarios() && checkTextFields() && (cliente = readTextFields()) != null){
                 if (DataManager.addCliente(cliente)) {
-                    new PantallaActClientes(); // TODO: Hay que pasarle a la siguiente pantalla el cliente para asi poder tener los datos del mismo.
+                    new PantallaActClientes(cliente); // TODO: Hay que pasarle a la siguiente pantalla el cliente para asi poder tener los datos del mismo.
                     dispose();
                 }else
                     JOptionPane.showMessageDialog(null, "Ya hay una cuenta con este nif",

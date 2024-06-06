@@ -2,6 +2,7 @@ import Objetos.Actividad;
 import Objetos.Centro;
 import Objetos.Tipos;
 import com.formdev.flatlaf.ui.FlatLineBorder;
+import Objetos.Usuario;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -34,17 +35,21 @@ public class PantallaActClientes extends JFrame{
     private JPanel panelInferior;
     private JLabel lblCentro;
     private JLabel lblTipo;
+    private JLabel lblUsuario;
+    private JLabel lblNombre;
     private JLayeredPane jlpBackground;
     private DefaultTableModel model;
 
-    public PantallaActClientes() {
+    public PantallaActClientes(Usuario cliente){
         super("Actividades Clientes");
         init();
-        cargarListners();
+        cargarListners(cliente);
+        background();
         cargarDato();
-        estilo();
 
+        lblNombre.setText(cliente.getNombre());
     }
+
 
     private void init() {
         setSize(1534,774);
@@ -55,9 +60,9 @@ public class PantallaActClientes extends JFrame{
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
     }
 
-    private void cargarListners() {
-        btnVerReservas.addActionListener(verReservas());
-        btnReservar.addActionListener(verDetalles());
+    private void cargarListners(Usuario cliente) {
+        btnVerReservas.addActionListener(verReservas(cliente));
+        btnReservar.addActionListener(verDetalles(cliente));
         cmbCentro.addActionListener(filtrar());
         cmbTipo.addActionListener(filtrar());
 
@@ -67,12 +72,21 @@ public class PantallaActClientes extends JFrame{
                 new PantallaInicial();
             }
         });
-        lblNombreUsu.addMouseListener(new MouseAdapter() {
+        lblUsuario.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new PantallaPerfil();
+                new PantallaPerfil(cliente);
+                dispose();
             }
         });
+        lblNombre.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new PantallaPerfil(cliente);
+                dispose();
+            }
+        });
+        Utils.cursorPointerLabel(lblUsuario);
         Utils.cursorPointerLabel(lblNombreUsu);
         Utils.cursorPointerBoton(btnReservar);
         Utils.cursorPointerBoton(btnVerReservas);
@@ -91,15 +105,15 @@ public class PantallaActClientes extends JFrame{
         };
     }
 
-    private ActionListener verReservas(){
+    private ActionListener verReservas(Usuario cliente){
         return e -> {
-            new PantallaReservasClientes();
+            new PantallaReservasClientes(cliente);
             dispose();
         };
     }
-    private ActionListener verDetalles(){
+    private ActionListener verDetalles(Usuario cliente){
         return e -> {
-            new PantallaDetallesAct();
+            new PantallaDetallesAct(cliente);
             dispose();
         };
     }

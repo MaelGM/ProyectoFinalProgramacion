@@ -1,3 +1,5 @@
+import Objetos.Usuario;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -15,21 +17,21 @@ public class PantallaReservasClientes extends JFrame{
     private JButton btnAnularReserva;
     private DefaultTableModel model;
 
-    public PantallaReservasClientes(){
+    public PantallaReservasClientes(Usuario cliente){
         init();
         setContentPane(jplGeneral);
         background();
         cargarDato();
-        cargarListeners();
+        cargarListeners(cliente);
 
         tblReservas.setShowGrid(true);//Mostrar grid color
     }
 
-    private void cargarListeners() {
+    private void cargarListeners(Usuario cliente) {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                new PantallaActClientes();
+                new PantallaActClientes(cliente);
             }
         });
         Utils.cursorPointerBoton(btnAnularReserva); // TODO: Funcion que elimine una reserva seleccionada

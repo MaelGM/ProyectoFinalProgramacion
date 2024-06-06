@@ -1,4 +1,8 @@
+import Objetos.Trabajador;
+import Objetos.Usuario;
+
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -20,13 +24,14 @@ public class PantallaMenu extends JFrame{
     private JButton btnGestionarProveedores;
     private JButton btnGestionarCentros;
 
-    public PantallaMenu(){
+    public PantallaMenu(Usuario trabajador){
         super("Menú Trabajadores");
         init();
-        loadListeners();
+        lblNombre.setText(trabajador.getNombre());
+        loadListeners(trabajador);
     }
 
-    private void loadListeners(){
+    private void loadListeners(Usuario trabajador){
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -53,7 +58,8 @@ public class PantallaMenu extends JFrame{
         panelUsuario.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new PantallaPerfil();
+                new PantallaPerfil(trabajador);
+                dispose();
             }
         });
     }
