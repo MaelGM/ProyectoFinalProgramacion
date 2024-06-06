@@ -6,6 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
         FlatMacDarkLaf.setup();
-        SwingUtilities.invokeLater(() -> new PantallaMateriales().setVisible(true));
+        if (DBManager.loadDriver() && DBManager.connect()) {
+            SwingUtilities.invokeLater(() -> new PantallaInicial().setVisible(true));
+        }
     }
 }

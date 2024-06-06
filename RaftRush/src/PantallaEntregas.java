@@ -1,4 +1,9 @@
+import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.ui.FlatLineBorder;
+
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -10,42 +15,60 @@ public class PantallaEntregas extends JFrame{
     private JLabel lblBG;
     private JPanel panelTabla;
     private JTable tblReservas;
+    private JPanel panelCentrado;
+    private JPanel panelFiltro;
+    private JLabel lblCentro;
+    private JComboBox cmbCentro;
+    private JComboBox cmbProveedor;
+    private JLabel lblProveedor;
     private DefaultTableModel model;
     public PantallaEntregas(){
         super("Entregas");
         init();
-        setContentPane(panelGeneral);
         background();
+        estilo();
         cargarDato();
         tblReservas.setShowGrid(true);//Mostrar grid color
     }
 
+
+
     private void init() {
         setSize(1480,774);
+        setContentPane(panelGeneral);
         setResizable(false);
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
         setVisible(true);
     }
 
-    private void cargarDato(){
+    private void estilo() {
+        panelFiltro.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
+        Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
+
+        Font titleFont = new Font("Inter", Font.BOLD, 16);
+
+        TitledBorder titleBorder = BorderFactory.createTitledBorder(lineBorder, "FILTRO", TitledBorder.LEADING, TitledBorder.TOP, titleFont, Color.cyan);
+        titleBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
+
+        panelFiltro.setBorder(titleBorder);
+    }
+
+    public void cargarDato(){
+        //No estoy seguro de como cargar todos las entregas si no tiene que haber una clase
+        /*if (DataManager.getEntregas()) {
+            cargarEntregaTable();
+        }*/
+    }
+
+    private void cargarEntregaTable(){
         tblReservas.setShowGrid(true);//Mostrar grid color
 
         Object[][] data = new Object[2][4];
 
-        data[0][0] = "2024-05-01";
-        data[0][1] = "Prov 1";
-        data[0][2] = "1";
-        data[0][3] = "Centro 1";
-
-        data[1][0] = "2024-05-0";
-        data[1][1] = "Prov 2";
-        data[1][2] = "2";
-        data[1][3] = "centro 2";
 
 
-
-        model = new DefaultTableModel(data, new String[]{"Fecha de entrega", "Nombre Prov", "Codigo Material", "Nombre Centro"});
+        model = new DefaultTableModel(data, new String[]{"Fecha de entrega", "Proveedor", "Material", "Centro"});
         tblReservas.setModel(model);
         //Color tableBG = new Color(110, 130, 141);
 

@@ -1,6 +1,7 @@
 package Objetos;
 
 import Excepciones.ExceptionCliente;
+import Excepciones.ExceptionTrabajador;
 import Excepciones.ExceptionUsuario;
 
 public class Trabajador extends Usuario{
@@ -8,7 +9,7 @@ public class Trabajador extends Usuario{
     private double salario;
     private int idCentro;
 
-    public Trabajador(String nif, String contrasenya, String nombre, String apellido, double salario, int edad, int idCentro) throws ExceptionUsuario {
+    public Trabajador(String nif, String contrasenya, String nombre, String apellido, double salario, int edad, int idCentro) throws ExceptionUsuario, ExceptionTrabajador {
         super(nif, nombre, edad, contrasenya);
         setApellido(apellido);
         setSalario(salario);
@@ -37,19 +38,12 @@ public class Trabajador extends Usuario{
         return idCentro;
     }
 
-    private void validaSalario(double salario) throws ExceptionCliente {
-        if (salario > 0) {
-            setSalario(salario);
-        }else{
-            throw new ExceptionCliente("La edad no puede ser menor de 0");
-        }
-    }
-
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
-    public void setSalario(double salario) {
-        this.salario = salario;
+    public void setSalario(double salario) throws ExceptionTrabajador {
+        if (salario > 0) this.salario = salario;
+        else throw new ExceptionTrabajador("La edad no puede ser menor de 0");
     }
     public void setIdCentro(int idCentro) {
         this.idCentro = idCentro;

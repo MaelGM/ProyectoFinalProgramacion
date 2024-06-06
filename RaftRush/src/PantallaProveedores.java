@@ -1,3 +1,5 @@
+import Objetos.Actividad;
+import Objetos.Proveedor;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -46,29 +48,25 @@ public class PantallaProveedores extends JFrame{
     }
 
     public void cargarDatos(){
-        datosMainTable();
-        datosProveedor();
+        if (DataManager.getProveedor()) {
+            datosMainTable();
+            datosProveedor();
+        }
     }
 
     public void datosMainTable(){
         String[]header = {"Codigo", "Nombre", "Telefono", "Email"};
-        String[][]rows = new String[3][header.length];
+        Object[][]rows = new Object[DataManager.getListProveedor().size()][header.length];
 
-        //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
-        rows[0][0] = "1";
-        rows[0][1] = "Materiales SA";
-        rows[0][2] = "658954121";
-        rows[0][3] = "materiales@gmail.com";
+        int j = 0;
+        for (Proveedor proveedor:DataManager.getListProveedor()) {
+            rows[j][0] = proveedor.getId();
+            rows[j][1] = proveedor.getNombre();
+            rows[j][2] = proveedor.getTelefono();
+            rows[j][3] = proveedor.getEmail();
 
-        rows[1][0] = "2";
-        rows[1][1] = "Extrem SL";
-        rows[1][2] = "698565214";
-        rows[1][3] = "extrem@gmail.com";
-
-        rows[2][0] = "3";
-        rows[2][1] = "Equipamiento SA";
-        rows[2][2] = "698745215";
-        rows[2][3] = "equipamiento@gmail.com";
+            j++;
+        }
 
         tblProveedores.setModel(new DefaultTableModel(rows, header));
         tblProveedores.getTableHeader().setReorderingAllowed(false);

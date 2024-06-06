@@ -6,10 +6,10 @@ public class Actividad {
     private String descripcion;
     private String dificultad;
     private double precio;
-    private Tipo tipo;
+    private int tipo;
     private int idCentro;
 
-    public Actividad(int id, String nombre, String descripcion, String dificultad, double precio, Tipo tipo, int idCentro) {
+    public Actividad(int id, String nombre, String descripcion, String dificultad, double precio, int tipo, int idCentro) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -19,7 +19,7 @@ public class Actividad {
         this.idCentro = idCentro;
     }
 
-    public Actividad(String nombre, String descripcion, String dificultad, double precio, Tipo tipo, int idCentro) {
+    public Actividad(String nombre, String descripcion, String dificultad, double precio, int tipo, int idCentro) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.dificultad = dificultad;
@@ -63,10 +63,12 @@ public class Actividad {
         this.precio = precio;
     }
 
-    public Tipo getTipo() {
+
+    public int getTipo() {
         return tipo;
     }
-    public void setTipo(Tipo tipo) {
+
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
 

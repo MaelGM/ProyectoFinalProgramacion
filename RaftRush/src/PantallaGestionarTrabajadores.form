@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="PantallaGestionarTrabajadores">
-  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1510" height="667"/>
+      <xy x="20" y="20" width="1484" height="672"/>
     </constraints>
     <properties>
       <background color="-16438980"/>
@@ -13,7 +13,7 @@
       <grid id="d6b07" binding="panelHeader" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-16438980"/>
@@ -26,15 +26,16 @@
             </constraints>
             <properties>
               <background color="-16438980"/>
+              <labelFor value="93d54"/>
               <text value=""/>
             </properties>
           </component>
         </children>
       </grid>
-      <grid id="8313d" binding="panelContenido" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="d084b" binding="panelContenido" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <minimum-size width="1480" height="619"/>
             <preferred-size width="1480" height="619"/>
             <maximum-size width="1480" height="619"/>
@@ -45,12 +46,13 @@
         </properties>
         <border type="none"/>
         <children>
-          <grid id="90397" binding="panelTabla" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="8313d" binding="panelCentrado" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="1100" height="332"/>
-                <maximum-size width="1100" height="332"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="1341" height="531"/>
+                <preferred-size width="1341" height="531"/>
+                <maximum-size width="1341" height="531"/>
               </grid>
             </constraints>
             <properties>
@@ -58,151 +60,227 @@
             </properties>
             <border type="none"/>
             <children>
-              <scrollpane id="93d54">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <minimum-size width="1100" height="332"/>
-                    <preferred-size width="1100" height="332"/>
-                    <maximum-size width="1100" height="332"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <background color="-16438980"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <component id="a95fc" class="javax.swing.JTable" binding="tblTrabajadores">
-                    <constraints/>
-                    <properties>
-                      <background color="-9534578"/>
-                      <focusable value="false"/>
-                      <font name="Inter" size="16" style="1"/>
-                      <foreground color="-16250355"/>
-                      <rowHeight value="40"/>
-                      <selectionBackground color="-7077901"/>
-                      <selectionForeground color="-16777216"/>
-                    </properties>
-                  </component>
-                </children>
-              </scrollpane>
-              <hspacer id="50be9">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-              </hspacer>
-            </children>
-          </grid>
-          <grid id="ae40" binding="panelNuevoTrabajador" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="1341" height="190"/>
-                <preferred-size width="1341" height="190"/>
-                <maximum-size width="1341" height="190"/>
-              </grid>
-            </constraints>
-            <properties>
-              <background color="-16438980"/>
-            </properties>
-            <border type="none" title="Nuevo trabajador"/>
-            <children>
-              <grid id="62a88" binding="panelBotones" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="ae40" binding="panelNuevoTrabajador" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                    <minimum-size width="160" height="130"/>
-                    <preferred-size width="160" height="130"/>
-                    <maximum-size width="160" height="130"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <minimum-size width="1341" height="190"/>
+                    <preferred-size width="1341" height="190"/>
+                    <maximum-size width="1341" height="190"/>
                   </grid>
                 </constraints>
                 <properties>
                   <background color="-16438980"/>
                 </properties>
-                <border type="none"/>
+                <border type="none" title="Nuevo trabajador"/>
                 <children>
-                  <component id="90fb4" class="javax.swing.JButton" binding="btnAdd">
+                  <grid id="62a88" binding="panelBotones" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="160" height="40"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-680076"/>
-                      <font name="Inter" size="18" style="1"/>
-                      <foreground color="-16438980"/>
-                      <text value="Añadir"/>
-                    </properties>
-                  </component>
-                  <component id="b21d0" class="javax.swing.JButton" binding="btnDelete">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="160" height="40"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-16400725"/>
-                      <font name="Inter" size="18" style="1"/>
-                      <text value="Eliminar"/>
-                    </properties>
-                  </component>
-                  <component id="da1b" class="javax.swing.JButton" binding="btnEdit">
-                    <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="160" height="40"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-680076"/>
-                      <font name="Inter" size="18" style="1"/>
-                      <foreground color="-16438980"/>
-                      <text value="Editar"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <grid id="e86dc" binding="panelTablaSelect" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                    <minimum-size width="1100" height="80"/>
-                    <preferred-size width="1100" height="80"/>
-                    <maximum-size width="1100" height="80"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <background color="-16438980"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <scrollpane id="6356e">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="1100" height="80"/>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <minimum-size width="160" height="130"/>
+                        <preferred-size width="160" height="130"/>
+                        <maximum-size width="160" height="130"/>
                       </grid>
                     </constraints>
                     <properties>
                       <background color="-16438980"/>
-                      <focusable value="false"/>
-                      <verticalScrollBarPolicy value="21"/>
                     </properties>
                     <border type="none"/>
                     <children>
-                      <component id="85736" class="javax.swing.JTable" binding="tblNuevoTrabajador">
-                        <constraints/>
+                      <component id="90fb4" class="javax.swing.JButton" binding="btnAdd">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="160" height="40"/>
+                          </grid>
+                        </constraints>
                         <properties>
-                          <background color="-9534578"/>
-                          <focusable value="false"/>
-                          <font name="Inter" size="16" style="1"/>
-                          <foreground color="-9145228"/>
-                          <preferredScrollableViewportSize width="450" height="200"/>
-                          <preferredSize width="150" height="80"/>
-                          <rowHeight value="40"/>
-                          <selectionBackground color="-9534578"/>
-                          <selectionForeground color="-16777216"/>
+                          <background color="-680076"/>
+                          <font name="Inter" size="18" style="1"/>
+                          <foreground color="-16438980"/>
+                          <text value="Añadir"/>
+                        </properties>
+                      </component>
+                      <component id="b21d0" class="javax.swing.JButton" binding="btnDelete">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="160" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-16400725"/>
+                          <font name="Inter" size="18" style="1"/>
+                          <text value="Eliminar"/>
+                        </properties>
+                      </component>
+                      <component id="da1b" class="javax.swing.JButton" binding="btnEdit">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="160" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-680076"/>
+                          <font name="Inter" size="18" style="1"/>
+                          <foreground color="-16438980"/>
+                          <text value="Editar"/>
                         </properties>
                       </component>
                     </children>
-                  </scrollpane>
+                  </grid>
+                  <grid id="e86dc" binding="panelTablaSelect" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <minimum-size width="1100" height="80"/>
+                        <preferred-size width="1100" height="80"/>
+                        <maximum-size width="1100" height="80"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-16438980"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <scrollpane id="6356e">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <preferred-size width="1100" height="80"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-16438980"/>
+                          <focusable value="false"/>
+                          <verticalScrollBarPolicy value="21"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="85736" class="javax.swing.JTable" binding="tblNuevoTrabajador">
+                            <constraints/>
+                            <properties>
+                              <background color="-9534578"/>
+                              <focusable value="false"/>
+                              <font name="Inter" size="16" style="1"/>
+                              <foreground color="-9145228"/>
+                              <preferredScrollableViewportSize width="450" height="200"/>
+                              <preferredSize width="150" height="80"/>
+                              <rowHeight value="40"/>
+                              <selectionBackground color="-9534578"/>
+                              <selectionForeground color="-16777216"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                    </children>
+                  </grid>
+                </children>
+              </grid>
+              <grid id="833ff" binding="panelSuperior" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <minimum-size width="1341" height="332"/>
+                    <preferred-size width="1341" height="332"/>
+                    <maximum-size width="1341" height="332"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-16438980"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="90397" binding="panelTabla" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false">
+                        <minimum-size width="1100" height="332"/>
+                        <preferred-size width="1100" height="332"/>
+                        <maximum-size width="1100" height="332"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-16438980"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <scrollpane id="93d54">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <minimum-size width="1100" height="332"/>
+                            <preferred-size width="1100" height="332"/>
+                            <maximum-size width="1100" height="332"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-16438980"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="a95fc" class="javax.swing.JTable" binding="tblTrabajadores">
+                            <constraints/>
+                            <properties>
+                              <background color="-9534578"/>
+                              <focusable value="false"/>
+                              <font name="Inter" size="16" style="1"/>
+                              <foreground color="-16250355"/>
+                              <rowHeight value="40"/>
+                              <selectionBackground color="-7077901"/>
+                              <selectionForeground color="-16777216"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                      <hspacer id="50be9">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                      </hspacer>
+                    </children>
+                  </grid>
+                  <grid id="6feee" binding="panelFiltro" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                        <minimum-size width="210" height="126"/>
+                        <preferred-size width="210" height="126"/>
+                        <maximum-size width="210" height="126"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <background color="-16438980"/>
+                    </properties>
+                    <border type="none" title="Filtro"/>
+                    <children>
+                      <component id="d034f" class="javax.swing.JLabel" binding="lblCentro">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-1"/>
+                          <font name="Inter" size="18" style="1"/>
+                          <foreground color="-1"/>
+                          <text value="Centro"/>
+                        </properties>
+                      </component>
+                      <component id="5e244" class="javax.swing.JComboBox" binding="cmbCentro">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                            <minimum-size width="165" height="40"/>
+                            <preferred-size width="165" height="40"/>
+                            <maximum-size width="165" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-16400469"/>
+                          <font name="Inter" size="16" style="1"/>
+                          <foreground color="-15461356"/>
+                          <model>
+                            <item value="Select"/>
+                          </model>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
                 </children>
               </grid>
             </children>

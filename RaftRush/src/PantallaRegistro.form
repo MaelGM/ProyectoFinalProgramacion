@@ -380,6 +380,7 @@
                         </constraints>
                         <properties>
                           <background color="-9145228"/>
+                          <font name="Inter" size="20" style="1"/>
                         </properties>
                       </component>
                     </children>

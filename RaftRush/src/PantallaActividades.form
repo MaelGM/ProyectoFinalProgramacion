@@ -75,7 +75,7 @@
                 </properties>
                 <border type="none" title="FILTRO"/>
                 <children>
-                  <component id="315ea" class="javax.swing.JComboBox" binding="cmbCentro">
+                  <component id="315ea" class="javax.swing.JComboBox" binding="cmbLocalidad">
                     <constraints>
                       <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <minimum-size width="165" height="39"/>
@@ -115,7 +115,7 @@
                     </constraints>
                     <properties>
                       <font name="Inter" size="18" style="1"/>
-                      <text value="Centro"/>
+                      <text value="Localidad"/>
                     </properties>
                   </component>
                   <component id="a40be" class="javax.swing.JLabel">
@@ -145,16 +145,18 @@
             </properties>
             <border type="none"/>
             <children>
-              <scrollpane id="98df2" binding="PanelDeTabla">
+              <scrollpane id="98df2" binding="jspTabla">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false">
-                    <minimum-size width="1194" height="381"/>
                     <preferred-size width="1194" height="381"/>
                     <maximum-size width="1194" height="381"/>
                   </grid>
                 </constraints>
                 <properties>
                   <background color="-16438980"/>
+                  <enabled value="true"/>
+                  <horizontalScrollBarPolicy value="30"/>
+                  <verticalScrollBarPolicy value="20"/>
                 </properties>
                 <border type="none"/>
                 <children>
@@ -214,6 +216,7 @@
                 <properties>
                   <background color="-9534578"/>
                   <focusable value="false"/>
+                  <font name="Inter" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <rowHeight value="45"/>
                   <selectionBackground color="-7077901"/>

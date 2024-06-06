@@ -1,3 +1,7 @@
+import Excepciones.ExceptionUsuario;
+import Objetos.Cliente;
+import Objetos.Trabajador;
+import Objetos.Usuario;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
@@ -33,6 +37,9 @@ public class PantallaInicioSesion extends JFrame{
 
     ImageIcon aside = new ImageIcon("resources/imagenes/asideSimple.png");
 
+    /**
+     * Constructor de la clase PantallaInicioSesion en el que se llaman a los métodos necesarios para hacer funcionar la pantalla.
+     */
     public PantallaInicioSesion() {
         super("Inicia sesión");
         init();
@@ -42,6 +49,9 @@ public class PantallaInicioSesion extends JFrame{
         cargarImagenes();
     }
 
+    /**
+     * Método en el que se marcan las propiedades del frame esenciales, como lo son el tamaño, el panel principal, etc.
+     */
     private void init() {
         setContentPane(panelPrincipal);
         setResizable(false);
@@ -50,10 +60,16 @@ public class PantallaInicioSesion extends JFrame{
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Método destinado a cargar todas las propiedades destinadas a la presentación estética de algunos elementos.
+     */
     private void cargarEstilo() {
         panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 40");
     }
 
+    /**
+     * Aquí se cargan todas las imágenes de la pantalla.
+     */
     private void cargarImagenes() {
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
         lblAside.setIcon(aside);
@@ -61,6 +77,9 @@ public class PantallaInicioSesion extends JFrame{
         lblPassword.setIcon(new ImageIcon("resources/imagenes/password.png"));
     }
 
+    /**
+     * Método en el que se definen las máscaras de los form text fields (Nif)
+     */
     private void cargarMascaras() {
         try {
             MaskFormatter maskNif = new MaskFormatter("########U");
@@ -70,6 +89,9 @@ public class PantallaInicioSesion extends JFrame{
         }
     }
 
+    /**
+     * Se cargan los listeners encargados de dar funcionalidades a algunos elementos como los botones o label.
+     */
     private void cargarListeners() {
         addWindowListener(new WindowAdapter() {
             @Override
@@ -79,16 +101,13 @@ public class PantallaInicioSesion extends JFrame{
         });
         btnIniciarSesion.addActionListener(iniciarSesion());
         Utils.cursorPointerBoton(btnIniciarSesion);
+        Utils.cursorPointerLabel(lblCrearCuenta);
         listenerLabel();
     }
 
-    private ActionListener iniciarSesion() {
-        return e -> {
-            new PantallaMenu();
-            dispose();
-        };
-    }
-
+    /**
+     * Listener encargado de hacer que cuando se clique cierto JLabel, te lleve a otra pantalla.
+     */
     private void listenerLabel(){
         lblCrearCuenta.addMouseListener(new MouseAdapter() {
             @Override
@@ -97,8 +116,50 @@ public class PantallaInicioSesion extends JFrame{
                 dispose();
             }
         });
-        Utils.cursorPointerLabel(lblCrearCuenta);
     }
 
+    /**
+     * Código ejecutado cuando se pulsa el botón iniciar sesión, en el que se validan los text fields, la existencia del usuario
+     * y que la contraseña coincida
+     * @return Devuelve la acción que ejecutara el programa en el momento en el que se pulse el botón.
+     */
+    private ActionListener iniciarSesion() {
+        return e -> {
+            if (checkTextFields() && DataManager.getUsuarios()){
+                Usuario user = DataManager.findUsuario(formTxtFldNif.getText());
+                if (user != null) checkPassword(user);
+                else
+                    JOptionPane.showMessageDialog(null, "No se ha encontrado un usuario con nif: "
+                            +formTxtFldNif.getText(), "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+            }
+        };
+    }
 
+    /**
+     * Este método coge la contraseña escrita por el usuario y posteriormente, revisa que esta contraseña coincida con la del
+     * usuario al que le corresponde el NIF escrito (user). Después de comprobarlo, mira si el usuario es un trabajador o
+     * un cliente, enviándolo a una pantalla u otra, dependiendo de esto mismo.
+     * @param user Usuario del que se comprobara la contraseña.
+     */
+    private void checkPassword(Usuario user) {
+        if (DataManager.checkPassword(user, new String(passwdField.getPassword()))) {
+            if (user instanceof Trabajador) new PantallaMenu(); // TODO: Tendriamos que enviarle el usuario (Constructor nuevo) para asi que cambie la pestaña perfil
+            else if (user instanceof Cliente) new PantallaActClientes();
+            dispose();
+        }else
+            JOptionPane.showMessageDialog(null, "La contraseña no es correcta",
+                    "Error en los datos", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Revisa si los campos de texto están vacíos o no. En el caso del form text, comprueba si tiene un espacio,
+     * ya que si lo tiene, es que no ha rellenado el campo correctamente.
+     * @return True si no están vacíos, o false en caso de estarlo.
+     */
+    private boolean checkTextFields() {
+        if (formTxtFldNif.getText().contains(" ") || new String(passwdField.getPassword()).equals("")) {
+            JOptionPane.showMessageDialog(null, "Rellene los campos", "Error en los datos", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else return true;
+    }
 }

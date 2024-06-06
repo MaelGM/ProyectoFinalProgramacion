@@ -109,7 +109,7 @@
                       <title-color color="-16400469"/>
                     </border>
                     <children>
-                      <component id="13925" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                      <component id="13925" class="javax.swing.JComboBox" binding="cmbCentro">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false">
                             <preferred-size width="218" height="51"/>
@@ -124,7 +124,7 @@
                           </model>
                         </properties>
                       </component>
-                      <component id="feff5" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
+                      <component id="feff5" class="javax.swing.JComboBox" binding="cmbTipo">
                         <constraints>
                           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false">
                             <preferred-size width="218" height="51"/>
@@ -139,7 +139,7 @@
                           </model>
                         </properties>
                       </component>
-                      <component id="80053" class="javax.swing.JLabel">
+                      <component id="80053" class="javax.swing.JLabel" binding="lblCentro">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -150,7 +150,7 @@
                           <text value="Centro"/>
                         </properties>
                       </component>
-                      <component id="6fae3" class="javax.swing.JLabel">
+                      <component id="6fae3" class="javax.swing.JLabel" binding="lblTipo">
                         <constraints>
                           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>

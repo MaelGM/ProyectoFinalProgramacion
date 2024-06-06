@@ -7,7 +7,7 @@ public class DBManager {
     private static Connection conn = null;
     private static final String DB_HOST = "127.0.0.1";
     private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "";
+    private static final String DB_NAME = "raftrush";
     private static final String DB_URL = "jdbc:mysql://"+DB_HOST+":"+DB_PORT+"/"+DB_NAME;
     private static final String DB_USER = "root";
     private static final String DB_PASS = "";
@@ -18,7 +18,7 @@ public class DBManager {
     public static boolean loadDriver(){
         try{
             System.out.println("CARGANDO DRIVER");
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("OK!");
             return true;
         } catch (Exception e) {
@@ -50,6 +50,9 @@ public class DBManager {
         }
     }
 
+    public static ResultSet getTipos() throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM tipo");
+    }
     public static ResultSet getClientes() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM cliente");
     }
@@ -69,15 +72,31 @@ public class DBManager {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor");
     }
 
-    public static int agregarCliente(String nif, String contrasenya, String telefono, String nombre, int edad) throws SQLException {
+    public static ResultSet getCentro(int id) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM centro WHERE centro.id = " + id);
+    }
+
+    public static ResultSet getTipo(int id) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM tipo WHERE tipo.id = " + id);
+    }
+
+    public static ResultSet getCliente(String nif) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM cliente WHERE cliente.nif = '" + nif + "'");
+    }
+
+    public static ResultSet getTrabajador(String nif) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM trabajador WHERE trabajador.nif = '" + nif + "'");
+    }
+
+    public static int agregarCliente(Cliente cliente) throws SQLException {
         String query = "INSERT INTO cliente (nif, contrasenya, telefono, nombre, edad) VALUES (?,?,?,?,?)";
 
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1,nif);
-            pstmt.setString(2,contrasenya);
-            pstmt.setString(3,telefono);
-            pstmt.setString(4,nombre);
-            pstmt.setInt(5,edad);
+            pstmt.setString(1,cliente.getNif());
+            pstmt.setString(2,cliente.getContrasenya());
+            pstmt.setString(3,cliente.getTelefono());
+            pstmt.setString(4,cliente.getNombre());
+            pstmt.setInt(5,cliente.getEdad());
 
             return pstmt.executeUpdate();
         }
