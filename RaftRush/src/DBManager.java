@@ -111,19 +111,6 @@ public class DBManager {
             pstmt.setInt(5,cliente.getEdad());
 
             return pstmt.executeUpdate();
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    public static int editarUsuTrabajador(String nombre, String nif) throws SQLException {
-        String query = "UPDATE trabajador SET nombre= ? WHERE trabajador.nif = ?";
-        try(PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1,nombre);
-            pstmt.setString(2,nif);
-
-            return pstmt.executeUpdate();
         }
     }
 
@@ -146,7 +133,6 @@ public class DBManager {
     /*
         Esto no hace falta, ya que al ser incremental, se asigna el ID automaticamente
 
-    ///////////////////////
     //TODO Este codigo lo hago para sacar el ultimo id u codigo que se ha creado para luego insertarlo a la nueva instancia Author -->Hakeem
     //TODO no he hecho la de tipo porque no estaba muy seguro de ello Author --> Hakeem
     public static ResultSet sacarUltimoIDCentro() throws SQLException {
@@ -164,6 +150,5 @@ public class DBManager {
     public static ResultSet sacarUltimoIDProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor ORDER BY proveedor.id DESC LIMIT 1");
     }
-    ///////////////////////
     */
 }
