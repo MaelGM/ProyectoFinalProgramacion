@@ -23,7 +23,6 @@ public class PantallaActividades extends JFrame {
     private JPanel panelPrincipal;
     private JPanel panelContenido;
     private JPanel panelEliminarAct;
-    private JScrollPane jspTabla;
     private JTable tblActividades;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblActSeleccionada;
@@ -33,6 +32,7 @@ public class PantallaActividades extends JFrame {
     private JComboBox cmbLocalidad;
     private JComboBox cmbTipo;
     private JPanel panelDerecho;
+    private JScrollPane jspTabla;
     private JPanel panelTabla;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
