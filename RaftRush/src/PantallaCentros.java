@@ -17,7 +17,6 @@ public class PantallaCentros extends JFrame {
     private JTable tblCentros;
     private JPanel panelDatos;
     private JPanel panelPrincipal;
-    private JPanel panelTabla;
     private JTextField txtFldNombre;
     private JTextField txtFldLocalidad;
     private JTextField txtFldPresupuesto;
@@ -25,6 +24,8 @@ public class PantallaCentros extends JFrame {
     private JButton btnEliminar;
     private JButton btnAnyadir;
     private JPanel panelCentrado;
+    private JScrollPane PanelDeTabla;
+    private JPanel panelTabla;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     private static final ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerCentros.png");

@@ -16,14 +16,14 @@ public class PantallaProveedores extends JFrame{
     private JPanel panelPrincipal;
     private JPanel PanelPrincipal;
     private JLabel imgCorporativa;
-    private JPanel PanelContenido;
-    private JScrollPane PanelDeTabla;
     private JTable tblProveedores;
     private JPanel panelEliminarProveedor;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblProvSeleccionado;
     private JButton btnAnyadir;
     private JButton btnEditar;
+    private JScrollPane PanelDeTabla;
+    private JPanel PanelContenido;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerProveedores.png");

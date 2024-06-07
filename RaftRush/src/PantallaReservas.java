@@ -14,13 +14,13 @@ public class PantallaReservas extends JFrame {
 
     private JLabel lblImgCorporativa;
     private JPanel panelPrincipal;
-    private JPanel panelContenido;
     private JPanel panelEliminarRes;
-    private JScrollPane PanelDeTabla;
     private JTable tblReservas;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblResSeleccionada;
     private JButton btnAnularReserva;
+    private JScrollPane PanelDeTabla;
+    private JPanel panelContenido;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloRes.png");

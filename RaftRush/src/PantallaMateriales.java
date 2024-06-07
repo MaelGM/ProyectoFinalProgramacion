@@ -16,8 +16,6 @@ import java.util.List;
 
 public class PantallaMateriales extends JFrame{
     private JPanel gestionMaterialesPane;
-    private JPanel jplTabla;
-    private JScrollPane PanelDeTabla;
     private JButton btnVerEntregas;
     private JPanel panelModMaterial;
     private JScrollPane ScrollPanelRegAct;
@@ -32,6 +30,8 @@ public class PantallaMateriales extends JFrame{
     private JComboBox cmbCentro;
     private JPanel panelContenido;
     private JPanel panelDerecha;
+    private JScrollPane PanelDeTabla;
+    private JPanel jplTabla;
     private JComboBox cbxProveedor;
     private JPanel jplNuePedido;
 
