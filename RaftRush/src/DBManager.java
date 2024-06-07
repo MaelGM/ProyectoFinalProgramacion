@@ -122,9 +122,13 @@ public class DBManager {
         }
     }
 
-    public static ResultSet getEntregas(Cliente cliente, Actividad actividad) throws SQLException {
+    public static ResultSet getReservas(Cliente cliente, Actividad actividad) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM reservaclienteactividad WHERE reservaclienteactividad.idActividad = "
-                + actividad.getId() + " AND reservaclienteactividad.nifCli = " + cliente.getNif());
+                + actividad.getId() + " AND reservaclienteactividad.nifCli =  '" + cliente.getNif() + "'");
+    }
+
+    public static ResultSet getPrecioAct(int id) throws SQLException{
+        return conn.createStatement().executeQuery("SELECT * FROM actividad WHERE actividad.id = " + id);
     }
 
     /*

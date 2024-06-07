@@ -46,10 +46,10 @@ public class DataManager {
                 listActividades.clear();
                 ResultSet rs = DBManager.getActividad();//Select all actividades
                 while(rs.next()){
-                    int tipoId = rs.getInt(4);
+                    int tipoId = rs.getInt(6);
                     Tipo tipo = filterTipoById(tipoId);
                     listActividades.add(new Actividad(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4),rs.getDouble(5),rs.getInt(6),
+                            rs.getString(4),rs.getDouble(5), tipoId,
                             rs.getInt(7)));
                 }
             }catch (SQLException e){
@@ -305,14 +305,14 @@ public class DataManager {
             for (Cliente cliente : listClientes) {
                 for (Actividad actividad : listActividades) {
                     try {
-                        ResultSet rs = DBManager.getEntregas(cliente, actividad);
+                        ResultSet rs = DBManager.getReservas(cliente, actividad);
                         if (rs != null) {
                             while (rs.next()) {
                                 Map<String, Object> reserva = new HashMap<>();
-                                reserva.put("columna1", rs.getArray(1));
-                                reserva.put("columna2", rs.getArray(2));
-                                reserva.put("columna3", rs.getArray(3));
-                                reserva.put("columna4", rs.getArray(4));
+                                reserva.put("columna1", rs.getDate(1));
+                                reserva.put("columna2", rs.getString(2));
+                                reserva.put("columna3", rs.getInt(3));
+                                reserva.put("columna4", rs.getInt(4));
                                 reservas.add(reserva);
                             }
                         }
@@ -326,5 +326,25 @@ public class DataManager {
         }
         DBManager.close();
         return reservas;
+    }
+
+    public static double getPrecioAct(int id) {
+        double resultado = 0;
+        if (DBManager.connect()) {
+            try {
+                ResultSet rs = DBManager.getPrecioAct(id);
+                if (rs != null && rs.next()) {
+                    resultado = rs.getDouble("precio");
+                    DBManager.close();
+                    return resultado;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                DBManager.close();
+                return 0;
+            }
+        }
+        DBManager.close();
+        return 0;
     }
 }
