@@ -139,11 +139,9 @@ public class PantallaProveedores extends JFrame{
         for (int i = 0; i < tblProveedores.getColumnCount(); i++) {
             column = tblProveedores.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(153);
-                case 1, 4 -> column.setPreferredWidth(100);
-                case 2, 3-> column.setPreferredWidth(250);
-                case 5-> column.setPreferredWidth(150);
-                case 6-> column.setPreferredWidth(200);
+                case 0-> column.setPreferredWidth(53);
+                case 1, 3 -> column.setPreferredWidth(250);
+                case 2 -> column.setPreferredWidth(150);
             }
         }
     }
@@ -153,9 +151,9 @@ public class PantallaProveedores extends JFrame{
         for (int i = 0; i < tblProvSeleccionado.getColumnCount(); i++) {
             column = tblProvSeleccionado.getColumnModel().getColumn(i);
             switch (i){
-                case 0, 3, 5 -> column.setPreferredWidth(200);
-                case 1-> column.setPreferredWidth(250);
-                case 2, 4 -> column.setPreferredWidth(150);
+                case 0-> column.setPreferredWidth(53);
+                case 1, 3 -> column.setPreferredWidth(250);
+                case 2 -> column.setPreferredWidth(150);
             }
         }
     }

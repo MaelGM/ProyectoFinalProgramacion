@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class DataManager {
     private static List<Proveedor> listProveedor = new ArrayList<>();
     private static List<Trabajador> listTrabajador = new ArrayList<>();
     private static List<Cliente> listClientes = new ArrayList<>();
-    private static List<Tipos> listTipos = new ArrayList<>();
+    private static List<Tipo> listTipos = new ArrayList<>();
 
     public static boolean getUsuarios() {
         return getClientes() && getTrabajador();
@@ -47,8 +48,8 @@ public class DataManager {
                 ResultSet rs = DBManager.getActividad();//Select all actividades
                 while(rs.next()){
                     listActividades.add(new Actividad(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4),rs.getDouble(5),rs.getInt(6),
-                            rs.getInt(7)));
+                            rs.getString(4),rs.getDouble(5), getTipoById(rs.getInt(6)),
+                            getCentroById(rs.getInt(7))));
                 }
             }catch (SQLException e){
                 DBManager.close();
@@ -67,7 +68,7 @@ public class DataManager {
                 ResultSet rs = DBManager.getMaterial();//Select all actividades
                 while(rs.next()){
                     listMaterial.add(new Material(rs.getInt(1), rs.getString(2), rs.getDouble(3),
-                            rs.getInt(4),rs.getInt(5)));
+                            rs.getInt(4), getCentroById(rs.getInt(5))));
                 }
             }catch (SQLException e){
                 DBManager.close();
@@ -98,6 +99,77 @@ public class DataManager {
         return false;
     }
 
+    public static boolean getReservas(){
+        if (DBManager.connect()) {
+            try{
+                ResultSet rs = DBManager.getReservas();//Select all actividades
+                while(rs.next()){
+                    // Lo recorre para comprobar que puede cargar la lista y devolver true
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return false;
+            }
+            DBManager.close();
+            return true;
+        }
+        return false;
+    }
+
+    public static List<Cliente> getClientesReservas(){
+        if (DBManager.connect()) {
+            List<Cliente> clientes = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getReservas();//Select all actividades
+                while(rs.next()){
+                    clientes.add(getClienteByNif(rs.getString(2)));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return clientes;
+        }
+        return null;
+    }
+
+    public static List<Actividad> getActividadesReservas(){
+        if (DBManager.connect()) {
+            List<Actividad> actividades = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getReservas();//Select all actividades
+                while(rs.next()){
+                    actividades.add(getActividadById(rs.getInt(3)));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return actividades;
+        }
+        return null;
+    }
+
+    public static List<Date> getFechasReservas(){
+        if (DBManager.connect()) {
+            List<Date> fechasReservas = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getReservas();//Select all actividades
+                while(rs.next()){
+                    fechasReservas.add(rs.getDate(1));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return fechasReservas;
+        }
+        return null;
+    }
+
     public static boolean getTrabajador() {
         if (DBManager.connect()) {
             try{
@@ -105,7 +177,7 @@ public class DataManager {
                 ResultSet rs = DBManager.getTrabajador();//Select all trabajadores
                 while(rs.next()){
                     listTrabajador.add(new Trabajador(rs.getString(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4), rs.getDouble(5), rs.getInt(6), rs.getInt(7)));
+                            rs.getString(4), rs.getDouble(5), rs.getInt(6), getCentroById(rs.getInt(7))));
                 }
             }catch (SQLException | ExceptionUsuario e){
                 DBManager.close();
@@ -137,24 +209,7 @@ public class DataManager {
         return false;
     }
 
-    public static boolean getTipos() {
-        if (DBManager.connect()) {
-            try {
-               listTipos.clear();
-               ResultSet rs = DBManager.getTipos();
-               while (rs.next()) {
-                   listTipos.add(new Tipos(rs.getInt(1), rs.getString(2)));
-               }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                DBManager.close();
-                return false;
-            }
-            DBManager.close();
-            return true;
-        }
-        return false;
-    }
+
 
     public static String getLocalidad(int id){
         String result = "";
@@ -213,9 +268,15 @@ public class DataManager {
         return result;
     }
 
-    public static Tipos getTipo(String nombre){
-        for (Tipos tipo: listTipos) {
+    public static Tipo getTipoByName(String nombre){
+        for (Tipo tipo: listTipos) {
             if (tipo.getNombre().equalsIgnoreCase(nombre)) return tipo;
+        }
+        return null;
+    }
+    public static Tipo getTipoById(int id){
+        for (Tipo tipo: listTipos) {
+            if (tipo.getId() == id) return tipo;
         }
         return null;
     }
@@ -231,6 +292,45 @@ public class DataManager {
             if (centro.getNombre().equalsIgnoreCase(nombre)) return centro;
         }
         return null;
+    }
+    public static Centro getCentroById(int id){
+        for (Centro centro: listCentros) {
+            if (centro.getId() == id) return centro;
+        }
+        return null;
+    }
+
+    private static Actividad getActividadById(int id){
+        for (Actividad actividad: listActividades) {
+            if (actividad.getId() == id) return actividad;
+        }
+        return null;
+    }
+
+    private static Cliente getClienteByNif(String nif){
+        for (Cliente cliente: listClientes) {
+            if (cliente.getNif().equalsIgnoreCase(nif)) return cliente;
+        }
+        return null;
+    }
+
+    public static boolean getTipos() {
+        if (DBManager.connect()) {
+            try{
+                listTipos.clear();
+                ResultSet rs = DBManager.getTipos();//Select all tipos de actividades
+                while(rs.next()){
+                    listTipos.add(new Tipo(rs.getInt(1), rs.getString(2)));
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+                DBManager.close();
+                return false;
+            }
+            DBManager.close();
+            return true;
+        }
+        return false;
     }
 
     public static boolean addCliente(Cliente cliente){
@@ -304,14 +404,14 @@ public class DataManager {
     }
     public static List<Proveedor> getListProveedor(){return listProveedor;}
     public static List<Trabajador> getListTrabajador(){return listTrabajador;}
-    public static List<Tipos> getListTipos(){
+    public static List<Tipo> getListTipos(){
         return listTipos;
     }
     public static List<String> getLocalidadesCentro() {
         return listCentros.stream().map(Centro::getLocalidad).distinct().toList();
     }
     public static List<String> getTiposActividadesCentro() {
-        return listTipos.stream().map(Tipos::getNombre).distinct().toList();
+        return listTipos.stream().map(Tipo::getNombre).distinct().toList();
     }
 
     public static List<Map<String, Object>> getListEntregas(){

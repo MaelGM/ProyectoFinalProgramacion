@@ -1,6 +1,6 @@
 import Objetos.Actividad;
 import Objetos.Centro;
-import Objetos.Tipos;
+import Objetos.Tipo;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 import Objetos.Usuario;
 
@@ -9,12 +9,9 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PantallaActClientes extends JFrame{
     private JPanel panelGeneral;
@@ -95,12 +92,12 @@ public class PantallaActClientes extends JFrame{
     // AVISO: Lo tengo que hacer usando los centros, ya que la actividad tiene idCentro, pero en caso de que haya dos centros en la misma ciudad, no se diferenciaran.
     private ActionListener filtrar() {
         return e -> {
-            Tipos tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
+            Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
             Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
             List<Actividad> actividades = DataManager.getListActividades();
 
-            if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo.getId()).toList();
-            if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getIdCentro() == centro.getId()).toList();
+            if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo).toList();
+            if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getCentro() == centro).toList();
             cargarTabla(actividades);
         };
     }
@@ -119,7 +116,8 @@ public class PantallaActClientes extends JFrame{
     }
 
     public void cargarDato(){
-        if (DataManager.getActividades() && DataManager.getCentros() && DataManager.getTipos()) {
+        if (DataManager.getCentros() && DataManager.getTipos() && DataManager.getActividades()) {
+            actualizaComboBox();
             cargarTabla(DataManager.getListActividades());
         }
     }
@@ -130,8 +128,8 @@ public class PantallaActClientes extends JFrame{
         int i = 0;
         for (Actividad actividad : actividades) {
             data[i][0] = actividad.getNombre();
-            data[i][1] = DataManager.getTipo(actividad.getTipo());
-            data[i][2] = DataManager.getLocalidad(actividad.getIdCentro());
+            data[i][1] = actividad.getTipo().getNombre();
+            data[i][2] = actividad.getCentro().getLocalidad();
             data[i][3] = actividad.getDificultad();
             data[i][4] = actividad.getPrecio();
 
@@ -179,5 +177,15 @@ public class PantallaActClientes extends JFrame{
         ImageIcon background = new ImageIcon("resources/imagenes/cabeceraActClientes.png");
 
         lblBG.setIcon(background);
+    }
+
+    /**
+     * Metodo para que el combobox de localidad se actualice si hay nuevas localidades
+     */
+    private void actualizaComboBox() {
+        for (int i = 0; i < DataManager.getLocalidadesCentro().size(); i++) {
+            cmbCentro.addItem(DataManager.getLocalidadesCentro().get(i));
+            cmbTipo.addItem(DataManager.getTiposActividadesCentro().get(i));
+        }
     }
 }
