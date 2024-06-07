@@ -1,3 +1,4 @@
+import Excepciones.ExceptionUsuario;
 import Objetos.*;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
@@ -13,7 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PantallaGestionarTrabajadores extends JFrame {
@@ -102,6 +103,19 @@ public class PantallaGestionarTrabajadores extends JFrame {
         });
         cmbCentro.addActionListener(filtrar());
         btnAdd.addActionListener(pedirPassword());
+        btnEdit.addActionListener(editarTrabajador());
+    }
+
+    private ActionListener editarTrabajador(){
+        return e -> {
+            Trabajador trabajador = nuevoTrabajador(null);
+            String id = trabajador.getNif();
+
+            if(DataManager.editarTrabajador(trabajador, id)){
+                JOptionPane.showMessageDialog(null, "Se han actualizado los datos del trabajador",
+                        "Actualización BBDD", JOptionPane.INFORMATION_MESSAGE);
+            }
+        };
     }
 
     private ActionListener filtrar() {
@@ -119,19 +133,59 @@ public class PantallaGestionarTrabajadores extends JFrame {
             JPasswordField passwordField = new JPasswordField();
             JPasswordField confirmPasswordField = new JPasswordField();
 
-            // Crear el panel que contendrá los campos
-            JPanel panel = new JPanel();
-            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-            panel.add(new JLabel("Introduzca su contraseña:"));
-            panel.add(passwordField);
-            panel.add(new JLabel("Repita la contraseña:"));
-            panel.add(confirmPasswordField);
+            if (isCamposRellenos()){
+                // Crear el panel que contendrá los campos
+                JPanel panel = new JPanel();
+                panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+                panel.add(new JLabel("Introduzca su contraseña:"));
+                panel.add(passwordField);
+                panel.add(new JLabel("Repita la contraseña:"));
+                panel.add(confirmPasswordField);
 
-            // Mostrar el cuadro de diálogo de entrada
-            int option = JOptionPane.showConfirmDialog(null, panel, "Creé la nueva contraseña",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            //TODO: Revisar si le ha dado a ok, y si le ha dado, revisar la contraseña es repetida
+                if (Arrays.equals(passwordField.getPassword(), confirmPasswordField.getPassword())){
+                    Trabajador trabajador = nuevoTrabajador(String.valueOf(passwordField.getPassword()));
+                }
+                // Mostrar el cuadro de diálogo de entrada
+                int option = JOptionPane.showConfirmDialog(null, panel, "Creé la nueva contraseña",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                //TODO: Revisar si le ha dado a ok, y si le ha dado, revisar la contraseña es repetida
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe rellenar todos los campos", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         };
+    }
+
+    public boolean isCamposRellenos(){
+        for (int i = 0; i < tblNuevoTrabajador.getColumnCount(); i++) {
+            if (tblNuevoTrabajador.getValueAt(0, i).equals("")){
+                return false;
+            }
+        }
+        return true;
+    }
+    private Trabajador nuevoTrabajador(String password){
+        String nif = String.valueOf(tblNuevoTrabajador.getValueAt(0, 0));
+        String nombre = String.valueOf(tblNuevoTrabajador.getValueAt(0, 1));
+        String apellido = String.valueOf(tblNuevoTrabajador.getValueAt(0, 2));
+        int edad = (int) tblNuevoTrabajador.getValueAt(0, 3);
+        double salario = (double) tblNuevoTrabajador.getValueAt(0, 4);
+        Centro centro = (Centro) tblNuevoTrabajador.getValueAt(0, 5);
+
+        try {
+            return new Trabajador(nif, password, nombre, apellido, salario, edad, centro);
+        } catch (ExceptionUsuario e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void agregarTrabajador(Trabajador trabajador){
+        if (DataManager.agregarTrabajador(trabajador)){
+            JOptionPane.showMessageDialog(null, "Nuevo trabajador añadido a la Base de Datos",
+                    "Actualización de BBDD", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }
 
     public void datosMainTable(List<Trabajador> trabajadores){
@@ -161,7 +215,6 @@ public class PantallaGestionarTrabajadores extends JFrame {
             tblTrabajadores.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-
         asignarTamanyoColumnasTrabajadores();
     }
 
@@ -169,7 +222,6 @@ public class PantallaGestionarTrabajadores extends JFrame {
         String[]header = {"NIF","Nombre", "Apellidos", "Edad", "Salario", "Centro"};
         String[][]rows = new String[1][header.length];
 
-        ///Todo De cara a tomar datos, propongo tomar la información de cada celda.
         rows[0][0] = "";
         rows[0][1] = "";
         rows[0][2] = "";
@@ -178,7 +230,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
 
         tblNuevoTrabajador.setModel(new DefaultTableModel(rows, header));
         tblNuevoTrabajador.getTableHeader().setReorderingAllowed(false);
-        tblNuevoTrabajador.setDefaultEditor(Override.class, null);
+        tblNuevoTrabajador.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasNuevoTrabajador();
 

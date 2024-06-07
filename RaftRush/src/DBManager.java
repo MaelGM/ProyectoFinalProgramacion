@@ -143,6 +143,39 @@ public class DBManager {
         return conn.createStatement().executeQuery("SELECT * FROM cliente where cliente.nif = '" + nif+"'");
     }
 
+    public static int agregarTrabajador(Trabajador trabajador, int idCentro) throws SQLException {
+        String query = "INSERT INTO cliente (nif, contrasenya, nombre, apellido, salario, edad, idCentro) VALUES (?,?,?,?,?,?)";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1,trabajador.getNif());
+            pstmt.setString(2,trabajador.getContrasenya());
+            pstmt.setString(3,trabajador.getNombre());
+            pstmt.setString(4,trabajador.getApellido());
+            pstmt.setDouble(5, trabajador.getSalario());
+            pstmt.setInt(6,trabajador.getEdad());
+            pstmt.setInt(7, idCentro);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    public static int editarTrabajador(Trabajador trabajador, String nif, int idCentro) throws SQLException {
+        String query = "UPDATE trabajador SET " +
+                "nombre = ?, apellido = ?, salario = ?, edad = ?, idCentro = ?" +
+                "WHERE nif = ?";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, trabajador.getNombre());
+            pstmt.setString(2, trabajador.getApellido());
+            pstmt.setDouble(3, trabajador.getSalario());
+            pstmt.setInt(4, trabajador.getEdad());
+            pstmt.setInt(5, idCentro);
+            pstmt.setString(6, nif);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
     /*
         Esto no hace falta, ya que al ser incremental, se asigna el ID automaticamente
 
