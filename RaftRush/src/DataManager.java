@@ -47,9 +47,11 @@ public class DataManager {
                 listActividades.clear();
                 ResultSet rs = DBManager.getActividad();//Select all actividades
                 while(rs.next()){
+                    int tipoId = rs.getInt(6);
+                    Tipo tipo = filterTipoById(tipoId);
                     listActividades.add(new Actividad(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4),rs.getDouble(5), getTipoById(rs.getInt(6)),
-                            getCentroById(rs.getInt(7))));
+                            rs.getString(4),rs.getDouble(5), tipoId,
+                            rs.getInt(7)));
                 }
             }catch (SQLException e){
                 DBManager.close();
@@ -59,6 +61,15 @@ public class DataManager {
             return true;
         }
         return false;
+    }
+
+    public static Tipo filterTipoById(int id) {
+        for (int i = 0; i < listTipos.size(); i++) {
+            if (listTipos.get(i).getId() == id) {
+                return listTipos.get(i);
+            }
+        }
+        return null;
     }
 
     public static boolean getMaterial(){
@@ -209,7 +220,24 @@ public class DataManager {
         return false;
     }
 
-
+    public static boolean getTipos() {
+        if (DBManager.connect()) {
+            try {
+               listTipos.clear();
+               ResultSet rs = DBManager.getTipos();
+               while (rs.next()) {
+                   listTipos.add(new Tipo(rs.getInt(1), rs.getString(2)));
+               }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                DBManager.close();
+                return false;
+            }
+            DBManager.close();
+            return true;
+        }
+        return false;
+    }
 
     public static String getLocalidad(int id){
         String result = "";
@@ -268,7 +296,7 @@ public class DataManager {
         return result;
     }
 
-    public static Tipo getTipoByName(String nombre){
+    public static Tipo getTipo(String nombre){
         for (Tipo tipo: listTipos) {
             if (tipo.getNombre().equalsIgnoreCase(nombre)) return tipo;
         }
@@ -314,7 +342,8 @@ public class DataManager {
         return null;
     }
 
-    public static boolean getTipos() {
+    /*
+        public static boolean getTipos() {
         if (DBManager.connect()) {
             try{
                 listTipos.clear();
@@ -331,13 +360,16 @@ public class DataManager {
             return true;
         }
         return false;
-    }
+    } */
+    
 
     public static boolean addCliente(Cliente cliente){
         if (findUsuario(cliente.getNif()) != null) return false;
         if (DBManager.connect()){
             try {
                 int res = DBManager.agregarCliente(cliente);
+                listClientes.add(cliente);
+                //TODO Actualizar caché en inserts, deletes y updates de todas las clases
                 DBManager.close();
                 return res != 0;
             } catch (SQLException e) {
@@ -414,25 +446,29 @@ public class DataManager {
         return listTipos.stream().map(Tipo::getNombre).distinct().toList();
     }
 
-    public static List<Map<String, Object>> getListEntregas(){
-        List<Map<String, Object>> entregas = new ArrayList<>();
+    /**
+     * Metodo para hacer una lista de reservas
+     */
+    public static List<Map<String, Object>> getListReservas(){
+        List<Map<String, Object>> reservas = new ArrayList<>();
 
         if (DBManager.connect()) {
-            for (Material material:listMaterial) {
-                for (Proveedor proveedor:listProveedor) {
+            for (Cliente cliente : listClientes) {
+                for (Actividad actividad : listActividades) {
                     try {
-                        ResultSet rs = DBManager.getEntregas(material,proveedor);
+                        ResultSet rs = DBManager.getReservas(cliente, actividad);
                         if (rs != null) {
-                            while (rs.next()){
-                                Map<String, Object> entrega = new HashMap<>();
-                                entrega.put("column1", rs.getString(1));
-                                entrega.put("column2", rs.getInt(2));
-                                entrega.put("column3", rs.getInt(3));
-                                entrega.put("column4", rs.getInt(4));
-                                entregas.add(entrega);
+                            while (rs.next()) {
+                                Map<String, Object> reserva = new HashMap<>();
+                                reserva.put("columna1", rs.getDate(1));
+                                reserva.put("columna2", rs.getString(2));
+                                reserva.put("columna3", rs.getInt(3));
+                                reserva.put("columna4", rs.getInt(4));
+                                reservas.add(reserva);
                             }
                         }
                     } catch (SQLException e) {
+                        e.printStackTrace();
                         DBManager.close();
                         return null;
                     }
@@ -440,6 +476,26 @@ public class DataManager {
             }
         }
         DBManager.close();
-        return entregas;
+        return reservas;
+    }
+
+    public static double getPrecioAct(int id) {
+        double resultado = 0;
+        if (DBManager.connect()) {
+            try {
+                ResultSet rs = DBManager.getPrecioAct(id);
+                if (rs != null && rs.next()) {
+                    resultado = rs.getDouble("precio");
+                    DBManager.close();
+                    return resultado;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                DBManager.close();
+                return 0;
+            }
+        }
+        DBManager.close();
+        return 0;
     }
 }

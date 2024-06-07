@@ -37,6 +37,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
     private JComboBox cmbCentro;
     private JLabel lblCentro;
     private DefaultTableModel model;
+    private Trabajador trabajadorSeleccionado = null;
 
 
     public PantallaGestionarTrabajadores(){
@@ -102,6 +103,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
         });
         cmbCentro.addActionListener(filtrar());
         btnAdd.addActionListener(pedirPassword());
+        rellenarTablaModificar();
     }
 
     private ActionListener filtrar() {
@@ -259,5 +261,26 @@ public class PantallaGestionarTrabajadores extends JFrame {
                 case 5 -> column.setPreferredWidth(200);
             }
         }
+    }
+
+    /**
+     * Metodo para rellenar la tabla con un trabajador seleccionado
+     */
+    public void rellenarTablaModificar() {
+        tblTrabajadores.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblTrabajadores.getSelectedRow();
+                if (e.getClickCount() == 2 && row != -1) {
+                    trabajadorSeleccionado = DataManager.getListTrabajador().get(row);
+                    tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getNif(), 0, 0);
+                    tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getNombre(), 0, 1);
+                    tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getApellido(), 0, 2);
+                    tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getEdad(), 0, 3);
+                    tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getSalario(), 0, 4);
+                    tblNuevoTrabajador.getModel().setValueAt(DataManager.getNomCentro(trabajadorSeleccionado.getIdCentro()), 0, 5);
+                }
+            }
+        });
     }
 }

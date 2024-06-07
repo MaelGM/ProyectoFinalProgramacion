@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PantallaProveedores extends JFrame{
     private JPanel panelPrincipal;
@@ -24,6 +26,7 @@ public class PantallaProveedores extends JFrame{
     private JButton btnEditar;
     private JScrollPane PanelDeTabla;
     private JPanel PanelContenido;
+    private Proveedor proveedorSeleccionado = null;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerProveedores.png");
@@ -37,6 +40,7 @@ public class PantallaProveedores extends JFrame{
         tablaProveedoresProperties();
         tablaProveedorSeleccionadoProperties();
         panelProveedorProperties();
+        rellenarTablaModificar(); //todo metodo cargarListeners
     }
 
     private void estilo() {
@@ -165,5 +169,24 @@ public class PantallaProveedores extends JFrame{
         setResizable(false);
         setLocationRelativeTo(null);
         setIconImage(logo.getImage());
+    }
+
+    /**
+     * Metodo para rellenar la tabla de modificar proveedores
+     */
+    public void rellenarTablaModificar() {
+        tblProveedores.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblProveedores.getSelectedRow();
+                if (e.getClickCount() == 2 && row != -1) {
+                    proveedorSeleccionado = DataManager.getListProveedor().get(row);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getId(), 0, 0);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getNombre(), 0, 1);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getTelefono(), 0, 2);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getEmail(), 0, 3);
+                }
+            }
+        });
     }
 }

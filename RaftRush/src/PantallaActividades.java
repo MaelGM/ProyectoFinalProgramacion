@@ -34,6 +34,7 @@ public class PantallaActividades extends JFrame {
     private JPanel panelDerecho;
     private JScrollPane jspTabla;
     private JPanel panelTabla;
+    private static Actividad actSeleccionada = null;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloAct.png");
@@ -45,7 +46,6 @@ public class PantallaActividades extends JFrame {
         estilo();
         cargarListeners();
         panelActividadesProperties();
-        rellenarTablaModificar();
     }
 
     public void init(){
@@ -79,12 +79,14 @@ public class PantallaActividades extends JFrame {
         cmbTipo.addActionListener(filtrar());
         Utils.cursorPointerBoton(btnAddActividad);
         Utils.cursorPointerBoton(btnEliminarActividad);
+        rellenarTablaModificar();
     }
 
     // AVISO: Lo tengo que hacer usando los centros, ya que la actividad tiene idCentro, pero en caso de que haya dos centros en la misma ciudad, no se diferenciaran.
     private ActionListener filtrar() {
         return e -> {
             Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
+            //Tipo tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
             Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbLocalidad.getSelectedItem()));
             List<Actividad> actividades = DataManager.getListActividades();
 
@@ -232,12 +234,12 @@ public class PantallaActividades extends JFrame {
             public void mousePressed(MouseEvent e) {
                 int row = tblActividades.getSelectedRow();
                 if (e.getClickCount() == 2 && row != -1) {
-                    Actividad act = DataManager.getListActividades().get(row);
-                    tblActSeleccionada.getModel().setValueAt(act.getNombre(), 0, 0);
-                    tblActSeleccionada.getModel().setValueAt(act.getTipo().getNombre(), 0, 1);
-                    tblActSeleccionada.getModel().setValueAt(act.getCentro().getLocalidad(), 0, 2);
-                    tblActSeleccionada.getModel().setValueAt(act.getDificultad(), 0, 3);
-                    tblActSeleccionada.getModel().setValueAt(act.getPrecio(), 0, 4);
+                    actSeleccionada = DataManager.getListActividades().get(row);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getNombre(), 0, 0);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getTipo(), 0, 1);
+                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(actSeleccionada.getIdCentro()), 0, 2);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getDificultad(), 0, 3);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getPrecio(), 0, 4);
                 }
             }
         });

@@ -13,6 +13,11 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.Date;
 import java.util.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.*;
+import java.util.List;
+
 
 public class PantallaReservas extends JFrame {
 
@@ -24,6 +29,8 @@ public class PantallaReservas extends JFrame {
     private JTable tblResSeleccionada;
     private JButton btnAnularReserva;
     private JPanel panelTabla;
+    private List<Map<String, Object>> reservaSeleccionada = new ArrayList<>();
+    private DefaultTableModel model;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloRes.png");
@@ -59,6 +66,10 @@ public class PantallaReservas extends JFrame {
     private void cargarListeners() {
         Utils.cursorPointerBoton(btnAnularReserva);
         // TODO: Al clicar, se leen los datos de la tabla inferior y se elimina esa reserva de la BD
+        if (DataManager.getClientes() && DataManager.getActividades()) {
+            cargaReservasTable();
+            rellenaTablaModificar();
+        }
     }
 
     public void cargarDatos(){
@@ -184,5 +195,58 @@ public class PantallaReservas extends JFrame {
         }
     }
 
+    /**
+     * Metodo para la carga de lista de reservas
+     */
+    private void cargaReservasTable() {
+        tblReservas.setShowGrid(true);
+        Object[][] data = new Object[DataManager.getListReservas().size()][5];
+        int i = 0;
+        for (int j = 0; j < DataManager.getListReservas().size(); j++) {
+            data[i][0] = DataManager.getListReservas().get(j).get("columna1");
+            data[i][1] =DataManager.getListReservas().get(j).get("columna2");
+            data[i][2] =DataManager.getListReservas().get(j).get("columna3");
+            data[i][3] =DataManager.getPrecioAct((Integer) DataManager.getListReservas().get(j).get("columna3"));
+            data[i][4] =DataManager.getNomCentro((Integer) DataManager.getListReservas().get(j).get("columna4"));
+            i++;
+        }
 
+        model = new DefaultTableModel(data, new String[]{"Fecha reserva", "Id actividad", "Nif cliente", "Precio", "Centro"});
+        tblReservas.setModel(model);
+        //Color tableBG = new Color(110, 130, 141);
+
+        tblReservas.setGridColor(Color.black);
+        tblReservas.getTableHeader().setOpaque(false);
+        tblReservas.getTableHeader().setBackground(new Color(47, 75, 89));
+        tblReservas.getTableHeader().setForeground(new Color(245, 159, 116));
+        tblReservas.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int x = 0; i < tblReservas.getColumnCount(); x++) {
+            tblReservas.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
+        }
+
+        tblReservas.getTableHeader().setReorderingAllowed(false);
+        tblReservas.setDefaultEditor(Object.class,null);
+        tblReservas.setEnabled(true);
+    }
+    /**
+     * Metodo para modificar la reserva seleccionada
+     */
+    public void rellenaTablaModificar() {
+        tblReservas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblReservas.getSelectedRow();
+                if (e.getClickCount() == 2 && row != -1) {
+                    tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna1"), 0, 0);
+                    tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna2"), 0, 2);
+                    tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna3"), 0, 1);
+                    tblResSeleccionada.getModel().setValueAt(DataManager.getPrecioAct((Integer) DataManager.getListReservas().get(row).get("columna3")), 0, 3);
+                    tblResSeleccionada.getModel().setValueAt(DataManager.getNomCentro((Integer) DataManager.getListReservas().get(row).get("columna4")), 0, 4);
+                }
+            }
+        });
+    }
 }

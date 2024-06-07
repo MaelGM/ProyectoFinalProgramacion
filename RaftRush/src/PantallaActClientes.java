@@ -93,6 +93,7 @@ public class PantallaActClientes extends JFrame{
     private ActionListener filtrar() {
         return e -> {
             Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
+            //Tipo tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
             Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
             List<Actividad> actividades = DataManager.getListActividades();
 

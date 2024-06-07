@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PantallaCentros extends JFrame {
     private JPanel panelContenido;
@@ -26,6 +28,7 @@ public class PantallaCentros extends JFrame {
     private JPanel panelCentrado;
     private JScrollPane PanelDeTabla;
     private JPanel panelTabla;
+    private static Centro centroSeleccionado = null;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     private static final ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerCentros.png");
@@ -59,6 +62,7 @@ public class PantallaCentros extends JFrame {
         Utils.cursorPointerBoton(btnAnyadir);
         Utils.cursorPointerBoton(btnEditar);
         Utils.cursorPointerBoton(btnEliminar);
+        rellenarTxtField();
     }
 
     public void cargarDatos(){
@@ -126,6 +130,22 @@ public class PantallaCentros extends JFrame {
         tblCentros.getTableHeader().setForeground(new Color(245, 159, 116));
         tblCentros.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
-
+    /**
+     * Metodo para rellenar los txtField al seleccionar un centro
+     */
+    public void rellenarTxtField() {
+        tblCentros.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblCentros.getSelectedRow();
+                if (e.getClickCount() == 2 && row != -1) {
+                    centroSeleccionado = DataManager.getListCentros().get(row);
+                    txtFldNombre.setText(centroSeleccionado.getNombre());
+                    txtFldLocalidad.setText(centroSeleccionado.getLocalidad());
+                    txtFldPresupuesto.setText(String.valueOf(centroSeleccionado.getPresupuesto()));
+                }
+            }
+        });
+    }
 
 }
