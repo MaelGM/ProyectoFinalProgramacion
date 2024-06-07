@@ -1,3 +1,5 @@
+import Objetos.Actividad;
+import Objetos.Cliente;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -9,18 +11,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.util.Date;
+import java.util.List;
 
 public class PantallaReservas extends JFrame {
 
     private JLabel lblImgCorporativa;
     private JPanel panelPrincipal;
-    private JPanel panelContenido;
     private JPanel panelEliminarRes;
-    private JScrollPane PanelDeTabla;
     private JTable tblReservas;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblResSeleccionada;
     private JButton btnAnularReserva;
+    private JPanel panelTabla;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloRes.png");
@@ -59,44 +62,45 @@ public class PantallaReservas extends JFrame {
     }
 
     public void cargarDatos(){
-        if (DataManager.getCentros() && DataManager.getClientes() && DataManager.getActividades())
-        datosMainTable();
-        datosReserva();
+        if (DataManager.getCentros() && DataManager.getClientes() && DataManager.getActividades() && DataManager.getReservas()){
+            cargarListas();
+            datosReserva();
+        }
     }
 
-    public void datosMainTable(){
-        String[]header = {"Fecha de reserva", "Id de la actividad", "NIF del cliente", "Precio de la actividad", "Centro"};
-        String[][]rows = new String[3][header.length];
+    private void cargarListas() {
+        List<Date> fechas = DataManager.getFechasReservas();
+        List<Actividad> actividades = DataManager.getActividadesReservas();
+        List<Cliente> clientes = DataManager.getClientesReservas();
+        datosMainTable(fechas, actividades, clientes);
+    }
 
-        //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
-        rows[0][0] = "21-12-2024";
-        rows[0][1] = "1";
-        rows[0][2] = "48589632F";
-        rows[0][3] = "75.00€";
-        rows[0][4] = "Madrid";
+    public void datosMainTable(List<Date> fechas, List<Actividad> actividades, List<Cliente> clientes){
+        if (clientes != null && fechas != null && actividades != null){
+            String[]header = {"Fecha de reserva", "NIF del cliente", "Actividad", "Precio", "Centro"};
+            Object[][]rows = new Object[fechas.size()][header.length];
+            int i = 0;
+            for (Date fecha: fechas) {
+                rows[i][0] = fecha.toString();
+                rows[i][1] = clientes.get(i).getNif();
+                rows[i][2] = actividades.get(i).getNombre();
+                rows[i][3] = actividades.get(i).getPrecio();
+                rows[i][4] = actividades.get(i).getCentro().getNombre();
 
-        rows[1][0] = "14-02-2025";
-        rows[1][1] = "2";
-        rows[1][2] = "47858963R";
-        rows[1][3] = "50.00€";
-        rows[1][4] = "Barcelona";
+                i++;
+            }
 
-        rows[2][0] = "20-08-2025";
-        rows[2][1] = "3";
-        rows[2][2] = "45685932V";
-        rows[2][3] = "65.00€";
-        rows[2][4] = "Sevilla";
+            tblReservas.setModel(new DefaultTableModel(rows, header));
+            tblReservas.getTableHeader().setReorderingAllowed(false);
+            tblReservas.setDefaultEditor(Object.class, null);
 
-        tblReservas.setModel(new DefaultTableModel(rows, header));
-        tblReservas.getTableHeader().setReorderingAllowed(false);
-        tblReservas.setDefaultEditor(Object.class, null);
+            asignarTamanyoColumnasReservas();
 
-        asignarTamanyoColumnasReservas();
-
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < tblReservas.getColumnCount(); i++) {
-            tblReservas.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+            for (i = 0; i < tblReservas.getColumnCount(); i++) {
+                tblReservas.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
         }
     }
 
@@ -159,11 +163,11 @@ public class PantallaReservas extends JFrame {
         for (int i = 0; i < tblReservas.getColumnCount(); i++) {
             column = tblReservas.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(153);
-                case 1, 4 -> column.setPreferredWidth(100);
-                case 2, 3-> column.setPreferredWidth(250);
-                case 5-> column.setPreferredWidth(150);
-                case 6-> column.setPreferredWidth(200);
+                case 0 -> column.setPreferredWidth(153);
+                case 1 -> column.setPreferredWidth(100);
+                case 2 -> column.setPreferredWidth(300);
+                case 3 -> column.setPreferredWidth(50);
+                case 4 -> column.setPreferredWidth(300);
             }
         }
     }

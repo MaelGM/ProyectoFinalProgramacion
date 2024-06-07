@@ -4,6 +4,7 @@ import Objetos.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DataManager {
@@ -94,6 +95,77 @@ public class DataManager {
             return true;
         }
         return false;
+    }
+
+    public static boolean getReservas(){
+        if (DBManager.connect()) {
+            try{
+                ResultSet rs = DBManager.getReservas();//Select all actividades
+                while(rs.next()){
+                    // Lo recorre para comprobar que puede cargar la lista y devolver true
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return false;
+            }
+            DBManager.close();
+            return true;
+        }
+        return false;
+    }
+
+    public static List<Cliente> getClientesReservas(){
+        if (DBManager.connect()) {
+            List<Cliente> clientes = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getReservas();//Select all actividades
+                while(rs.next()){
+                    clientes.add(getClienteByNif(rs.getString(2)));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return clientes;
+        }
+        return null;
+    }
+
+    public static List<Actividad> getActividadesReservas(){
+        if (DBManager.connect()) {
+            List<Actividad> actividades = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getReservas();//Select all actividades
+                while(rs.next()){
+                    actividades.add(getActividadById(rs.getInt(3)));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return actividades;
+        }
+        return null;
+    }
+
+    public static List<Date> getFechasReservas(){
+        if (DBManager.connect()) {
+            List<Date> fechasReservas = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getReservas();//Select all actividades
+                while(rs.next()){
+                    fechasReservas.add(rs.getDate(1));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return fechasReservas;
+        }
+        return null;
     }
 
     public static boolean getTrabajador() {
@@ -222,6 +294,20 @@ public class DataManager {
     public static Centro getCentroById(int id){
         for (Centro centro: listCentros) {
             if (centro.getId() == id) return centro;
+        }
+        return null;
+    }
+
+    private static Actividad getActividadById(int id){
+        for (Actividad actividad: listActividades) {
+            if (actividad.getId() == id) return actividad;
+        }
+        return null;
+    }
+
+    private static Cliente getClienteByNif(String nif){
+        for (Cliente cliente: listClientes) {
+            if (cliente.getNif().equalsIgnoreCase(nif)) return cliente;
         }
         return null;
     }
