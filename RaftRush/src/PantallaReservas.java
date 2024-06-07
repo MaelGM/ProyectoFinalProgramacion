@@ -59,6 +59,7 @@ public class PantallaReservas extends JFrame {
     }
 
     public void cargarDatos(){
+        if (DataManager.getCentros() && DataManager.getClientes() && DataManager.getActividades())
         datosMainTable();
         datosReserva();
     }

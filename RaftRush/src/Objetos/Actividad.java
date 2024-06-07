@@ -6,26 +6,26 @@ public class Actividad {
     private String descripcion;
     private String dificultad;
     private double precio;
-    private int tipo;
-    private int idCentro;
+    private Tipo tipo;
+    private Centro centro;
 
-    public Actividad(int id, String nombre, String descripcion, String dificultad, double precio, int tipo, int idCentro) {
+    public Actividad(int id, String nombre, String descripcion, String dificultad, double precio, Tipo tipo, Centro centro) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.dificultad = dificultad;
         this.precio = precio;
         this.tipo = tipo;
-        this.idCentro = idCentro;
+        this.centro = centro;
     }
 
-    public Actividad(String nombre, String descripcion, String dificultad, double precio, int tipo, int idCentro) {
+    public Actividad(String nombre, String descripcion, String dificultad, double precio, Tipo tipo, Centro centro) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.dificultad = dificultad;
         this.precio = precio;
         this.tipo = tipo;
-        this.idCentro = idCentro;
+        this.centro = centro;
     }
 
     public int getId() {
@@ -64,23 +64,23 @@ public class Actividad {
     }
 
 
-    public int getTipo() {
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
 
-    public int getIdCentro() {
-        return idCentro;
+    public Centro getCentro() {
+        return centro;
     }
-    public void setIdCentro(int idCentro) {
-        this.idCentro = idCentro;
+    public void setCentro(Centro centro) {
+        this.centro = centro;
     }
 
     @Override
     public String toString() {
-        return id + ";" + nombre + ";" + descripcion + ";" + dificultad + ";" + precio + ";" + tipo + ";" + idCentro;
+        return id + ";" + nombre + ";" + descripcion + ";" + dificultad + ";" + precio + ";" + tipo + ";" + centro;
     }
 }

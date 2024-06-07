@@ -71,7 +71,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
     }
 
     public void cargarDatos(){
-        if (DataManager.getTrabajador() && DataManager.getCentros()) {
+        if (DataManager.getCentros() && DataManager.getTrabajador()) {
             cargarFiltro();
             datosMainTable(DataManager.getListTrabajador());
             datosNewTrabajador();
@@ -109,7 +109,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
             Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
             List<Trabajador> trabajadores = DataManager.getListTrabajador();
 
-            if (centro != null) trabajadores = trabajadores.stream().filter(trabajador -> trabajador.getIdCentro() == centro.getId()).toList();
+            if (centro != null) trabajadores = trabajadores.stream().filter(trabajador -> trabajador.getCentro() == centro).toList();
             datosMainTable(trabajadores);
         };
     }
@@ -144,7 +144,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
             data[j][2] = trabajador.getApellido();
             data[j][3] = trabajador.getEdad();
             data[j][4] = trabajador.getSalario();
-            data[j][5] = DataManager.getNomCentro(trabajador.getIdCentro());
+            data[j][5] = trabajador.getCentro().getNombre();
 
             j++;
         }
