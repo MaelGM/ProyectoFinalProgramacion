@@ -237,7 +237,7 @@ public class PantallaActividades extends JFrame {
                     actSeleccionada = DataManager.getListActividades().get(row);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getNombre(), 0, 0);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getTipo(), 0, 1);
-                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(actSeleccionada.getIdCentro()), 0, 2);
+                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(actSeleccionada.getCentro().getId()), 0, 2);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getDificultad(), 0, 3);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getPrecio(), 0, 4);
                 }

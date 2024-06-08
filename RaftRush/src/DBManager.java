@@ -140,8 +140,10 @@ public class DBManager {
     }
 
     public static ResultSet getHashPassword(String nif) throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM cliente where cliente.nif = '" + nif+"'");
-    public static ResultSet getReservas(Cliente cliente, Actividad actividad) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM cliente where cliente.nif = '" + nif + "'");
+    }
+
+    public static ResultSet getReservasCli(Cliente cliente, Actividad actividad) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM reservaclienteactividad WHERE reservaclienteactividad.idActividad = "
                 + actividad.getId() + " AND reservaclienteactividad.nifCli =  '" + cliente.getNif() + "'");
     }

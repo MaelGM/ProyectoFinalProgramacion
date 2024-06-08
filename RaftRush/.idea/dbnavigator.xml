@@ -19,9 +19,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="48940a62-214f-42ec-b3e2-9a65196b77d8" object-ref="consoles/Connection" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
@@ -37,7 +35,6 @@
         <display-mode value="TABBED" />
         <navigation-history-size value="100" />
         <show-object-details value="false" />
-        <enable-sticky-paths value="true" />
       </general>
       <filters>
         <object-type-filter>

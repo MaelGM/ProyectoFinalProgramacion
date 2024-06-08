@@ -48,6 +48,7 @@ public class Trabajador extends Usuario{
         this.centro = centro;
     }
 
+
     @Override
     public boolean isTrabajador() {
         return true;

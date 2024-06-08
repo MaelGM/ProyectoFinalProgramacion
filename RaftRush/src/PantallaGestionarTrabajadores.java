@@ -278,7 +278,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
                     tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getApellido(), 0, 2);
                     tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getEdad(), 0, 3);
                     tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getSalario(), 0, 4);
-                    tblNuevoTrabajador.getModel().setValueAt(DataManager.getNomCentro(trabajadorSeleccionado.getIdCentro()), 0, 5);
+                    tblNuevoTrabajador.getModel().setValueAt(DataManager.getNomCentro(trabajadorSeleccionado.getCentro().getId()), 0, 5);
                 }
             }
         });

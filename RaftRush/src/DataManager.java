@@ -49,9 +49,11 @@ public class DataManager {
                 while(rs.next()){
                     int tipoId = rs.getInt(6);
                     Tipo tipo = filterTipoById(tipoId);
+                    int centroId = rs.getInt((7));
+                    Centro centro = filterCentroById(centroId);
                     listActividades.add(new Actividad(rs.getInt(1), rs.getString(2), rs.getString(3),
-                            rs.getString(4),rs.getDouble(5), tipoId,
-                            rs.getInt(7)));
+                            rs.getString(4),rs.getDouble(5), tipo,
+                            centro));
                 }
             }catch (SQLException e){
                 DBManager.close();
@@ -63,7 +65,16 @@ public class DataManager {
         return false;
     }
 
-    public static Tipo filterTipoById(int id) {
+    private static Centro filterCentroById(int centroId) {
+        for (int i = 0; i < listCentros.size(); i++) {
+            if (listCentros.get(i).getId() == centroId) {
+                return listCentros.get(i);
+            }
+        }
+        return null;
+    }
+
+    private static Tipo filterTipoById(int id) {
         for (int i = 0; i < listTipos.size(); i++) {
             if (listTipos.get(i).getId() == id) {
                 return listTipos.get(i);
@@ -296,7 +307,7 @@ public class DataManager {
         return result;
     }
 
-    public static Tipo getTipo(String nombre){
+    public static Tipo getTipoByName(String nombre){
         for (Tipo tipo: listTipos) {
             if (tipo.getNombre().equalsIgnoreCase(nombre)) return tipo;
         }
@@ -445,7 +456,38 @@ public class DataManager {
     public static List<String> getTiposActividadesCentro() {
         return listTipos.stream().map(Tipo::getNombre).distinct().toList();
     }
+    /**
+     * Metodo para hacer una lista de Entregas
+     */
+    public static List<Map<String, Object>> getListEntregas() {
+        List<Map<String, Object>> entregas = new ArrayList<>();
 
+        if (DBManager.connect()) {
+            for (Material material:listMaterial) {
+                for (Proveedor proveedor:listProveedor) {
+                    try {
+                        ResultSet rs = DBManager.getEntregas(material,proveedor);
+                        if (rs != null) {
+                            while (rs.next()){
+                                Map<String, Object> entrega = new HashMap<>();
+                                entrega.put("column1", rs.getString(1));
+                                entrega.put("column2", rs.getInt(2));
+                                entrega.put("column3", rs.getInt(3));
+                                entrega.put("column4", rs.getInt(4));
+                                entregas.add(entrega);
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        DBManager.close();
+                        return null;
+                    }
+                }
+            }
+        }
+        DBManager.close();
+        return entregas;
+    }
     /**
      * Metodo para hacer una lista de reservas
      */
@@ -453,10 +495,10 @@ public class DataManager {
         List<Map<String, Object>> reservas = new ArrayList<>();
 
         if (DBManager.connect()) {
-            for (Cliente cliente : listClientes) {
-                for (Actividad actividad : listActividades) {
+            for (Actividad actividad : listActividades) {
+                for (Cliente cliente:listClientes) {
                     try {
-                        ResultSet rs = DBManager.getReservas(cliente, actividad);
+                        ResultSet rs = DBManager.getReservasCli(cliente, actividad);
                         if (rs != null) {
                             while (rs.next()) {
                                 Map<String, Object> reserva = new HashMap<>();

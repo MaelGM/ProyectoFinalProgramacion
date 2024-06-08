@@ -242,7 +242,7 @@ public class PantallaMateriales extends JFrame{
                     tblModMaterial.getModel().setValueAt(materialSeleccionado.getNombre(), 0, 0);
                     tblModMaterial.getModel().setValueAt(materialSeleccionado.getCantidad(), 0, 1);
                     tblModMaterial.getModel().setValueAt(materialSeleccionado.getPrecio(), 0, 2);
-                    tblModMaterial.getModel().setValueAt(DataManager.getNomCentro(materialSeleccionado.getIdCentro()), 0, 3);
+                    tblModMaterial.getModel().setValueAt(DataManager.getNomCentro(materialSeleccionado.getCentro().getId()), 0, 3);
                 }
             }
         });
