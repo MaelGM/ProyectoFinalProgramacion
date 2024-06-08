@@ -1,6 +1,7 @@
 import Excepciones.ExceptionUsuario;
 import Objetos.*;
 
+import javax.xml.stream.events.DTD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -224,13 +225,14 @@ public class DataManager {
         return null;
     }
 
-    public static List<Actividad> getActividadesReservas(){
+    public static List<Actividad> getActividadesReservas(Usuario user){
         if (DBManager.connect()) {
             List<Actividad> actividades = new ArrayList<>();
             try{
                 ResultSet rs = DBManager.getReservas();//Select all actividades
                 while(rs.next()){
-                    actividades.add(getActividadById(rs.getInt(3)));
+                    if (user == null) actividades.add(getActividadById(rs.getInt(3)));
+                    else if (rs.getString(2).equalsIgnoreCase(user.getNif())) actividades.add(getActividadById(rs.getInt(3)));
                 }
             }catch (SQLException e){
                 DBManager.close();
@@ -242,13 +244,14 @@ public class DataManager {
         return null;
     }
 
-    public static List<Date> getFechasReservas(){
+    public static List<Date> getFechasReservas(Usuario user){
         if (DBManager.connect()) {
             List<Date> fechasReservas = new ArrayList<>();
             try{
                 ResultSet rs = DBManager.getReservas();//Select all actividades
                 while(rs.next()){
-                    fechasReservas.add(rs.getDate(1));
+                    if (user == null) fechasReservas.add(rs.getDate(1));
+                    else if (rs.getString(2).equalsIgnoreCase(user.getNif())) fechasReservas.add(rs.getDate(1));
                 }
             }catch (SQLException e){
                 DBManager.close();
@@ -356,23 +359,11 @@ public class DataManager {
         return result;
     }
 
-    public static String getTipo(int id){
-        String result = "";
-        if (DBManager.connect()) {
-            try{
-                ResultSet rs = DBManager.getTipo(id);
-
-                if (rs != null && rs.next()) {
-                    result = rs.getString("nombre");
-                }
-            }catch (SQLException e){
-                DBManager.close();
-                return "";
-            }
-            DBManager.close();
-            return result;
+    public static Cliente getCliente(String nif){
+        for (Cliente c: listClientes) {
+            if (c.getNif().equalsIgnoreCase(nif)) return c;
         }
-        return result;
+        return null;
     }
 
     public static Tipo getTipoByName(String nombre){
@@ -587,6 +578,7 @@ public class DataManager {
     public static List<Tipo> getListTipos(){
         return listTipos;
     }
+    public static List<Cliente> getListClientes(){return listClientes;}
     public static List<String> getLocalidadesCentro() {
         return listCentros.stream().map(Centro::getLocalidad).distinct().toList();
     }
@@ -597,38 +589,6 @@ public class DataManager {
     public static List<Map<String, Object>> getListReservas() {
         listReservas.sort(Comparator.comparing(r -> ((Date) r.get("columna1"))));
         return listReservas;
-    }
-    /**
-     * Metodo para hacer una lista de Entregas
-     */
-    public static List<Map<String, Object>> getListEntregas() {
-        List<Map<String, Object>> entregas = new ArrayList<>();
-
-        if (DBManager.connect()) {
-            for (Material material:listMaterial) {
-                for (Proveedor proveedor:listProveedor) {
-                    try {
-                        ResultSet rs = DBManager.getEntregas(material,proveedor);
-                        if (rs != null) {
-                            while (rs.next()){
-                                Map<String, Object> entrega = new HashMap<>();
-                                entrega.put("column1", rs.getString(1));
-                                entrega.put("column2", rs.getInt(2));
-                                entrega.put("column3", rs.getInt(3));
-                                entrega.put("column4", rs.getInt(4));
-                                entregas.add(entrega);
-                            }
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        DBManager.close();
-                        return null;
-                    }
-                }
-            }
-        }
-        DBManager.close();
-        return entregas;
     }
     /**
      * Metodo para hacer una lista de reservas

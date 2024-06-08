@@ -69,7 +69,7 @@
                 <properties>
                   <font name="Inter" size="24" style="1"/>
                   <foreground color="-16777216"/>
-                  <text value="Precio Final: 0€"/>
+                  <text value="Precio: 0€"/>
                 </properties>
               </component>
               <component id="ac136" class="javax.swing.JButton" binding="btnReserva">

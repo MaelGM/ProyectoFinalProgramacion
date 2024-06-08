@@ -77,8 +77,8 @@ public class PantallaReservas extends JFrame {
     }
 
     private void cargarListas() {
-        List<Date> fechas = DataManager.getFechasReservas();
-        List<Actividad> actividades = DataManager.getActividadesReservas();
+        List<Date> fechas = DataManager.getFechasReservas(null); // Si el usuario es nulo, devolvera la lista entera
+        List<Actividad> actividades = DataManager.getActividadesReservas(null);
         List<Cliente> clientes = DataManager.getClientesReservas();
         datosMainTable(fechas, actividades, clientes);
     }

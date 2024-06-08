@@ -22,7 +22,7 @@ public class PantallaReservasClientes extends JFrame{
     private JButton btnAnularReserva;
     private DefaultTableModel model;
 
-    public PantallaReservasClientes(Usuario cliente, Actividad actividadSelected){
+    public PantallaReservasClientes(Usuario cliente){
         super("Reservas");
         init();
         setContentPane(jplGeneral);
@@ -62,12 +62,14 @@ public class PantallaReservasClientes extends JFrame{
     }
 
     private void cargarListas(Usuario cliente) {
-        List<Date> fechas = DataManager.getFechasReservas();
-        List<Actividad> actividades = DataManager.getActividadesReservas();
-        List<Cliente> clientes = DataManager.getClientesReservas().stream().filter(cliente1 -> cliente1.getNif().equalsIgnoreCase(cliente.getNif())).toList();
-        if (clientes.size() >= 1) cargarDatos(fechas, actividades, clientes);
-        else JOptionPane.showMessageDialog(null, "No tienes reservas", "WARNING", JOptionPane.WARNING_MESSAGE);
-
+        try{
+            List<Date> fechas = DataManager.getFechasReservas(cliente);
+            List<Actividad> actividades = DataManager.getActividadesReservas(cliente);
+            if (DataManager.getClientesReservas().contains(cliente)) cargarDatos(fechas, actividades, DataManager.getCliente(cliente.getNif()));
+            else JOptionPane.showMessageDialog(null, "No tienes reservas", "WARNING", JOptionPane.WARNING_MESSAGE);
+        }catch (NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "No tienes reservas", "WARNING", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private void init() {
@@ -78,17 +80,17 @@ public class PantallaReservasClientes extends JFrame{
         setVisible(true);
     }
 
-    private void cargarDatos(List<Date> fechas, List<Actividad> actividades, List<Cliente> clientes){
-        if (clientes != null && fechas != null && actividades != null) {
+    private void cargarDatos(List<Date> fechas, List<Actividad> actividades, Cliente cliente){
+        if (cliente != null && fechas != null && actividades != null) {
             String[] header = {"Fecha de reserva", "NIF del cliente", "Actividad", "Precio", "Localidad"};
-            Object[][] data = new Object[clientes.size()][header.length];
+            Object[][] data = new Object[actividades.size()][header.length];
             int i = 0;
-            for (Cliente cliente : clientes) {
+            for (Actividad actividad : actividades) {
                 data[i][0] = fechas.get(i).toString();
-                data[i][1] = clientes.get(i).getNif();
-                data[i][2] = actividades.get(i).getNombre();
-                data[i][3] = actividades.get(i).getPrecio();
-                data[i][4] = actividades.get(i).getCentro().getLocalidad();
+                data[i][1] = cliente.getNif();
+                data[i][2] = actividad.getNombre();
+                data[i][3] = actividad.getPrecio();
+                data[i][4] = actividad.getCentro().getLocalidad();
 
                 i++;
             }

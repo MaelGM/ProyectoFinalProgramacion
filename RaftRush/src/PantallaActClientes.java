@@ -123,7 +123,7 @@ public class PantallaActClientes extends JFrame{
 
     private ActionListener verReservas(Usuario cliente){
         return e -> {
-            new PantallaReservasClientes(cliente, actividadSelected);
+            new PantallaReservasClientes(cliente);
             dispose();
         };
     }
