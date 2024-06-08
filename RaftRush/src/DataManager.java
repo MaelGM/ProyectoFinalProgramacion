@@ -390,6 +390,24 @@ public class DataManager {
         }else return false;
     }
 
+    public static boolean agregarReserva(Usuario cliente, Actividad actividad) {
+        if (DBManager.connect()){
+            try {
+                int res = DBManager.agregarReserva(cliente, actividad);
+
+                if (res > 0) {
+                    DBManager.close();
+                    return true;
+                }
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        }
+        DBManager.close();
+        return false;
+    }
+
     public static int editarUsuario(Usuario usu, String nombre, String contrasenya, String nif){
         if (DBManager.connect()) {
             try{
@@ -540,4 +558,6 @@ public class DataManager {
         DBManager.close();
         return 0;
     }
+
+
 }

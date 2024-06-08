@@ -1,6 +1,7 @@
 import Objetos.*;
 
 import java.sql.*;
+import java.time.LocalDate;
 
 
 public class DBManager {
@@ -105,6 +106,20 @@ public class DBManager {
         }
     }
 
+    public static int agregarReserva(Usuario cliente, Actividad actividad) throws SQLException{
+        String query = "INSERT INTO reservaclienteactividad (fechaDeReserva, nifCli, idActividad, idActividadCentro) VALUES (?,?,?,?)";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, String.valueOf(LocalDate.now()));
+            pstmt.setString(2,cliente.getNif());
+            pstmt.setInt(3,actividad.getId());
+            pstmt.setInt(4,actividad.getCentro().getId());
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+
     public static int editarCliente(Cliente cliente) throws SQLException {
         String query = "UPDATE cliente SET nif= ?, contrasenya= ?, telefono= ?, nombre= ?,edad= ? WHERE cliente.nif = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
@@ -151,6 +166,7 @@ public class DBManager {
     public static ResultSet getPrecioAct(int id) throws SQLException{
         return conn.createStatement().executeQuery("SELECT * FROM actividad WHERE actividad.id = " + id);
     }
+
 
     /*
         Esto no hace falta, ya que al ser incremental, se asigna el ID automaticamente

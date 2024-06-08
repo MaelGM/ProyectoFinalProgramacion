@@ -1,13 +1,16 @@
+import Objetos.Actividad;
 import Objetos.Usuario;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
 
 public class PantallaDetallesAct extends JFrame{
     private JPanel jplGeneral;
     private JLabel lblBG;
-    private JButton btnFecha;
     private JComboBox comboCantidad;
     private JButton btnReserva;
     private JPanel jplDatosReserva;
@@ -15,19 +18,28 @@ public class PantallaDetallesAct extends JFrame{
     private JLabel lblDescripcion;
     private JLabel lblPrecio;
     private JLabel lblFoto;
+    private JLabel lblCurrentDate;
 
-    public PantallaDetallesAct(Usuario cliente){
+    public PantallaDetallesAct(Usuario cliente, Actividad actividad){
         init();
         setContentPane(jplGeneral);
-        btnFecha.putClientProperty("JButton.buttonType", "roundRect");
+        setDatos(actividad);
         btnReserva.putClientProperty("JButton.buttonType", "roundRect");
         //comboCantidad.putClientProperty("JComponent.roundRect", true);
         background();
 
-        cargarListeners(cliente);
+        cargarListeners(cliente,actividad);
     }
 
-    private void cargarListeners(Usuario cliente) {
+    private void setDatos(Actividad actividad) {
+        lblTitulo.setText(actividad.getNombre());
+        lblDescripcion.setText(actividad.getDescripcion());
+        lblCurrentDate.setText("Fecha Reserva: " + String.valueOf(LocalDate.now()));
+        lblPrecio.setText("Precio final: " + String.valueOf(actividad.getPrecio()) + "€");
+
+    }
+
+    private void cargarListeners(Usuario cliente, Actividad actividad) {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -35,9 +47,16 @@ public class PantallaDetallesAct extends JFrame{
             }
         });
         btnReserva.addActionListener(e -> {
+            agregarReserva(cliente,actividad);
             new PantallaActClientes(cliente);
             dispose();
         });
+    }
+
+    private void agregarReserva(Usuario cliente, Actividad actividad) {
+        if (DataManager.agregarReserva(cliente,actividad)) {
+            JOptionPane.showMessageDialog(null, "Reserva guardado", "Reserva", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private void init() {

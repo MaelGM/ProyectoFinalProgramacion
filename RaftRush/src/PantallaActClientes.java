@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -36,6 +37,7 @@ public class PantallaActClientes extends JFrame{
     private JLabel lblNombre;
     private JLayeredPane jlpBackground;
     private DefaultTableModel model;
+    private Actividad actividadSelected = null;
 
     public PantallaActClientes(Usuario cliente){
         super("Actividades Clientes");
@@ -59,7 +61,8 @@ public class PantallaActClientes extends JFrame{
 
     private void cargarListners(Usuario cliente) {
         btnVerReservas.addActionListener(verReservas(cliente));
-        btnReservar.addActionListener(verDetalles(cliente));
+            btnReservar.addActionListener(verDetalles(cliente));
+
         cmbCentro.addActionListener(filtrar());
         cmbTipo.addActionListener(filtrar());
 
@@ -81,6 +84,20 @@ public class PantallaActClientes extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 new PantallaPerfil(cliente);
                 dispose();
+            }
+        });
+
+        tblActCli.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = tblActCli.getSelectedRow();
+                if (e.getClickCount() == 1 && row != -1) {
+                    tblActCli.setSelectionBackground(new Color(102,206,195));
+                } else if (e.getClickCount() == 2 && row != -1) {
+                    tblActCli.setSelectionBackground(new Color(47,84,96));
+                    actividadSelected = DataManager.getListActividades().get(row);
+                    JOptionPane.showMessageDialog(null, "Has selecionado la actividad " + actividadSelected.getNombre());
+                }
             }
         });
         Utils.cursorPointerLabel(lblUsuario);
@@ -105,15 +122,19 @@ public class PantallaActClientes extends JFrame{
 
     private ActionListener verReservas(Usuario cliente){
         return e -> {
-            new PantallaReservasClientes(cliente);
+            new PantallaReservasClientes(cliente, actividadSelected);
             dispose();
         };
     }
     private ActionListener verDetalles(Usuario cliente){
-        return e -> {
-            new PantallaDetallesAct(cliente);
-            dispose();
-        };
+            return e -> {
+                if (actividadSelected != null) {
+                    new PantallaDetallesAct(cliente, actividadSelected);
+                    dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Selecciona una actividad primero", "Actividad", JOptionPane.INFORMATION_MESSAGE);
+                }
+            };
     }
 
     public void cargarDato(){
