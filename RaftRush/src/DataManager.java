@@ -494,6 +494,50 @@ public class DataManager {
         }else return false;
     }
 
+    public static boolean editProveedor(Proveedor proveedor){
+        if (DBManager.connect()){
+            int codigo = getIdFromProveedor(proveedor);
+            if (codigo == -1) return false;
+            int rs = DBManager.updateProveedor(proveedor, codigo);
+            if (rs == 0) return false;
+            DBManager.close();
+            return true;
+        }return false;
+    }
+
+    public static boolean addProveedor(Proveedor proveedor){
+        if (listProveedor.contains(proveedor)) return false;
+        if (DBManager.connect()){
+            try {
+                ResultSet rs = DBManager.getProveedorEdit();
+                if (rs == null) return false;
+                rs.moveToInsertRow();
+                rs.updateString(2, proveedor.getNombre());
+                rs.updateString(3, proveedor.getTelefono());
+                rs.updateString(4, proveedor.getEmail());
+                rs.insertRow();
+
+                rs.close();
+                listProveedor.add(proveedor);
+
+                DBManager.close();
+                return true;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
+    }
+
+    private static int getIdFromProveedor(Proveedor proveedor){
+        for (Proveedor p: listProveedor) {
+            if (p.getNombre().equals(proveedor.getNombre()) || p.getEmail().equals(proveedor.getEmail()) || p.getTelefono().equals(proveedor.getTelefono()))
+                return p.getId();
+
+        }
+        return -1;
+    }
+
     public static boolean agregarReserva(Usuario cliente, Actividad actividad) {
         if (DBManager.connect()){
             try {
@@ -565,6 +609,24 @@ public class DataManager {
         return result;
     }
 
+    // TODO
+
+    /*public static boolean agregarTrabajador(Trabajador trabajador){
+        int idCentro = trabajador.getCentro().getId();
+
+        try {
+            if (DBManager.connect() && (DBManager.agregarTrabajador(trabajador, idCentro) != 0)){
+                listTrabajador.add(trabajador);
+                DBManager.close();
+                return true;
+            }
+        } catch (SQLException e) {
+            DBManager.close();
+            return false;
+        }
+        return false;
+    }
+
     public static boolean editarTrabajador(Trabajador trabajador, String nif){
         int idCentro = trabajador.getCentro().getId();
 
@@ -596,7 +658,7 @@ public class DataManager {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
         return false;
-    }
+    }*/
 
 
     public static List<Actividad> getListActividades(){

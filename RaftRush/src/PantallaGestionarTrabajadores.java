@@ -112,13 +112,15 @@ public class PantallaGestionarTrabajadores extends JFrame {
 
     /*private ActionListener editarTrabajador(){
         return e -> {
-            Trabajador trabajador = nuevoTrabajador(null);
-            String id = trabajador.getNif();
+            /*
+            //Trabajador trabajador = nuevoTrabajador(null);
+            //String id = trabajador.getNif();
 
             if(DataManager.editarTrabajador(trabajador, id)){
                 JOptionPane.showMessageDialog(null, "Se han actualizado los datos del trabajador",
                         "Actualización BBDD", JOptionPane.INFORMATION_MESSAGE);
             }
+            */
         };
     }*/
 
@@ -157,15 +159,15 @@ public class PantallaGestionarTrabajadores extends JFrame {
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 //TODO: Revisar si le ha dado a ok, y si le ha dado, revisar la contraseña es repetida
 
-                if (option == 0 && new String (passwordField.getPassword()).equals( new String (confirmPasswordField.getPassword()))) {
-                    String nif = (String) tblNuevoTrabajador.getModel().getValueAt(0,0);
-                    String nombre = (String) tblNuevoTrabajador.getModel().getValueAt(0,1);
-                    String apellido = (String) tblNuevoTrabajador.getModel().getValueAt(0,2);
-                    Object edadO = tblNuevoTrabajador.getModel().getValueAt(0,3);
+                if (option == 0 && new String(passwordField.getPassword()).equals(new String(confirmPasswordField.getPassword()))) {
+                    String nif = (String) tblNuevoTrabajador.getModel().getValueAt(0, 0);
+                    String nombre = (String) tblNuevoTrabajador.getModel().getValueAt(0, 1);
+                    String apellido = (String) tblNuevoTrabajador.getModel().getValueAt(0, 2);
+                    Object edadO = tblNuevoTrabajador.getModel().getValueAt(0, 3);
                     int edad = Integer.parseInt((String) edadO);
-                    Object salarioO = tblNuevoTrabajador.getModel().getValueAt(0,4);
+                    Object salarioO = tblNuevoTrabajador.getModel().getValueAt(0, 4);
                     double salario = Double.parseDouble((String) salarioO);
-                    int idCentro = DataManager.getIdCentroByName((String) tblNuevoTrabajador.getModel().getValueAt(0,5));
+                    int idCentro = DataManager.getIdCentroByName((String) tblNuevoTrabajador.getModel().getValueAt(0, 5));
                     String contrasenya = "";
                     try {
                         contrasenya = PasswordUtils.hashPassword(new String(passwordField.getPassword()));
@@ -175,7 +177,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
 
 
                     if (DataManager.agregarTrabajador(nif, nombre, apellido, edad, salario, idCentro, contrasenya)) {
-                        JOptionPane.showMessageDialog(null, "Nuevo trabajador agregado", "Trabajador" , JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Nuevo trabajador agregado", "Trabajador", JOptionPane.INFORMATION_MESSAGE);
                         datosMainTable(DataManager.getListTrabajador());
                     }
                 }

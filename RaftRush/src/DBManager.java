@@ -72,6 +72,9 @@ public class DBManager {
     public static ResultSet getProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor");
     }
+    public static ResultSet getProveedorEdit() throws SQLException {
+        return conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM proveedor");
+    }
     public static ResultSet getReservas() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM reservaclienteactividad");
     }
@@ -93,6 +96,23 @@ public class DBManager {
 
     public static ResultSet getTrabajador(String nif) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM trabajador WHERE trabajador.nif = '" + nif + "'");
+    }
+
+    public static int updateProveedor(Proveedor p, int codigo) {
+        try {
+            String query = "UPDATE proveedor SET nombre= ?, telefono= ?, email= ? WHERE id = ?";
+            try(PreparedStatement pstmt = conn.prepareStatement(query)){
+                pstmt.setString(1, p.getNombre());
+                pstmt.setString(2, p.getTelefono());
+                pstmt.setString(3, p.getEmail());
+                pstmt.setInt(4, codigo);
+
+                return pstmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
     }
 
     public static int agregarCliente(Cliente cliente) throws SQLException {
