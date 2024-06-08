@@ -109,6 +109,23 @@ public class DBManager {
         }
     }
 
+    public static int agregarTrabajador(String nif, String nombre, String apellido, int edad, double salario, int idCentro, String contrasenya) throws SQLException{
+        String query = "INSERT INTO trabajador (nif, contrasenya, nombre, apellido, salario, edad, idCentro) VALUES (?,?,?,?,?,?,?)";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1,nif);
+            pstmt.setString(2,contrasenya);
+            pstmt.setString(3,nombre);
+            pstmt.setString(4,apellido);
+            pstmt.setDouble(5,salario);
+            pstmt.setInt(6,edad);
+            pstmt.setInt(7,idCentro);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+
     public static int agregarReserva(Usuario cliente, Actividad actividad) throws SQLException{
         String query = "INSERT INTO reservaclienteactividad (fechaDeReserva, nifCli, idActividad, idActividadCentro) VALUES (?,?,?,?)";
 
@@ -158,7 +175,7 @@ public class DBManager {
     }
 
     public static ResultSet getHashPassword(String nif) throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM cliente where cliente.nif = '" + nif + "'");
+        return conn.createStatement().executeQuery("SELECT * FROM trabajador where trabajador.nif = '" + nif + "'");
     }
 
     public static ResultSet getReservasCli(Cliente cliente, Actividad actividad) throws SQLException {
@@ -169,6 +186,7 @@ public class DBManager {
     public static ResultSet getPrecioAct(int id) throws SQLException{
         return conn.createStatement().executeQuery("SELECT * FROM actividad WHERE actividad.id = " + id);
     }
+
 
 
     /*

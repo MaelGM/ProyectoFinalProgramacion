@@ -8,6 +8,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 
 public class PantallaInicioSesion extends JFrame{
@@ -128,22 +129,22 @@ public class PantallaInicioSesion extends JFrame{
     private ActionListener iniciarSesion() {
         return e -> {
             if (checkTextFields() && DataManager.getUsuarios()){
-                //try {
+                try {
                     char[] passwordChars = passwdField.getPassword();
                     String password = new String(passwordChars);
-                    //if (PasswordUtils.checkPassword(password, DataManager.getHashPassword(formTxtFldNif.getText()))) {
+                    if (PasswordUtils.checkPassword(password, DataManager.getHashPassword(formTxtFldNif.getText()))) {
                         user = DataManager.findUsuario(formTxtFldNif.getText());
 
                         if (user instanceof Trabajador) new PantallaMenu(user); // TODO: Tendriamos que enviarle el usuario (Constructor nuevo) para asi que cambie la pestaña perfil
                         else if (user instanceof Cliente) new PantallaActClientes(user);
                         dispose();
 
-                    /*}else{
+                    }else{
                         JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "Contraseña",JOptionPane.ERROR_MESSAGE);
-                    }*/
-                //} catch (NoSuchAlgorithmException ex) {
-                //    ex.printStackTrace();
-                //}
+                    }
+                } catch (NoSuchAlgorithmException ex) {
+                    ex.printStackTrace();
+                }
             }
         };
     }

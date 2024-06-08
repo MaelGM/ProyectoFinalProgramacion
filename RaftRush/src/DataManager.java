@@ -192,7 +192,7 @@ public class DataManager {
     public static boolean getReservasGeneral(){
         if (DBManager.connect()) {
             try{
-                ResultSet rs = DBManager.getReservas();//Select all actividades
+                ResultSet rs = DBManager.getReservas();//Select all reservas
                 while(rs.next()){
                     // Lo recorre para comprobar que puede cargar la lista y devolver true
                 }
@@ -414,6 +414,13 @@ public class DataManager {
         return null;
     }
 
+    public static int getIdCentroByName(String centro) {
+        for (Centro centro1:listCentros) {
+            if (centro1.getNombre().equalsIgnoreCase(centro)) return centro1.getId();
+        }
+        return 0;
+    }
+
     private static Actividad getActividadById(int id){
         for (Actividad actividad: listActividades) {
             if (actividad.getId() == id) return actividad;
@@ -460,7 +467,24 @@ public class DataManager {
         }
         return false;
     } */
-    
+
+    public static boolean agregarTrabajador(String nif, String nombre, String apellido, int edad, double salario, int idCentro, String contrasenya) {
+        Centro centro = findCentro(idCentro);
+        if (DBManager.connect()){
+            try {
+                int res = DBManager.agregarTrabajador(nif, nombre, apellido, edad, salario, idCentro, contrasenya);
+                listTrabajador.add(new Trabajador(nif, contrasenya, nombre, apellido, salario, edad, centro));
+                //TODO Actualizar caché en inserts, deletes y updates de todas las clases
+                DBManager.close();
+                return res != 0;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            } catch (ExceptionUsuario e) {
+                throw new RuntimeException(e);
+            }
+        }else return false;
+    }
 
     public static boolean addCliente(Cliente cliente){
         if (findUsuario(cliente.getNif()) != null) return false;
@@ -519,6 +543,13 @@ public class DataManager {
         }
         for (Cliente c : listClientes) {
             if (c.getNif().equals(nif)) return c;
+        }
+        return null;
+    }
+
+    public static Centro findCentro(int id){
+        for (Centro centro:listCentros) {
+            if (centro.getId() == id) return centro;
         }
         return null;
     }
@@ -650,6 +681,9 @@ public class DataManager {
         DBManager.close();
         return 0;
     }
+
+
+
 
 
 }

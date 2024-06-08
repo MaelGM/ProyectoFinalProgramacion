@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,22 +126,59 @@ public class PantallaGestionarTrabajadores extends JFrame {
 
     private ActionListener pedirPassword() {
         return e -> {
-            JPasswordField passwordField = new JPasswordField();
-            JPasswordField confirmPasswordField = new JPasswordField();
+            if (checkTextFields()) {
+                JPasswordField passwordField = new JPasswordField();
+                JPasswordField confirmPasswordField = new JPasswordField();
 
-            // Crear el panel que contendrá los campos
-            JPanel panel = new JPanel();
-            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-            panel.add(new JLabel("Introduzca su contraseña:"));
-            panel.add(passwordField);
-            panel.add(new JLabel("Repita la contraseña:"));
-            panel.add(confirmPasswordField);
+                // Crear el panel que contendrá los campos
+                JPanel panel = new JPanel();
+                panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+                panel.add(new JLabel("Introduzca su contraseña:"));
+                panel.add(passwordField);
+                panel.add(new JLabel("Repita la contraseña:"));
+                panel.add(confirmPasswordField);
 
-            // Mostrar el cuadro de diálogo de entrada
-            int option = JOptionPane.showConfirmDialog(null, panel, "Creé la nueva contraseña",
-                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            //TODO: Revisar si le ha dado a ok, y si le ha dado, revisar la contraseña es repetida
+                // Mostrar el cuadro de diálogo de entrada
+                int option = JOptionPane.showConfirmDialog(null, panel, "Creé la nueva contraseña",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                //TODO: Revisar si le ha dado a ok, y si le ha dado, revisar la contraseña es repetida
+
+                if (option == 0 && new String (passwordField.getPassword()).equals( new String (confirmPasswordField.getPassword()))) {
+                    String nif = (String) tblNuevoTrabajador.getModel().getValueAt(0,0);
+                    String nombre = (String) tblNuevoTrabajador.getModel().getValueAt(0,1);
+                    String apellido = (String) tblNuevoTrabajador.getModel().getValueAt(0,2);
+                    Object edadO = tblNuevoTrabajador.getModel().getValueAt(0,3);
+                    int edad = Integer.parseInt((String) edadO);
+                    Object salarioO = tblNuevoTrabajador.getModel().getValueAt(0,4);
+                    double salario = Double.parseDouble((String) salarioO);
+                    int idCentro = DataManager.getIdCentroByName((String) tblNuevoTrabajador.getModel().getValueAt(0,5));
+                    String contrasenya = "";
+                    try {
+                        contrasenya = PasswordUtils.hashPassword(new String(passwordField.getPassword()));
+                    } catch (NoSuchAlgorithmException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+
+                    if (DataManager.agregarTrabajador(nif, nombre, apellido, edad, salario, idCentro, contrasenya)) {
+                        JOptionPane.showMessageDialog(null, "Nuevo trabajador agregado", "Trabajador" , JOptionPane.INFORMATION_MESSAGE);
+                        datosMainTable(DataManager.getListTrabajador());
+                    }
+                }
+            }
         };
+    }
+
+    private boolean checkTextFields() {
+        if (tblNuevoTrabajador.getModel().getValueAt(0,0).equals("")
+                || tblNuevoTrabajador.getModel().getValueAt(0,1).equals("")
+                || tblNuevoTrabajador.getModel().getValueAt(0,2).equals("")
+                || tblNuevoTrabajador.getModel().getValueAt(0,3).equals("")
+                || tblNuevoTrabajador.getModel().getValueAt(0,4).equals("")
+                || tblNuevoTrabajador.getModel().getValueAt(0,5).equals("")) {
+            JOptionPane.showMessageDialog(null, "Rellene todos los campos", "Error en los datos", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else return true;
     }
 
     public void datosMainTable(List<Trabajador> trabajadores){
