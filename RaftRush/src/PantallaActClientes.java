@@ -43,6 +43,7 @@ public class PantallaActClientes extends JFrame{
         super("Actividades Clientes");
         init();
         cargarListners(cliente);
+        estilo();
         background();
         cargarDato();
 
@@ -61,7 +62,7 @@ public class PantallaActClientes extends JFrame{
 
     private void cargarListners(Usuario cliente) {
         btnVerReservas.addActionListener(verReservas(cliente));
-            btnReservar.addActionListener(verDetalles(cliente));
+        btnReservar.addActionListener(verDetalles(cliente));
 
         cmbCentro.addActionListener(filtrar());
         cmbTipo.addActionListener(filtrar());

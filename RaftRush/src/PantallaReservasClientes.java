@@ -1,15 +1,18 @@
 import Objetos.Actividad;
+import Objetos.Cliente;
 import Objetos.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,14 +25,33 @@ public class PantallaReservasClientes extends JFrame{
     private JButton btnAnularReserva;
     private DefaultTableModel model;
 
-    public PantallaReservasClientes(Usuario cliente, Actividad actividad){
+    public PantallaReservasClientes(Usuario cliente){
+        super("Reservas");
         init();
         setContentPane(jplGeneral);
         background();
-        //cargarDato(cliente,actividad);
+        cargarListas(cliente);
         cargarListeners(cliente);
+        estilo();
 
         tblReservas.setShowGrid(true);//Mostrar grid color
+    }
+
+    private void estilo() {
+        tblReservas.setGridColor(Color.black);
+        tblReservas.getTableHeader().setOpaque(false);
+        tblReservas.getTableHeader().setBackground(new Color(47, 75, 89));
+        tblReservas.getTableHeader().setForeground(new Color(245, 159, 116));
+        tblReservas.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
+
+        TableColumnModel colums = tblReservas.getColumnModel();
+        colums.getColumn(4).setMinWidth(150);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < tblReservas.getColumnCount(); i++) {
+            tblReservas.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
     }
 
     private void cargarListeners(Usuario cliente) {
@@ -42,6 +64,15 @@ public class PantallaReservasClientes extends JFrame{
         Utils.cursorPointerBoton(btnAnularReserva); // TODO: Funcion que elimine una reserva seleccionada
     }
 
+    private void cargarListas(Usuario cliente) {
+        List<Date> fechas = DataManager.getFechasReservas();
+        List<Actividad> actividades = DataManager.getActividadesReservas();
+        List<Cliente> clientes = DataManager.getClientesReservas().stream().filter(cliente1 -> cliente1.getNif().equalsIgnoreCase(cliente.getNif())).toList();
+        if (clientes.size() >= 1) cargarDatos(fechas, actividades, clientes);
+        else JOptionPane.showMessageDialog(null, "No tienes reservas", "WARNING", JOptionPane.WARNING_MESSAGE);
+
+    }
+
     private void init() {
         setSize(1480,774);
         setResizable(false);
@@ -50,49 +81,41 @@ public class PantallaReservasClientes extends JFrame{
         setVisible(true);
     }
 
-    private void cargarDato(Usuario cliente, Actividad actividad){
+    private void cargarDatos(List<Date> fechas, List<Actividad> actividades, List<Cliente> clientes){
+        if (clientes != null && fechas != null && actividades != null) {
+            String[] header = {"Fecha de reserva", "NIF del cliente", "Actividad", "Precio", "Localidad"};
+            Object[][] data = new Object[clientes.size()][header.length];
+            int i = 0;
+            for (Cliente cliente : clientes) {
+                data[i][0] = fechas.get(i).toString();
+                data[i][1] = clientes.get(i).getNif();
+                data[i][2] = actividades.get(i).getNombre();
+                data[i][3] = actividades.get(i).getPrecio();
+                data[i][4] = actividades.get(i).getCentro().getLocalidad();
 
-        List<Actividad> listReservaClie = null; /*DataManager.getListActividades().stream()
-                .filter(actividad1 -> actividad.getId() == actividad1.getId() && cliente.getNif().equals(DataManager.getListReservas().))
-                .toList();*/
-        Object[][] data = new Object[listReservaClie.size()][5];
+                i++;
+            }
 
+            tblReservas.setModel(new DefaultTableModel(data, header));
 
-        int i = 0;
-        for (int j = 0; j < listReservaClie.size(); j++) {
-            data[i][0] =
-            data[i][1] =
-            data[i][2] =
-            data[i][3] =
-            data[i][4] =
-
-            i++;
+            asignarTamanyoColumnasReservas();
+            tblReservas.getTableHeader().setReorderingAllowed(false);
+            tblReservas.setDefaultEditor(Object.class, null);
+            tblReservas.setEnabled(true);
         }
+    }
 
-
-        model = new DefaultTableModel(data, new String[]{"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"});
-        tblReservas.setModel(model);
-        //Color tableBG = new Color(110, 130, 141);
-
-        tblReservas.setGridColor(Color.black);
-        tblReservas.getTableHeader().setOpaque(false);
-        tblReservas.getTableHeader().setBackground(new Color(47, 75, 89));
-        tblReservas.getTableHeader().setForeground(new Color(245, 159, 116));
-        tblReservas.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
-
-        TableColumnModel colums = tblReservas.getColumnModel();
-        colums.getColumn(4).setMinWidth(150);
-
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int z = 0; i < tblReservas.getColumnCount(); z++) {
-            tblReservas.getColumnModel().getColumn(z).setCellRenderer(centerRenderer);
+    public void asignarTamanyoColumnasReservas(){
+        TableColumn column;
+        for (int i = 0; i < tblReservas.getColumnCount(); i++) {
+            column = tblReservas.getColumnModel().getColumn(i);
+            switch (i){
+                case 0 -> column.setPreferredWidth(153);
+                case 1 -> column.setPreferredWidth(100);
+                case 2, 4 -> column.setPreferredWidth(300);
+                case 3 -> column.setPreferredWidth(50);
+            }
         }
-
-        tblReservas.getTableHeader().setReorderingAllowed(false);
-        tblReservas.setDefaultEditor(Object.class,null);
-        tblReservas.setEnabled(true);
-
     }
 
     private void background(){

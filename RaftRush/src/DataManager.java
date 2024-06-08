@@ -121,6 +121,77 @@ public class DataManager {
         return false;
     }
 
+    public static boolean getEntregas(){
+        if (DBManager.connect()) {
+            try{
+                ResultSet rs = DBManager.getEntregas();//Select all actividades
+                while(rs.next()){
+                    // Lo recorre para comprobar que puede cargar la lista y devolver true
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return false;
+            }
+            DBManager.close();
+            return true;
+        }
+        return false;
+    }
+
+    public static List<Proveedor> getProveedoresEntregas(){
+        if (DBManager.connect()) {
+            List<Proveedor> proveedores = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getEntregas();//Select all entregas
+                while(rs.next()){
+                    proveedores.add(getProveedorId(rs.getInt(2)));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return proveedores;
+        }
+        return null;
+    }
+
+    public static List<Material> getMaterialEntregas(){
+        if (DBManager.connect()) {
+            List<Material> materiales = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getEntregas();//Select all actividades
+                while(rs.next()){
+                    materiales.add(getMaterialById(rs.getInt(3)));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return materiales;
+        }
+        return null;
+    }
+
+    public static List<Date> getFechasEntregas(){
+        if (DBManager.connect()) {
+            List<Date> fechasReservas = new ArrayList<>();
+            try{
+                ResultSet rs = DBManager.getEntregas();//Select all actividades
+                while(rs.next()){
+                    fechasReservas.add(rs.getDate(1));
+                }
+            }catch (SQLException e){
+                DBManager.close();
+                return null;
+            }
+            DBManager.close();
+            return fechasReservas;
+        }
+        return null;
+    }
+
     public static boolean getReservas(){
         if (DBManager.connect()) {
             try{
@@ -320,6 +391,13 @@ public class DataManager {
         return null;
     }
 
+    public static Material getMaterialById(int id){
+        for (Material material: listMaterial) {
+            if (material.getCodigo() == id) return material;
+        }
+        return null;
+    }
+
     public static Centro getCentroByLocalidad(String localidad){
         for (Centro centro: listCentros) {
             if (centro.getLocalidad().equalsIgnoreCase(localidad)) return centro;
@@ -349,6 +427,19 @@ public class DataManager {
     private static Cliente getClienteByNif(String nif){
         for (Cliente cliente: listClientes) {
             if (cliente.getNif().equalsIgnoreCase(nif)) return cliente;
+        }
+        return null;
+    }
+
+    public static Proveedor getProveedorByName(String nombre){
+        for (Proveedor proveedor: listProveedor) {
+            if (proveedor.getNombre().equalsIgnoreCase(nombre)) return proveedor;
+        }
+        return null;
+    }
+    public static Proveedor getProveedorId(int id){
+        for (Proveedor proveedor: listProveedor) {
+            if (proveedor.getId() == id) return proveedor;
         }
         return null;
     }

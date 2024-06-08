@@ -17,7 +17,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="f56bac47-8de5-4265-9f52-e015df2ea29c">
-      <console name="Connection" type="STANDARD" schema="raftrush" session="Main"><![CDATA[select * from trabajador]]></console>
+      <console name="Connection" type="STANDARD" schema="raftrush" session="Main"><![CDATA[select * from cliente]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">

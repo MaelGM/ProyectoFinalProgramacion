@@ -173,9 +173,8 @@ public class PantallaReservas extends JFrame {
             switch (i){
                 case 0 -> column.setPreferredWidth(153);
                 case 1 -> column.setPreferredWidth(100);
-                case 2 -> column.setPreferredWidth(300);
+                case 2, 4 -> column.setPreferredWidth(300);
                 case 3 -> column.setPreferredWidth(50);
-                case 4 -> column.setPreferredWidth(300);
             }
         }
     }
