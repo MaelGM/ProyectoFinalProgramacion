@@ -35,6 +35,8 @@ public class PantallaDetallesAct extends JFrame{
         lblTitulo.setText(actividad.getNombre());
         lblDescripcion.setText(actividad.getDescripcion());
         lblCurrentDate.setText("Fecha Reserva: " + String.valueOf(LocalDate.now()));
+        lblPrecio.setText("Precio final: " + String.valueOf(actividad.getPrecio()) + "€");
+
     }
 
     private void cargarListeners(Usuario cliente, Actividad actividad) {
@@ -48,15 +50,6 @@ public class PantallaDetallesAct extends JFrame{
             agregarReserva(cliente,actividad);
             new PantallaActClientes(cliente);
             dispose();
-        });
-        comboCantidad.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int cantidad = comboCantidad.getSelectedIndex();
-                Double precioFinal = actividad.getPrecio() * cantidad;
-                lblPrecio.setText("Precio final: " + String.valueOf(precioFinal) + "€");
-
-            }
         });
     }
 
