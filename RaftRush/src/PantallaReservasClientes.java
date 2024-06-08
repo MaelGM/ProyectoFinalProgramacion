@@ -8,13 +8,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class PantallaReservasClientes extends JFrame{
     private JPanel jplGeneral;
@@ -25,7 +22,7 @@ public class PantallaReservasClientes extends JFrame{
     private JButton btnAnularReserva;
     private DefaultTableModel model;
 
-    public PantallaReservasClientes(Usuario cliente){
+    public PantallaReservasClientes(Usuario cliente, Actividad actividadSelected){
         super("Reservas");
         init();
         setContentPane(jplGeneral);

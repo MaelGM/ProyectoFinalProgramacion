@@ -1,5 +1,7 @@
 package Objetos;
 
+import java.util.Objects;
+
 public class Centro {
     private int id;
     private String nombre;
@@ -54,5 +56,18 @@ public class Centro {
     @Override
     public String toString() {
         return id + ";" + nombre + ";" + localidad + ";" + presupuesto;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Centro centro = (Centro) o;
+        return Objects.equals(localidad, centro.localidad);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(localidad);
     }
 }

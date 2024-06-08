@@ -1,5 +1,7 @@
 package Objetos;
 
+import java.util.Objects;
+
 public class Material {
     private int codigo;
     private String nombre;
@@ -66,5 +68,19 @@ public class Material {
     @Override
     public String toString() {
         return codigo + ";" + nombre + ";" + precio + ";" + cantidad + ";" + centro;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Material material = (Material) o;
+        return Objects.equals(nombre, material.nombre) &&
+                Objects.equals(centro, material.centro);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nombre, centro);
     }
 }

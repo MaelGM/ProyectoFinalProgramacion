@@ -35,8 +35,6 @@ public class PantallaEntregas extends JFrame{
         tblEntregas.setShowGrid(true);//Mostrar grid color
     }
 
-
-
     private void init() {
         setSize(1480,774);
         setContentPane(panelGeneral);
@@ -79,11 +77,16 @@ public class PantallaEntregas extends JFrame{
             List<Material> materiales = DataManager.getMaterialEntregas();
             List<Proveedor> proveedores = DataManager.getProveedoresEntregas();
 
-            if (proveedor != null && proveedores != null) proveedores = proveedores.stream().filter(proveedor1 -> proveedor1 == proveedor).toList();
-            if (centro != null && materiales != null) materiales = materiales.stream().filter(material -> material.getCentro() == centro).toList();
+            if (proveedor != null && proveedores != null) {
+                proveedores = proveedores.stream().filter(proveedor1 -> proveedor1.equals(proveedor)).toList();
+            }
+            if (centro != null && materiales != null) {
+                materiales = materiales.stream().filter(material -> material.getCentro().equals(centro)).toList();
+            }
             cargarEntregaTable(fechas, materiales, proveedores);
         };
     }
+
 
     public void cargarDato(){
         if (DataManager.getCentros() && DataManager.getProveedor() && DataManager.getMaterial() && DataManager.getEntregas()) {
@@ -92,34 +95,38 @@ public class PantallaEntregas extends JFrame{
         }
     }
 
-    private void cargarEntregaTable(List<Date> fechas, List<Material> materiales, List<Proveedor> proveedores){
-        if (fechas != null && materiales != null && proveedores != null){
-            String[]header = {"Fecha de entrega", "Proveedor", "Material", "Centro"};
+    private void cargarEntregaTable(List<Date> fechas, List<Material> materiales, List<Proveedor> proveedores) {
+        if (fechas != null && materiales != null && proveedores != null) {
+            // Verifico que todas las listas tengan al menos un elemento
+            if (fechas.isEmpty() || materiales.isEmpty() || proveedores.isEmpty()) {
+                return;
+            }
 
-            Object[][] data = new Object[getLongitud(materiales, proveedores)][4];
+            String[] header = {"Fecha de entrega", "Proveedor", "Material", "Centro"};
 
-            int i = 0;
-            for (Material material: materiales) {
+            // Obtengo la longitud mínima para evitar ArrayIndexOutOfBoundsException
+            int longitud = Math.min(fechas.size(), Math.min(materiales.size(), proveedores.size()));
+            Object[][] data = new Object[longitud][4];
+
+            for (int i = 0; i < longitud; i++) {
                 data[i][0] = fechas.get(i).toString();
                 data[i][1] = proveedores.get(i).getNombre();
-                data[i][2] = material.getNombre();
-                data[i][3] = material.getCentro().getNombre();
-
-                i++;
+                data[i][2] = materiales.get(i).getNombre();
+                data[i][3] = materiales.get(i).getCentro().getNombre();
             }
 
             tblEntregas.setModel(new DefaultTableModel(data, header));
 
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-            for (i = 0; i < tblEntregas.getColumnCount(); i++) {
+            for (int i = 0; i < tblEntregas.getColumnCount(); i++) {
                 tblEntregas.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             }
 
             asignarTamanyoColumnasReservas();
 
             tblEntregas.getTableHeader().setReorderingAllowed(false);
-            tblEntregas.setDefaultEditor(Object.class,null);
+            tblEntregas.setDefaultEditor(Object.class, null);
             tblEntregas.setEnabled(true);
         }
     }
