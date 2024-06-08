@@ -107,10 +107,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
         cmbCentro.addActionListener(filtrar());
         btnAdd.addActionListener(pedirPassword());
         rellenarTablaModificar();
-        btnEdit.addActionListener(editarTrabajador());
+        //btnEdit.addActionListener(editarTrabajador());
     }
 
-    private ActionListener editarTrabajador(){
+    /*private ActionListener editarTrabajador(){
         return e -> {
             Trabajador trabajador = nuevoTrabajador(null);
             String id = trabajador.getNif();
@@ -120,7 +120,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
                         "Actualización BBDD", JOptionPane.INFORMATION_MESSAGE);
             }
         };
-    }
+    }*/
 
     private ActionListener filtrar() {
         return e -> {
@@ -152,10 +152,6 @@ public class PantallaGestionarTrabajadores extends JFrame {
                 panel.add(passwordField);
                 panel.add(new JLabel("Repita la contraseña:"));
                 panel.add(confirmPasswordField);
-
-                if (Arrays.equals(passwordField.getPassword(), confirmPasswordField.getPassword())){
-                    Trabajador trabajador = nuevoTrabajador(String.valueOf(passwordField.getPassword()));
-                }
                 // Mostrar el cuadro de diálogo de entrada
                 int option = JOptionPane.showConfirmDialog(null, panel, "Creé la nueva contraseña",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -184,6 +180,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
                     }
                 }
         }
+        };
     }
 
     private boolean checkTextFields() {
@@ -240,7 +237,6 @@ public class PantallaGestionarTrabajadores extends JFrame {
 
         tblNuevoTrabajador.setModel(new DefaultTableModel(rows, header));
         tblNuevoTrabajador.getTableHeader().setReorderingAllowed(false);
-        tblNuevoTrabajador.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasNuevoTrabajador();
 

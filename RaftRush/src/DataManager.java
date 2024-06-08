@@ -565,22 +565,6 @@ public class DataManager {
         return result;
     }
 
-    public static boolean agregarTrabajador(Trabajador trabajador){
-        int idCentro = trabajador.getCentro().getId();
-
-        try {
-            if (DBManager.connect() && (DBManager.agregarTrabajador(trabajador, idCentro) != 0)){
-                listTrabajador.add(trabajador);
-                DBManager.close();
-                return true;
-            }
-        } catch (SQLException e) {
-            DBManager.close();
-            return false;
-        }
-        return false;
-    }
-
     public static boolean editarTrabajador(Trabajador trabajador, String nif){
         int idCentro = trabajador.getCentro().getId();
 
