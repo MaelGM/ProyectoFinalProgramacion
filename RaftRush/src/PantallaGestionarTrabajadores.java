@@ -1,3 +1,4 @@
+import Excepciones.ExceptionUsuario;
 import Objetos.*;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
@@ -15,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PantallaGestionarTrabajadores extends JFrame {
@@ -105,6 +107,19 @@ public class PantallaGestionarTrabajadores extends JFrame {
         cmbCentro.addActionListener(filtrar());
         btnAdd.addActionListener(pedirPassword());
         rellenarTablaModificar();
+        btnEdit.addActionListener(editarTrabajador());
+    }
+
+    private ActionListener editarTrabajador(){
+        return e -> {
+            Trabajador trabajador = nuevoTrabajador(null);
+            String id = trabajador.getNif();
+
+            if(DataManager.editarTrabajador(trabajador, id)){
+                JOptionPane.showMessageDialog(null, "Se han actualizado los datos del trabajador",
+                        "Actualización BBDD", JOptionPane.INFORMATION_MESSAGE);
+            }
+        };
     }
 
     private ActionListener filtrar() {
@@ -138,6 +153,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
                 panel.add(new JLabel("Repita la contraseña:"));
                 panel.add(confirmPasswordField);
 
+                if (Arrays.equals(passwordField.getPassword(), confirmPasswordField.getPassword())){
+                    Trabajador trabajador = nuevoTrabajador(String.valueOf(passwordField.getPassword()));
+                }
                 // Mostrar el cuadro de diálogo de entrada
                 int option = JOptionPane.showConfirmDialog(null, panel, "Creé la nueva contraseña",
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -165,8 +183,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
                         datosMainTable(DataManager.getListTrabajador());
                     }
                 }
-            }
-        };
+        }
     }
 
     private boolean checkTextFields() {
@@ -208,7 +225,6 @@ public class PantallaGestionarTrabajadores extends JFrame {
             tblTrabajadores.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-
         asignarTamanyoColumnasTrabajadores();
     }
 
@@ -216,7 +232,6 @@ public class PantallaGestionarTrabajadores extends JFrame {
         String[]header = {"NIF","Nombre", "Apellidos", "Edad", "Salario", "Centro"};
         String[][]rows = new String[1][header.length];
 
-        ///Todo De cara a tomar datos, propongo tomar la información de cada celda.
         rows[0][0] = "";
         rows[0][1] = "";
         rows[0][2] = "";
@@ -225,7 +240,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
 
         tblNuevoTrabajador.setModel(new DefaultTableModel(rows, header));
         tblNuevoTrabajador.getTableHeader().setReorderingAllowed(false);
-        tblNuevoTrabajador.setDefaultEditor(Override.class, null);
+        tblNuevoTrabajador.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasNuevoTrabajador();
 

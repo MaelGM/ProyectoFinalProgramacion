@@ -2,6 +2,7 @@ import Excepciones.ExceptionUsuario;
 import Objetos.*;
 
 import javax.xml.stream.events.DTD;
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -563,6 +564,56 @@ public class DataManager {
         }
         return result;
     }
+
+    public static boolean agregarTrabajador(Trabajador trabajador){
+        int idCentro = trabajador.getCentro().getId();
+
+        try {
+            if (DBManager.connect() && (DBManager.agregarTrabajador(trabajador, idCentro) != 0)){
+                listTrabajador.add(trabajador);
+                DBManager.close();
+                return true;
+            }
+        } catch (SQLException e) {
+            DBManager.close();
+            return false;
+        }
+        return false;
+    }
+
+    public static boolean editarTrabajador(Trabajador trabajador, String nif){
+        int idCentro = trabajador.getCentro().getId();
+
+
+        try {
+            if (DBManager.connect() && (DBManager.editarTrabajador(trabajador, nif, idCentro) != 0)){
+                for (Trabajador t: listTrabajador){
+                    if (t.getNif().equals(nif)){
+                        try{
+                            t.setNombre(String.valueOf(trabajador.getNombre()));
+                            t.setApellido(String.valueOf(trabajador.getApellido()));
+                            t.setSalario(trabajador.getSalario());
+                            t.setEdad(trabajador.getEdad());
+                            t.setIdCentro(trabajador.getCentro());
+
+                            DBManager.close();
+                            return true;
+                        } catch (ExceptionUsuario e){
+                            JOptionPane.showMessageDialog(null, "Alguno de los campos es incorrecto",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            return false;
+                        }
+
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "No se ha podido actualizar el trabajador",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
+    }
+
 
     public static List<Actividad> getListActividades(){
         return listActividades;
