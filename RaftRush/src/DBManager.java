@@ -1,4 +1,4 @@
-import Objetos.Cliente;
+import Objetos.*;
 
 import java.sql.*;
 
@@ -71,8 +71,8 @@ public class DBManager {
     public static ResultSet getProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor");
     }
-    public static ResultSet getTipo() throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM tipo");
+    public static ResultSet getReservas() throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM reservaclienteactividad");
     }
 
     public static ResultSet getCentro(int id) throws SQLException {
@@ -115,16 +115,46 @@ public class DBManager {
             pstmt.setInt(5,cliente.getEdad());
 
             return pstmt.executeUpdate();
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw e;
         }
+    }
+
+    public static int editarUsu(Usuario usu, String nombre, String contrasenya, String nif) throws SQLException {
+        String query = "";
+        if (usu instanceof Trabajador) {
+            query = "UPDATE trabajador SET nombre= ?, contrasenya= ? WHERE trabajador.nif = ?";
+        }else if (usu instanceof Cliente) {
+            query = "UPDATE cliente SET nombre= ?, contrasenya= ? WHERE cliente.nif = ?";
+        }
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1,nombre);
+            pstmt.setString(2,contrasenya);
+            pstmt.setString(3,nif);
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    public static ResultSet getEntregas(Material material, Proveedor proveedor) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM entregaproveedormaterial WHERE entregaproveedormaterial.idProv = "
+                + proveedor.getId() + " AND entregaproveedormaterial.codMaterial = " + material.getCodigo());
+    }
+
+    public static ResultSet getHashPassword(String nif) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM cliente where cliente.nif = '" + nif + "'");
+    }
+
+    public static ResultSet getReservasCli(Cliente cliente, Actividad actividad) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM reservaclienteactividad WHERE reservaclienteactividad.idActividad = "
+                + actividad.getId() + " AND reservaclienteactividad.nifCli =  '" + cliente.getNif() + "'");
+    }
+
+    public static ResultSet getPrecioAct(int id) throws SQLException{
+        return conn.createStatement().executeQuery("SELECT * FROM actividad WHERE actividad.id = " + id);
     }
 
     /*
         Esto no hace falta, ya que al ser incremental, se asigna el ID automaticamente
 
-    ///////////////////////
     //TODO Este codigo lo hago para sacar el ultimo id u codigo que se ha creado para luego insertarlo a la nueva instancia Author -->Hakeem
     //TODO no he hecho la de tipo porque no estaba muy seguro de ello Author --> Hakeem
     public static ResultSet sacarUltimoIDCentro() throws SQLException {
@@ -142,6 +172,5 @@ public class DBManager {
     public static ResultSet sacarUltimoIDProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor ORDER BY proveedor.id DESC LIMIT 1");
     }
-    ///////////////////////
     */
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="PantallaReservas">
-  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="panelPrincipal" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1453" height="563"/>
+      <xy x="20" y="20" width="1427" height="563"/>
     </constraints>
     <properties>
       <background color="-16438980"/>
@@ -13,60 +13,16 @@
     <children>
       <component id="b9880" class="javax.swing.JLabel" binding="lblImgCorporativa">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value=""/>
         </properties>
       </component>
-      <grid id="268b8" binding="panelContenido" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="30" bottom="0" right="0"/>
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <background color="-16438980"/>
-        </properties>
-        <border type="none"/>
-        <children>
-          <scrollpane id="98df2" binding="PanelDeTabla">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="2" indent="0" use-parent-layout="false">
-                <minimum-size width="1194" height="381"/>
-                <preferred-size width="1194" height="381"/>
-                <maximum-size width="1194" height="381"/>
-              </grid>
-            </constraints>
-            <properties>
-              <background color="-16438980"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <component id="45a94" class="javax.swing.JTable" binding="tblReservas">
-                <constraints/>
-                <properties>
-                  <background color="-9534578"/>
-                  <focusable value="false"/>
-                  <font name="Inter" size="16" style="1"/>
-                  <foreground color="-16777216"/>
-                  <gridColor color="-9534578"/>
-                  <maximumSize width="2147483647" height="80"/>
-                  <minimumSize width="30" height="80"/>
-                  <preferredSize width="1194" height="330"/>
-                  <requestFocusEnabled value="true"/>
-                  <rowHeight value="40"/>
-                  <selectionBackground color="-7077901"/>
-                  <selectionForeground color="-16777216"/>
-                </properties>
-              </component>
-            </children>
-          </scrollpane>
-        </children>
-      </grid>
       <grid id="a0c5c" binding="panelEliminarRes" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
             <minimum-size width="1423" height="144"/>
             <preferred-size width="1423" height="144"/>
             <maximum-size width="1423" height="144"/>
@@ -96,6 +52,7 @@
                 <properties>
                   <background color="-9534578"/>
                   <focusable value="false"/>
+                  <font name="Inter" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <gridColor color="-9534578"/>
                   <rowHeight value="45"/>
@@ -120,6 +77,44 @@
               <text value="Anular reserva"/>
             </properties>
           </component>
+        </children>
+      </grid>
+      <grid id="a8d4" binding="panelTabla" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="1194" height="332"/>
+            <preferred-size width="1194" height="332"/>
+            <maximum-size width="1194" height="332"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-16438980"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <scrollpane id="e0399">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="8e923" class="javax.swing.JTable" binding="tblReservas">
+                <constraints/>
+                <properties>
+                  <background color="-9534578"/>
+                  <focusable value="false"/>
+                  <font name="Inter" size="16" style="1"/>
+                  <foreground color="-16777216"/>
+                  <gridColor color="-16777216"/>
+                  <rowHeight value="40"/>
+                  <selectionBackground color="-7077901"/>
+                  <selectionForeground color="-16777216"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
         </children>
       </grid>
     </children>

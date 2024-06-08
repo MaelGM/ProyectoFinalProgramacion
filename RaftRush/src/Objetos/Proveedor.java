@@ -10,6 +10,7 @@ public class Proveedor {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
+        //TODO Validar email
         this.email = email;
     }
 

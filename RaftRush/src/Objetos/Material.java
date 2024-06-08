@@ -5,22 +5,22 @@ public class Material {
     private String nombre;
     private double precio;
     private int cantidad;
-    private int idCentro;
+    private Centro centro;
 
-    public Material(int codigo, String nombre, double precio, int cantidad, int idCentro) {
+    public Material(int codigo, String nombre, double precio, int cantidad, Centro centro) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.precio = precio;
         this.cantidad = cantidad;
-        this.idCentro = idCentro;
+        this.centro = centro;
     }
 
-    public Material(String nombre, double precio, int cantidad, int idCentro) {
+    public Material(String nombre, double precio, int cantidad, Centro centro) {
         this.codigo = 0;
         this.nombre = nombre;
         this.precio = precio;
         this.cantidad = cantidad;
-        this.idCentro = idCentro;
+        this.centro = centro;
     }
 
     public int getCodigo() {
@@ -55,16 +55,16 @@ public class Material {
         this.cantidad = cantidad;
     }
 
-    public int getIdCentro() {
-        return idCentro;
+    public Centro getCentro() {
+        return centro;
     }
 
-    public void setIdCentro(int idCentro) {
-        this.idCentro = idCentro;
+    public void setCentro(Centro centro) {
+        this.centro = centro;
     }
 
     @Override
     public String toString() {
-        return codigo + ";" + nombre + ";" + precio + ";" + cantidad + ";" + idCentro;
+        return codigo + ";" + nombre + ";" + precio + ";" + cantidad + ";" + centro;
     }
 }

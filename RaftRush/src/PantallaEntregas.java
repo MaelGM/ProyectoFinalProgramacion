@@ -6,6 +6,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -55,18 +56,26 @@ public class PantallaEntregas extends JFrame{
     }
 
     public void cargarDato(){
-        //No estoy seguro de como cargar todos las entregas si no tiene que haber una clase
-        /*if (DataManager.getEntregas()) {
+        if (DataManager.getProveedor() && DataManager.getMaterial() && DataManager.getCentros()) {
             cargarEntregaTable();
-        }*/
+        }
     }
 
     private void cargarEntregaTable(){
+
         tblReservas.setShowGrid(true);//Mostrar grid color
 
-        Object[][] data = new Object[2][4];
+        Object[][] data = new Object[DataManager.getListEntregas().size()][4];
 
+        int i = 0;
+        for (int j = 0; j < DataManager.getListEntregas().size(); j++) {
+            data[i][0] = DataManager.getListEntregas().get(j).get("column1");
+            data[i][1] = DataManager.getListEntregas().get(j).get("column2");
+            data[i][2] = DataManager.getListEntregas().get(j).get("column3");
+            data[i][3] = DataManager.getListEntregas().get(j).get("column4");
 
+            i++;
+        }
 
         model = new DefaultTableModel(data, new String[]{"Fecha de entrega", "Proveedor", "Material", "Centro"});
         tblReservas.setModel(model);
@@ -80,8 +89,8 @@ public class PantallaEntregas extends JFrame{
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < tblReservas.getColumnCount(); i++) {
-            tblReservas.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int x = 0; i < tblReservas.getColumnCount(); x++) {
+            tblReservas.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
         }
 
         tblReservas.getTableHeader().setReorderingAllowed(false);

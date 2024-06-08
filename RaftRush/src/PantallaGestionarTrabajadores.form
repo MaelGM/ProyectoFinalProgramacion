@@ -161,11 +161,12 @@
                               <background color="-9534578"/>
                               <focusable value="false"/>
                               <font name="Inter" size="16" style="1"/>
-                              <foreground color="-9145228"/>
+                              <foreground color="-16777216"/>
+                              <gridColor color="-16777216"/>
                               <preferredScrollableViewportSize width="450" height="200"/>
                               <preferredSize width="150" height="80"/>
                               <rowHeight value="40"/>
-                              <selectionBackground color="-9534578"/>
+                              <selectionBackground color="-7077901"/>
                               <selectionForeground color="-16777216"/>
                             </properties>
                           </component>

@@ -1,6 +1,6 @@
 import Objetos.Actividad;
 import Objetos.Centro;
-import Objetos.Tipos;
+import Objetos.Tipo;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -23,7 +23,6 @@ public class PantallaActividades extends JFrame {
     private JPanel panelPrincipal;
     private JPanel panelContenido;
     private JPanel panelEliminarAct;
-    private JScrollPane jspTabla;
     private JTable tblActividades;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblActSeleccionada;
@@ -33,7 +32,9 @@ public class PantallaActividades extends JFrame {
     private JComboBox cmbLocalidad;
     private JComboBox cmbTipo;
     private JPanel panelDerecho;
+    private JScrollPane jspTabla;
     private JPanel panelTabla;
+    private static Actividad actSeleccionada = null;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloAct.png");
@@ -45,7 +46,6 @@ public class PantallaActividades extends JFrame {
         estilo();
         cargarListeners();
         panelActividadesProperties();
-        rellenarTablaModificar();
     }
 
     public void init(){
@@ -66,7 +66,7 @@ public class PantallaActividades extends JFrame {
     }
 
     public void cargarDatos(){
-        if (DataManager.getActividades() && DataManager.getCentros() && DataManager.getTipos()) {
+        if (DataManager.getTipos() && DataManager.getCentros() && DataManager.getActividades()) {
             actualizaComboBox();
             datosMainTable(DataManager.getListActividades());
             datosActSeleccionada();
@@ -75,21 +75,23 @@ public class PantallaActividades extends JFrame {
 
     private void cargarListeners() {
         btnAddActividad.addActionListener(addActividad());
-        cmbCentro.addActionListener(filtrar());
+        cmbLocalidad.addActionListener(filtrar());
         cmbTipo.addActionListener(filtrar());
         Utils.cursorPointerBoton(btnAddActividad);
         Utils.cursorPointerBoton(btnEliminarActividad);
+        rellenarTablaModificar();
     }
 
     // AVISO: Lo tengo que hacer usando los centros, ya que la actividad tiene idCentro, pero en caso de que haya dos centros en la misma ciudad, no se diferenciaran.
     private ActionListener filtrar() {
         return e -> {
-            Tipos tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
-            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
+            Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
+            //Tipo tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
+            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbLocalidad.getSelectedItem()));
             List<Actividad> actividades = DataManager.getListActividades();
 
-            if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo.getId()).toList();
-            if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getIdCentro() == centro.getId()).toList();
+            if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo).toList();
+            if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getCentro() == centro).toList();
             datosMainTable(actividades);
         };
     }
@@ -109,8 +111,8 @@ public class PantallaActividades extends JFrame {
         for (Actividad actividad: actividades) {
             rows[i][0] = actividad.getId();
             rows[i][1] = actividad.getNombre();
-            rows[i][2] = DataManager.getTipo(actividad.getTipo());
-            rows[i][3] = DataManager.getLocalidad(actividad.getIdCentro());
+            rows[i][2] = actividad.getTipo().getNombre();
+            rows[i][3] = actividad.getCentro().getLocalidad();
             rows[i][4] = actividad.getDificultad();
             rows[i][5] = actividad.getPrecio();
 
@@ -232,12 +234,12 @@ public class PantallaActividades extends JFrame {
             public void mousePressed(MouseEvent e) {
                 int row = tblActividades.getSelectedRow();
                 if (e.getClickCount() == 2 && row != -1) {
-                    Actividad act = DataManager.getListActividades().get(row);
-                    tblActSeleccionada.getModel().setValueAt(act.getNombre(), 0, 0);
-                    tblActSeleccionada.getModel().setValueAt(act.getTipo(), 0, 1);
-                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(act.getIdCentro()), 0, 2);
-                    tblActSeleccionada.getModel().setValueAt(act.getDificultad(), 0, 3);
-                    tblActSeleccionada.getModel().setValueAt(act.getPrecio(), 0, 4);
+                    actSeleccionada = DataManager.getListActividades().get(row);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getNombre(), 0, 0);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getTipo(), 0, 1);
+                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(actSeleccionada.getCentro().getId()), 0, 2);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getDificultad(), 0, 3);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getPrecio(), 0, 4);
                 }
             }
         });

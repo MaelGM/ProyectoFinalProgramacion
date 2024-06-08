@@ -1,19 +1,18 @@
 package Objetos;
 
-import Excepciones.ExceptionCliente;
 import Excepciones.ExceptionTrabajador;
 import Excepciones.ExceptionUsuario;
 
 public class Trabajador extends Usuario{
     private String apellido;
     private double salario;
-    private int idCentro;
+    private Centro centro;
 
-    public Trabajador(String nif, String contrasenya, String nombre, String apellido, double salario, int edad, int idCentro) throws ExceptionUsuario, ExceptionTrabajador {
+    public Trabajador(String nif, String contrasenya, String nombre, String apellido, double salario, int edad, Centro centro) throws ExceptionUsuario {
         super(nif, nombre, edad, contrasenya);
         setApellido(apellido);
         setSalario(salario);
-        setIdCentro(idCentro);
+        setIdCentro(centro);
     }
 
     public String getNif() {
@@ -34,8 +33,8 @@ public class Trabajador extends Usuario{
     public int getEdad() {
         return super.getEdad();
     }
-    public int getIdCentro() {
-        return idCentro;
+    public Centro getCentro() {
+        return centro;
     }
 
     public void setApellido(String apellido) {
@@ -45,9 +44,10 @@ public class Trabajador extends Usuario{
         if (salario > 0) this.salario = salario;
         else throw new ExceptionTrabajador("La edad no puede ser menor de 0");
     }
-    public void setIdCentro(int idCentro) {
-        this.idCentro = idCentro;
+    public void setIdCentro(Centro centro) {
+        this.centro = centro;
     }
+
 
     @Override
     public boolean isTrabajador() {
@@ -59,7 +59,7 @@ public class Trabajador extends Usuario{
         return "Trabajador{" +
                 "apellido='" + apellido + '\'' +
                 ", salario=" + salario +
-                ", idCentro=" + idCentro +
+                ", idCentro=" + centro +
                 '}';
     }
 }

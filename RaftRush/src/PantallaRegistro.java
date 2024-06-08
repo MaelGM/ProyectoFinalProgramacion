@@ -8,6 +8,7 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.event.*;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 
 public class PantallaRegistro extends JFrame{
@@ -151,7 +152,7 @@ public class PantallaRegistro extends JFrame{
             Cliente cliente;
             if (DataManager.getUsuarios() && checkTextFields() && (cliente = readTextFields()) != null){
                 if (DataManager.addCliente(cliente)) {
-                    new PantallaActClientes(); // TODO: Hay que pasarle a la siguiente pantalla el cliente para asi poder tener los datos del mismo.
+                    new PantallaActClientes(cliente); // TODO: Hay que pasarle a la siguiente pantalla el cliente para asi poder tener los datos del mismo.
                     dispose();
                 }else
                     JOptionPane.showMessageDialog(null, "Ya hay una cuenta con este nif",
@@ -165,11 +166,18 @@ public class PantallaRegistro extends JFrame{
      * @return El cliente, caso de haber podido crear el cliente. En caso contrario, nulo.
      */
     private Cliente readTextFields(){
+
         String nombre = txtFldNombre.getText();
         int edad = Integer.parseInt(formTxtFldEdad.getText().trim());
         String telefono = formTxtFldTel.getText();
         String nif = formTxtFldNif.getText();
-        String password = new String(passwordField.getPassword());
+        String password = null;
+        try {
+            password = PasswordUtils.hashPassword(new String(passwordField.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
 
         try {
             return new Cliente(nif, password, telefono, nombre, edad);

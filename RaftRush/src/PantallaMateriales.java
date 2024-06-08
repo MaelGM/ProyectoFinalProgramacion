@@ -16,8 +16,6 @@ import java.util.List;
 
 public class PantallaMateriales extends JFrame{
     private JPanel gestionMaterialesPane;
-    private JPanel jplTabla;
-    private JScrollPane PanelDeTabla;
     private JButton btnVerEntregas;
     private JPanel panelModMaterial;
     private JScrollPane ScrollPanelRegAct;
@@ -32,8 +30,11 @@ public class PantallaMateriales extends JFrame{
     private JComboBox cmbCentro;
     private JPanel panelContenido;
     private JPanel panelDerecha;
+    private JScrollPane PanelDeTabla;
+    private JPanel jplTabla;
     private JComboBox cbxProveedor;
     private JPanel jplNuePedido;
+    private static Material materialSeleccionado = null;
 
     ///ToDo, el tamaño del ComboBox
     public PantallaMateriales(){
@@ -72,6 +73,7 @@ public class PantallaMateriales extends JFrame{
         Utils.cursorPointerBoton(btnVerEntregas);
         btnModificar.addActionListener(asignarProveedor());
         cmbCentro.addActionListener(filtrar());
+        rellenarTablaModificar();
     }
 
     private ActionListener filtrar() {
@@ -79,7 +81,7 @@ public class PantallaMateriales extends JFrame{
             Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
             List<Material> materiales = DataManager.getListMaterial();
 
-            if (centro != null) materiales = materiales.stream().filter(material -> material.getIdCentro() == centro.getId()).toList();
+            if (centro != null) materiales = materiales.stream().filter(material -> material.getCentro() == centro).toList();
             datosMaterialTable(materiales);
         };
     }
@@ -108,7 +110,7 @@ public class PantallaMateriales extends JFrame{
     }
 
     public void cargarDatos(){
-        if (DataManager.getMaterial() && DataManager.getCentros()) {
+        if (DataManager.getCentros() && DataManager.getMaterial()) {
             datosMaterialTable(DataManager.getListMaterial());
             cargarFiltro();
         }
@@ -131,7 +133,7 @@ public class PantallaMateriales extends JFrame{
             rows[j][1] = material.getNombre();
             rows[j][2] = material.getCantidad();
             rows[j][3] = material.getPrecio();
-            rows[j][4] = DataManager.getNomCentro(material.getIdCentro());
+            rows[j][4] = material.getCentro().getNombre();
 
             j++;
         }
@@ -219,10 +221,30 @@ public class PantallaMateriales extends JFrame{
         for (int i = 0; i < tblMat.getColumnCount(); i++) {
             column = tblMat.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(10);
-                case 1,2,3-> column.setPreferredWidth(40);
-                case 4-> column.setPreferredWidth(200);
+                case 0-> column.setPreferredWidth(50);
+                case 1-> column.setPreferredWidth(150);
+                case 2, 3 -> column.setPreferredWidth(70);
+                case 4-> column.setPreferredWidth(300);
             }
         }
+    }
+
+    /**
+     * Metodo para rellenar tabla de material seleccionado
+     */
+    public void rellenarTablaModificar() {
+        tblMat.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblMat.getSelectedRow();
+                if(e.getClickCount() == 2 && row != -1) {
+                    materialSeleccionado = DataManager.getListMaterial().get(row);
+                    tblModMaterial.getModel().setValueAt(materialSeleccionado.getNombre(), 0, 0);
+                    tblModMaterial.getModel().setValueAt(materialSeleccionado.getCantidad(), 0, 1);
+                    tblModMaterial.getModel().setValueAt(materialSeleccionado.getPrecio(), 0, 2);
+                    tblModMaterial.getModel().setValueAt(DataManager.getNomCentro(materialSeleccionado.getCentro().getId()), 0, 3);
+                }
+            }
+        });
     }
 }

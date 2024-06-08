@@ -11,19 +11,22 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PantallaProveedores extends JFrame{
     private JPanel panelPrincipal;
     private JPanel PanelPrincipal;
     private JLabel imgCorporativa;
-    private JPanel PanelContenido;
-    private JScrollPane PanelDeTabla;
     private JTable tblProveedores;
     private JPanel panelEliminarProveedor;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblProvSeleccionado;
     private JButton btnAnyadir;
     private JButton btnEditar;
+    private JScrollPane PanelDeTabla;
+    private JPanel PanelContenido;
+    private Proveedor proveedorSeleccionado = null;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerProveedores.png");
@@ -37,6 +40,7 @@ public class PantallaProveedores extends JFrame{
         tablaProveedoresProperties();
         tablaProveedorSeleccionadoProperties();
         panelProveedorProperties();
+        rellenarTablaModificar(); //todo metodo cargarListeners
     }
 
     private void estilo() {
@@ -139,11 +143,9 @@ public class PantallaProveedores extends JFrame{
         for (int i = 0; i < tblProveedores.getColumnCount(); i++) {
             column = tblProveedores.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(153);
-                case 1, 4 -> column.setPreferredWidth(100);
-                case 2, 3-> column.setPreferredWidth(250);
-                case 5-> column.setPreferredWidth(150);
-                case 6-> column.setPreferredWidth(200);
+                case 0-> column.setPreferredWidth(53);
+                case 1, 3 -> column.setPreferredWidth(250);
+                case 2 -> column.setPreferredWidth(150);
             }
         }
     }
@@ -153,9 +155,9 @@ public class PantallaProveedores extends JFrame{
         for (int i = 0; i < tblProvSeleccionado.getColumnCount(); i++) {
             column = tblProvSeleccionado.getColumnModel().getColumn(i);
             switch (i){
-                case 0, 3, 5 -> column.setPreferredWidth(200);
-                case 1-> column.setPreferredWidth(250);
-                case 2, 4 -> column.setPreferredWidth(150);
+                case 0-> column.setPreferredWidth(53);
+                case 1, 3 -> column.setPreferredWidth(250);
+                case 2 -> column.setPreferredWidth(150);
             }
         }
     }
@@ -167,5 +169,24 @@ public class PantallaProveedores extends JFrame{
         setResizable(false);
         setLocationRelativeTo(null);
         setIconImage(logo.getImage());
+    }
+
+    /**
+     * Metodo para rellenar la tabla de modificar proveedores
+     */
+    public void rellenarTablaModificar() {
+        tblProveedores.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblProveedores.getSelectedRow();
+                if (e.getClickCount() == 2 && row != -1) {
+                    proveedorSeleccionado = DataManager.getListProveedor().get(row);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getId(), 0, 0);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getNombre(), 0, 1);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getTelefono(), 0, 2);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getEmail(), 0, 3);
+                }
+            }
+        });
     }
 }
