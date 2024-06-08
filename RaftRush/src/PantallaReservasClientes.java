@@ -1,3 +1,4 @@
+import Objetos.Actividad;
 import Objetos.Usuario;
 
 import javax.swing.*;
@@ -5,8 +6,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
+import java.util.Map;
 
 public class PantallaReservasClientes extends JFrame{
     private JPanel jplGeneral;
@@ -17,11 +22,11 @@ public class PantallaReservasClientes extends JFrame{
     private JButton btnAnularReserva;
     private DefaultTableModel model;
 
-    public PantallaReservasClientes(Usuario cliente){
+    public PantallaReservasClientes(Usuario cliente, Actividad actividad){
         init();
         setContentPane(jplGeneral);
         background();
-        cargarDato();
+        //cargarDato(cliente,actividad);
         cargarListeners(cliente);
 
         tblReservas.setShowGrid(true);//Mostrar grid color
@@ -45,21 +50,24 @@ public class PantallaReservasClientes extends JFrame{
         setVisible(true);
     }
 
-    private void cargarDato(){
-        Object[][] data = new Object[2][5];
+    private void cargarDato(Usuario cliente, Actividad actividad){
 
-        data[0][0] = "2024-05-01";
-        data[0][1] = "1";
-        data[0][2] = "12345678A";
-        data[0][3] = "50.00€";
-        data[0][4] = "Parque Multiaventura Sierra Norte";
+        List<Actividad> listReservaClie = null; /*DataManager.getListActividades().stream()
+                .filter(actividad1 -> actividad.getId() == actividad1.getId() && cliente.getNif().equals(DataManager.getListReservas().))
+                .toList();*/
+        Object[][] data = new Object[listReservaClie.size()][5];
 
-        data[1][0] = "2024-05-0";
-        data[1][1] = "2";
-        data[1][2] = "23456789B";
-        data[1][3] = "75.00€";
-        data[1][4] = "Parque de Aventura Montaña Mágica";
 
+        int i = 0;
+        for (int j = 0; j < listReservaClie.size(); j++) {
+            data[i][0] =
+            data[i][1] =
+            data[i][2] =
+            data[i][3] =
+            data[i][4] =
+
+            i++;
+        }
 
 
         model = new DefaultTableModel(data, new String[]{"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"});
@@ -77,8 +85,8 @@ public class PantallaReservasClientes extends JFrame{
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < tblReservas.getColumnCount(); i++) {
-            tblReservas.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int z = 0; i < tblReservas.getColumnCount(); z++) {
+            tblReservas.getColumnModel().getColumn(z).setCellRenderer(centerRenderer);
         }
 
         tblReservas.getTableHeader().setReorderingAllowed(false);
