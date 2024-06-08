@@ -120,7 +120,6 @@ public class PantallaGestionarTrabajadores extends JFrame {
                 JOptionPane.showMessageDialog(null, "Se han actualizado los datos del trabajador",
                         "Actualización BBDD", JOptionPane.INFORMATION_MESSAGE);
             }
-            */
         };
     }*/
 
