@@ -149,7 +149,7 @@ public class PantallaRegistro extends JFrame{
     private ActionListener registrarse(){
         return e -> {
             Cliente cliente;
-            if (DataManager.getUsuarios() && checkTextFields() && (cliente = readTextFields()) != null){
+            if (DataManager.getUsuarios() && checkTextFields() && DataManager.findUsuario(formTxtFldNif.getText()) != null && (cliente = readTextFields()) != null){
                 if (DataManager.addCliente(cliente)) {
                     new PantallaActClientes(cliente); // TODO: Hay que pasarle a la siguiente pantalla el cliente para asi poder tener los datos del mismo.
                     dispose();
