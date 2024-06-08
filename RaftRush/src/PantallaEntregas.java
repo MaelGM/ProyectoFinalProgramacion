@@ -70,8 +70,10 @@ public class PantallaEntregas extends JFrame{
 
     private ActionListener filtrar() {
         return e -> {
-            Proveedor proveedor = DataManager.getProveedorByName(String.valueOf(cmbProveedor.getSelectedItem()));
-            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
+            String nombreProveedorSeleccionado = (String) cmbProveedor.getSelectedItem();
+            Proveedor proveedor = DataManager.getProveedorByName(nombreProveedorSeleccionado);
+            String nombreCentroSeleccionado = (String) cmbCentro.getSelectedItem();
+            Centro centro = DataManager.getCentroByName(nombreCentroSeleccionado);
 
             List<Date> fechas = DataManager.getFechasEntregas();
             List<Material> materiales = DataManager.getMaterialEntregas();
@@ -162,9 +164,11 @@ public class PantallaEntregas extends JFrame{
     }
 
     private void actualizaComboBox() {
-        for (int i = 0; i < DataManager.getLocalidadesCentro().size(); i++) {
-            cmbCentro.addItem(DataManager.getListCentros().get(i).getNombre());
-            cmbProveedor.addItem(DataManager.getListProveedor().get(i).getNombre());
+        for (Centro centro : DataManager.getListCentros()) {
+            cmbCentro.addItem(centro.getNombre());
+        }
+        for (Proveedor proveedor : DataManager.getListProveedor()) {
+            cmbProveedor.addItem(proveedor.getNombre());
         }
     }
 }

@@ -198,14 +198,14 @@ public class PantallaReservas extends JFrame {
         tblReservas.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                int row = tblReservas.getSelectedRow();
-                if (e.getClickCount() == 2 && row != -1) {
-                    tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna1"), 0, 0);
-                    tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna2"), 0, 2);
-                    tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna3"), 0, 1);
-                    tblResSeleccionada.getModel().setValueAt(DataManager.getPrecioAct((Integer) DataManager.getListReservas().get(row).get("columna3")), 0, 3);
-                    tblResSeleccionada.getModel().setValueAt(DataManager.getNomCentro((Integer) DataManager.getListReservas().get(row).get("columna4")), 0, 4);
-                }
+                    int row = tblReservas.getSelectedRow();
+                    if (e.getClickCount() == 2 && row != -1) {
+                        tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna1"), 0, 0);
+                        tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna2"), 0, 2);
+                        tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna3"), 0, 1);
+                        tblResSeleccionada.getModel().setValueAt(DataManager.getPrecioAct((Integer) DataManager.getListReservas().get(row).get("columna3")), 0, 3);
+                        tblResSeleccionada.getModel().setValueAt(DataManager.getNomCentro((Integer) DataManager.getListReservas().get(row).get("columna4")), 0, 4);
+                    }
             }
         });
     }

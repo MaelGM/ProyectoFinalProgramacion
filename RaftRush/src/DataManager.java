@@ -3,11 +3,7 @@ import Objetos.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataManager {
     private static List<Actividad> listActividades = new ArrayList<>();
@@ -17,6 +13,7 @@ public class DataManager {
     private static List<Trabajador> listTrabajador = new ArrayList<>();
     private static List<Cliente> listClientes = new ArrayList<>();
     private static List<Tipo> listTipos = new ArrayList<>();
+    private static List<Map<String, Object>> listReservas = new ArrayList<>();
 
     public static boolean getUsuarios() {
         return getClientes() && getTrabajador();
@@ -192,7 +189,7 @@ public class DataManager {
         return null;
     }
 
-    public static boolean getReservas(){
+    public static boolean getReservasGeneral(){
         if (DBManager.connect()) {
             try{
                 ResultSet rs = DBManager.getReservas();//Select all actividades
@@ -565,6 +562,11 @@ public class DataManager {
     public static List<String> getTiposActividadesCentro() {
         return listTipos.stream().map(Tipo::getNombre).distinct().toList();
     }
+
+    public static List<Map<String, Object>> getListReservas() {
+        listReservas.sort(Comparator.comparing(r -> ((Date) r.get("columna1"))));
+        return listReservas;
+    }
     /**
      * Metodo para hacer una lista de Entregas
      */
@@ -600,8 +602,7 @@ public class DataManager {
     /**
      * Metodo para hacer una lista de reservas
      */
-    public static List<Map<String, Object>> getListReservas(){
-        List<Map<String, Object>> reservas = new ArrayList<>();
+    public static boolean getReservas(){
 
         if (DBManager.connect()) {
             for (Actividad actividad : listActividades) {
@@ -615,19 +616,19 @@ public class DataManager {
                                 reserva.put("columna2", rs.getString(2));
                                 reserva.put("columna3", rs.getInt(3));
                                 reserva.put("columna4", rs.getInt(4));
-                                reservas.add(reserva);
+                                listReservas.add(reserva);
                             }
-                        }
+                        }else return false;
                     } catch (SQLException e) {
                         e.printStackTrace();
                         DBManager.close();
-                        return null;
+                        return false;
                     }
                 }
             }
         }
         DBManager.close();
-        return reservas;
+        return true;
     }
 
     public static double getPrecioAct(int id) {
