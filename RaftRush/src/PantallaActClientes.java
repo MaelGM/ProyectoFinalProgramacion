@@ -210,4 +210,24 @@ public class PantallaActClientes extends JFrame{
             cmbTipo.addItem(DataManager.getTiposActividadesCentro().get(i));
         }
     }
+
+    /**
+     * Metodo para rellenar la tabla con los datos de la fila seleccionada de la tabla actividades
+     */
+    public void getSelectedAct() {
+        tblActividades.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = tblActividades.getSelectedRow();
+                if (e.getClickCount() == 2 && row != -1) {
+                    actSeleccionada = filtrar(DataManager.getListActividades()).get(row);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getNombre(), 0, 0);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getTipo().getNombre(), 0, 1);
+                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(actSeleccionada.getCentro().getId()), 0, 2);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getDificultad(), 0, 3);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getPrecio(), 0, 4);
+                }
+            }
+        });
+    }
 }

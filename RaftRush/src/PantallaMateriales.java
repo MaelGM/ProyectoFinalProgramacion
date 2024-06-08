@@ -86,6 +86,14 @@ public class PantallaMateriales extends JFrame{
         };
     }
 
+    private List<Material> filtrar(List<Material> lista) {
+        Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
+        List<Material> materiales = DataManager.getListMaterial();
+
+        if (centro != null) lista = materiales.stream().filter(material -> material.getCentro() == centro).toList();
+        return lista;
+    }
+
     private ActionListener asignarProveedor() {
         return e -> {
             // Crear los ComboBox con las opciones de contraseñas
@@ -159,10 +167,10 @@ public class PantallaMateriales extends JFrame{
         String[][]rows = new String[1][header.length];
 
         //En lugar de las líneas de abajo, habra que recorrer con un bucle el List que nos devuelva DataManager
-        rows[0][0] = "Mosquetón tipo D";
-        rows[0][1] = "10";
-        rows[0][2] = "25.00€";
-        rows[0][3] = "centro 1";
+        rows[0][0] = "";
+        rows[0][1] = "";
+        rows[0][2] = "";
+        rows[0][3] = "";
 
         tblModMaterial.setModel(new DefaultTableModel(rows, header));
 
@@ -238,7 +246,7 @@ public class PantallaMateriales extends JFrame{
             public void mousePressed(MouseEvent e) {
                 int row = tblMat.getSelectedRow();
                 if(e.getClickCount() == 2 && row != -1) {
-                    materialSeleccionado = DataManager.getListMaterial().get(row);
+                    materialSeleccionado = filtrar(DataManager.getListMaterial()).get(row);
                     tblModMaterial.getModel().setValueAt(materialSeleccionado.getNombre(), 0, 0);
                     tblModMaterial.getModel().setValueAt(materialSeleccionado.getCantidad(), 0, 1);
                     tblModMaterial.getModel().setValueAt(materialSeleccionado.getPrecio(), 0, 2);

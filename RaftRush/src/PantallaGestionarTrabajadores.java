@@ -116,6 +116,13 @@ public class PantallaGestionarTrabajadores extends JFrame {
         };
     }
 
+    private List<Trabajador> filtrar(List<Trabajador> lista) {
+        Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
+        if (centro != null) lista = DataManager.getListTrabajador().stream().filter(trabajador -> trabajador.getCentro() == centro).toList();
+
+        return lista;
+    }
+
     private ActionListener pedirPassword() {
         return e -> {
             JPasswordField passwordField = new JPasswordField();
@@ -271,8 +278,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 int row = tblTrabajadores.getSelectedRow();
+                Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
                 if (e.getClickCount() == 2 && row != -1) {
-                    trabajadorSeleccionado = DataManager.getListTrabajador().get(row);
+                    trabajadorSeleccionado = filtrar(DataManager.getListTrabajador()).get(row);
                     tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getNif(), 0, 0);
                     tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getNombre(), 0, 1);
                     tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getApellido(), 0, 2);

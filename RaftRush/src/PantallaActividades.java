@@ -96,6 +96,17 @@ public class PantallaActividades extends JFrame {
         };
     }
 
+    private List<Actividad> filtrar(List<Actividad> lista) {
+        Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
+        //Tipo tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
+        Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbLocalidad.getSelectedItem()));
+        List<Actividad> actividades = DataManager.getListActividades();
+
+        if (tipo != null) lista = actividades.stream().filter(actividad -> actividad.getTipo() == tipo).toList();
+        if (centro != null) lista = actividades.stream().filter(actividad -> actividad.getCentro() == centro).toList();
+        return lista;
+    }
+
     private ActionListener addActividad() {
         return e -> {
             new PantallaCrearAct();
@@ -130,7 +141,6 @@ public class PantallaActividades extends JFrame {
         for (int j = 0; j < tblActividades.getColumnCount(); j++) {
             tblActividades.getColumnModel().getColumn(j).setCellRenderer(centerRenderer);
         }
-
     }
     public void datosActSeleccionada(){
         String[]header = {"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"};
@@ -234,9 +244,9 @@ public class PantallaActividades extends JFrame {
             public void mousePressed(MouseEvent e) {
                 int row = tblActividades.getSelectedRow();
                 if (e.getClickCount() == 2 && row != -1) {
-                    actSeleccionada = DataManager.getListActividades().get(row);
+                    actSeleccionada = filtrar(DataManager.getListActividades()).get(row);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getNombre(), 0, 0);
-                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getTipo(), 0, 1);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getTipo().getNombre(), 0, 1);
                     tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(actSeleccionada.getCentro().getId()), 0, 2);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getDificultad(), 0, 3);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getPrecio(), 0, 4);

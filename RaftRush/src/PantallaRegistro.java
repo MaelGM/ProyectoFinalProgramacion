@@ -6,7 +6,6 @@ import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.datatransfer.ClipboardOwner;
 import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;

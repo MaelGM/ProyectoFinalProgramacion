@@ -132,9 +132,9 @@
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <minimum-size width="1100" height="80"/>
-                        <preferred-size width="1100" height="80"/>
-                        <maximum-size width="1100" height="80"/>
+                        <minimum-size width="1100" height="90"/>
+                        <preferred-size width="1100" height="90"/>
+                        <maximum-size width="1100" height="90"/>
                       </grid>
                     </constraints>
                     <properties>
@@ -145,7 +145,7 @@
                       <scrollpane id="6356e">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                            <preferred-size width="1100" height="80"/>
+                            <preferred-size width="1100" height="90"/>
                           </grid>
                         </constraints>
                         <properties>
@@ -165,7 +165,7 @@
                               <gridColor color="-16777216"/>
                               <preferredScrollableViewportSize width="450" height="200"/>
                               <preferredSize width="150" height="80"/>
-                              <rowHeight value="40"/>
+                              <rowHeight value="50"/>
                               <selectionBackground color="-7077901"/>
                               <selectionForeground color="-16777216"/>
                             </properties>

@@ -1,4 +1,3 @@
-import Excepciones.ExceptionUsuario;
 import Objetos.Cliente;
 import Objetos.Trabajador;
 import Objetos.Usuario;
@@ -9,9 +8,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
-import java.util.Arrays;
 
 public class PantallaInicioSesion extends JFrame{
     private JPanel panelContenido;
