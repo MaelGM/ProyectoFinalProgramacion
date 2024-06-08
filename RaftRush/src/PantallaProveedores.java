@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -35,12 +36,53 @@ public class PantallaProveedores extends JFrame{
     public PantallaProveedores() {
         super("Lista de proveedores");
         init();
-        estilo();
         cargarDatos();
-        tablaProveedoresProperties();
-        tablaProveedorSeleccionadoProperties();
-        panelProveedorProperties();
+        cargarListeners();
+        estilo();
         rellenarTablaModificar(); //todo metodo cargarListeners
+    }
+
+    private void cargarListeners() {
+        Utils.cursorPointerBoton(btnAnyadir);
+        Utils.cursorPointerBoton(btnEditar);
+        btnAnyadir.addActionListener(addProveedor());
+        btnEditar.addActionListener(editProveedor());
+    }
+
+    private ActionListener editProveedor() {
+        return e -> {
+            proveedorSeleccionado = getSelectedProveedor();
+            if (proveedorSeleccionado != null) {
+                if (DataManager.editProveedor(proveedorSeleccionado))
+                    JOptionPane.showMessageDialog(null, "Proveedor "+proveedorSeleccionado.getNombre()+" ha sido modificado con exito",
+                            "Edit proveedor", JOptionPane.INFORMATION_MESSAGE);
+                else JOptionPane.showMessageDialog(null, "No se ha podido modificar el proveedor", "ERROR",
+                        JOptionPane.ERROR_MESSAGE);
+                cargarDatos();
+            } else JOptionPane.showMessageDialog(null, "No hay ningún proveedor seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+        };
+    }
+
+    private ActionListener addProveedor() {
+        return e -> {
+            proveedorSeleccionado = getSelectedProveedor();
+           if (proveedorSeleccionado != null) {
+               if (DataManager.addProveedor(proveedorSeleccionado))
+                   JOptionPane.showMessageDialog(null, "Proveedor "+proveedorSeleccionado.getNombre()+" añadido",
+                           "AddProveedor", JOptionPane.INFORMATION_MESSAGE);
+               else JOptionPane.showMessageDialog(null, "No se ha podido añadir ningún proveedor", "ERROR",
+                       JOptionPane.ERROR_MESSAGE);
+               cargarDatos();
+           } else JOptionPane.showMessageDialog(null, "No hay ningún proveedor seleccionado", "ERROR", JOptionPane.ERROR_MESSAGE);
+        };
+    }
+
+    private Proveedor getSelectedProveedor() {
+        String nombre = tblProvSeleccionado.getModel().getValueAt(0,0).toString();
+        String telefono = tblProvSeleccionado.getModel().getValueAt(0,1).toString();
+        String email = tblProvSeleccionado.getModel().getValueAt(0,2).toString();
+        if (nombre.equals("") || telefono.equals("") || email.equals("")) return null;
+        else return new Proveedor(nombre, telefono, email);
     }
 
     private void estilo() {
@@ -49,6 +91,9 @@ public class PantallaProveedores extends JFrame{
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
         JTableHeader headerEliminarAct = tblProvSeleccionado.getTableHeader();
         headerEliminarAct.setPreferredSize(new Dimension(headerEliminarAct.getPreferredSize().width, 40));
+        tablaProveedoresProperties();
+        tablaProveedorSeleccionadoProperties();
+        panelProveedorProperties();
     }
 
     public void cargarDatos(){
@@ -86,18 +131,16 @@ public class PantallaProveedores extends JFrame{
     }
 
     public void datosProveedor(){
-        String[]header = {"Codigo", "Nombre", "Telefono", "Email"};
+        String[]header = {"Nombre", "Telefono", "Email"};
         String[][]rows = new String[1][header.length];
 
         ///Todo De cara a tomar datos, propongo tomar la información de cada celda.
         rows[0][0] = "";
         rows[0][1] = "";
         rows[0][2] = "";
-        rows[0][3] = "";
 
         tblProvSeleccionado.setModel(new DefaultTableModel(rows, header));
         tblProvSeleccionado.getTableHeader().setReorderingAllowed(false);
-        tblProvSeleccionado.setDefaultEditor(Object.class, null);
 
         asignarTamanyoColumnasProveedorSeleccionado();
 
@@ -155,9 +198,8 @@ public class PantallaProveedores extends JFrame{
         for (int i = 0; i < tblProvSeleccionado.getColumnCount(); i++) {
             column = tblProvSeleccionado.getColumnModel().getColumn(i);
             switch (i){
-                case 0-> column.setPreferredWidth(53);
-                case 1, 3 -> column.setPreferredWidth(250);
-                case 2 -> column.setPreferredWidth(150);
+                case 0, 2 -> column.setPreferredWidth(300);
+                case 1 -> column.setPreferredWidth(20);
             }
         }
     }
@@ -181,10 +223,9 @@ public class PantallaProveedores extends JFrame{
                 int row = tblProveedores.getSelectedRow();
                 if (e.getClickCount() == 2 && row != -1) {
                     proveedorSeleccionado = DataManager.getListProveedor().get(row);
-                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getId(), 0, 0);
-                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getNombre(), 0, 1);
-                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getTelefono(), 0, 2);
-                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getEmail(), 0, 3);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getNombre(), 0, 0);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getTelefono(), 0, 1);
+                    tblProvSeleccionado.getModel().setValueAt(proveedorSeleccionado.getEmail(), 0, 2);
                 }
             }
         });
