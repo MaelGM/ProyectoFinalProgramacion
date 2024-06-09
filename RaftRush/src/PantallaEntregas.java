@@ -23,7 +23,6 @@ public class PantallaEntregas extends JFrame{
     private JLabel lblCentro;
     private JComboBox cmbCentro;
     private JComboBox cmbProveedor;
-    private JLabel lblProveedor;
     private DefaultTableModel model;
     public PantallaEntregas(){
         super("Entregas");
@@ -64,14 +63,12 @@ public class PantallaEntregas extends JFrame{
     }
 
     private void cargarListeners() {
-        cmbProveedor.addActionListener(filtrar());
+        //cmbProveedor.addActionListener(filtrar());
         cmbCentro.addActionListener(filtrar());
     }
 
     private ActionListener filtrar() {
         return e -> {
-            String nombreProveedorSeleccionado = (String) cmbProveedor.getSelectedItem();
-            Proveedor proveedor = DataManager.getProveedorByName(nombreProveedorSeleccionado);
             String nombreCentroSeleccionado = (String) cmbCentro.getSelectedItem();
             Centro centro = DataManager.getCentroByName(nombreCentroSeleccionado);
 
@@ -79,9 +76,6 @@ public class PantallaEntregas extends JFrame{
             List<Material> materiales = DataManager.getMaterialEntregas();
             List<Proveedor> proveedores = DataManager.getProveedoresEntregas();
 
-            if (proveedor != null && proveedores != null) {
-                proveedores = proveedores.stream().filter(proveedor1 -> proveedor1.equals(proveedor)).toList();
-            }
             if (centro != null && materiales != null) {
                 materiales = materiales.stream().filter(material -> material.getCentro().equals(centro)).toList();
             }
@@ -166,9 +160,6 @@ public class PantallaEntregas extends JFrame{
     private void actualizaComboBox() {
         for (Centro centro : DataManager.getListCentros()) {
             cmbCentro.addItem(centro.getNombre());
-        }
-        for (Proveedor proveedor : DataManager.getListProveedor()) {
-            cmbProveedor.addItem(proveedor.getNombre());
         }
     }
 }

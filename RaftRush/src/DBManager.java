@@ -164,6 +164,23 @@ public class DBManager {
         }
     }
 
+    public static int addActividad(String nombre, int tipo, int idCentro, Double precio,
+                                     String dificultad, String descripcion) throws SQLException{
+        String query = "INSERT INTO actividad (nombre, descripcion, dificultad, precio, idTipo, idCentro) VALUES (?,?,?,?,?,?)";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, nombre);
+            pstmt.setString(2,descripcion);
+            pstmt.setString(3,dificultad);
+            pstmt.setDouble(4,precio);
+            pstmt.setInt(5,tipo);
+            pstmt.setInt(6,idCentro);
+
+
+            return pstmt.executeUpdate();
+        }
+    }
+
 
     public static int editarCliente(Cliente cliente) throws SQLException {
         String query = "UPDATE cliente SET nif= ?, contrasenya= ?, telefono= ?, nombre= ?,edad= ? WHERE cliente.nif = ?";
@@ -213,6 +230,10 @@ public class DBManager {
 
     public static int borrarTrabajador(String nif) throws SQLException {
         return conn.createStatement().executeUpdate("DELETE FROM trabajador where trabajador.nif = '" + nif + "'");
+    }
+
+    public static int borrarActividad(int id) throws SQLException {
+        return conn.createStatement().executeUpdate("DELETE FROM actividad where actividad.id = " + id);
     }
 
     public static int borrarReserva(String date, String nif, int idAct) throws SQLException {

@@ -585,6 +585,49 @@ public class DataManager {
         return -1;
     }*/
 
+    public static boolean addActividad(String nombre, String tipo, String localidad, Double precio,
+                                       String dificultad, String descripcion){
+        if (DBManager.connect()) {
+            Tipo t = getTipoByName(tipo);
+            Centro centro = getCentroByLocalidad(localidad);
+            int rs = 0;
+            try {
+                rs = DBManager.addActividad(nombre,t.getId(),centro.getId(),precio,dificultad,descripcion);
+
+                if (rs > 0) {
+                    listActividades.add(new Actividad(nombre, descripcion,dificultad,precio, t,centro));
+                    DBManager.close();
+                    return true;
+                }
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+
+        }
+        DBManager.close();
+        return false;
+    }
+
+    public static int borrarActividad(int id){
+        int result = 0;
+        if (DBManager.connect()) {
+            try {
+                result = DBManager.borrarActividad(id);
+
+                if (result > 0) {
+                    listActividades.remove(PantallaActividades.posicion);
+                    DBManager.close();
+                    return result;
+                }
+            } catch (SQLException e) {
+                DBManager.close();
+                return 0;
+            }
+        }
+        return 0;
+    }
+
     public static boolean agregarReserva(Usuario cliente, Actividad actividad) {
         if (DBManager.connect()){
             try {
