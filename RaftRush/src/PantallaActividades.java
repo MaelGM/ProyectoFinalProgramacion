@@ -13,12 +13,13 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 /**
  * Esta clase es la encargada de hacer funcionar y modificar estéticamente la pantalla de gestión de actividades.
  */
+import java.util.List;
+
 public class PantallaActividades extends JFrame {
 
     private JLabel imgCorporativa;
@@ -37,6 +38,7 @@ public class PantallaActividades extends JFrame {
     private JScrollPane jspTabla;
     private JPanel panelTabla;
     private static Actividad actSeleccionada = null;
+    public static int posicion = 0;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloAct.png");
@@ -92,12 +94,13 @@ public class PantallaActividades extends JFrame {
      * En este método cargamos algunos de los listeners de los botones, comboBox o MouseListener.
      */
     private void cargarListeners() {
-        btnAddActividad.addActionListener(addActividad());
         cmbLocalidad.addActionListener(filtrar());
         cmbTipo.addActionListener(filtrar());
         Utils.cursorPointerBoton(btnAddActividad);
         Utils.cursorPointerBoton(btnEliminarActividad);
         rellenarTablaModificar();
+        btnAddActividad.addActionListener(addActividad());
+        btnEliminarActividad.addActionListener(eliminarActividad());
     }
 
     /**
@@ -144,6 +147,33 @@ public class PantallaActividades extends JFrame {
         };
     }
 
+
+    private ActionListener eliminarActividad(){
+        return e -> {
+            if (!checkTextFields()) {
+                JOptionPane.showMessageDialog(null,"No has elegido una actividad");
+            }else{
+                int opcion = JOptionPane.showConfirmDialog(null,"Estas seguro que deseas eliminar " +
+                        "la actividad: " + tblActSeleccionada.getModel().getValueAt(0, 0));
+                System.out.println(opcion);
+                if (opcion == 0) {
+                    JOptionPane.showMessageDialog(null, "Eliminando la actividad");
+
+                    Object actividadO = tblActividades.getModel().getValueAt(posicion, 0);
+                    int idAct = (Integer) actividadO;
+
+                    int acticidadBorrar = DataManager.borrarActividad(idAct);
+                    if (acticidadBorrar == 0) {
+                        JOptionPane.showMessageDialog(null, "ERROR. No se puedo borrar la actividad.");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Actividad borrado correctamente");
+
+                        datosMainTable(DataManager.getListActividades());
+                    }
+                }
+            }
+        };
+    }
     /**
      * Se carga la tabla con los valores de la lista que se le pasa. También se centra el texto y algunas propiedades más.
      * @param actividades Lista de actividades con los valores que se mostraran en la tabla.
@@ -308,6 +338,8 @@ public class PantallaActividades extends JFrame {
                     tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(actSeleccionada.getCentro().getId()), 0, 2);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getDificultad(), 0, 3);
                     tblActSeleccionada.getModel().setValueAt(actSeleccionada.getPrecio(), 0, 4);
+
+                    posicion = tblActividades.getSelectedRow();
                 }
             }
         });
@@ -321,5 +353,16 @@ public class PantallaActividades extends JFrame {
             cmbLocalidad.addItem(DataManager.getLocalidadesCentro().get(i));
             cmbTipo.addItem(DataManager.getTiposActividadesCentro().get(i));
         }
+    }
+
+    private boolean checkTextFields() {
+        if (tblActSeleccionada.getModel().getValueAt(0,0).equals("")
+                || tblActSeleccionada.getModel().getValueAt(0,1).equals("")
+                || tblActSeleccionada.getModel().getValueAt(0,2).equals("")
+                || tblActSeleccionada.getModel().getValueAt(0,3).equals("")
+                || tblActSeleccionada.getModel().getValueAt(0,4).equals("")) {
+            JOptionPane.showMessageDialog(null, "Rellene todos los campos", "Error en los datos", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else return true;
     }
 }

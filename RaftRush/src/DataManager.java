@@ -1,7 +1,6 @@
 import Excepciones.*;
 import Objetos.*;
 
-import javax.xml.stream.events.DTD;
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -110,10 +109,21 @@ public class DataManager {
         }
         return null;
     }
+
+    public static int filterActividadIDByName(String actividad) {
+        for (int i = 0; i < listActividades.size(); i++) {
+            if (listActividades.get(i).getNombre().equalsIgnoreCase(actividad)) {
+                return listActividades.get(i).getId();
+            }
+        }
+        return -1;
+    }
+    
     /**
      * Metodo para rellenar la lista de materiales
      * @return true si ha podido rellenar la lista, false si no
      */
+
     public static boolean getMaterial(){
         if (DBManager.connect()) {
             try{
@@ -635,7 +645,6 @@ public class DataManager {
             try {
                 int res = DBManager.agregarTrabajador(nif, nombre, apellido, edad, salario, idCentro, contrasenya);
                 listTrabajador.add(new Trabajador(nif, contrasenya, nombre, apellido, salario, edad, centro));
-                //TODO Actualizar caché en inserts, deletes y updates de todas las clases
                 DBManager.close();
                 return res != 0;
             } catch (SQLException e) {
@@ -647,6 +656,39 @@ public class DataManager {
         }else return false;
     }
 
+
+    public static boolean editarTrabajador(Trabajador trabajador){
+        int idCentro = trabajador.getCentro().getId();
+
+        try {
+            if (DBManager.connect() && (DBManager.editarTrabajador(trabajador, idCentro) != 0)){
+                return true;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "No se ha podido actualizar el trabajador",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
+    }
+
+    public static int borrarTrabajador(String nif){
+        int result = 0;
+        if (DBManager.connect()) {
+            try {
+                result = DBManager.borrarTrabajador(nif);
+
+                if (result > 0) {
+                    listTrabajador.remove(PantallaGestionarTrabajadores.posicion);
+                    DBManager.close();
+                    return result;
+                }
+            } catch (SQLException e) {
+                DBManager.close();
+                return 0;
+            }
+        }
+        return 0;
+    }
     /**
      * Metodo para agregar un cliente a la lista
      * @param cliente
@@ -675,12 +717,19 @@ public class DataManager {
      */
     public static boolean editProveedor(Proveedor proveedor){
         if (DBManager.connect()){
-            int codigo = getIdFromProveedor(proveedor);
-            if (codigo == -1) return false;
-            int rs = DBManager.updateProveedor(proveedor, codigo);
-            if (rs == 0) return false;
-            DBManager.close();
-            return true;
+            try {
+                ResultSet resultSet = DBManager.getProveedorId(proveedor);
+                if (resultSet != null && resultSet.next()) {
+                    proveedor.setId(resultSet.getInt("id"));
+                }
+
+                int rs = DBManager.updateProveedor(proveedor);
+                if (rs == 0) return false;
+                DBManager.close();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }return false;
     }
 
@@ -718,13 +767,56 @@ public class DataManager {
      * @param proveedor
      * @return int id, -1 si no existe
      */
-    private static int getIdFromProveedor(Proveedor proveedor){
+    /*private static int getIdFromProveedor(Proveedor proveedor){
         for (Proveedor p: listProveedor) {
             if (p.getNombre().equals(proveedor.getNombre()) || p.getEmail().equals(proveedor.getEmail()) || p.getTelefono().equals(proveedor.getTelefono()))
                 return p.getId();
 
         }
         return -1;
+    }*/
+
+    public static boolean addActividad(String nombre, String tipo, String localidad, Double precio,
+                                       String dificultad, String descripcion){
+        if (DBManager.connect()) {
+            Tipo t = getTipoByName(tipo);
+            Centro centro = getCentroByLocalidad(localidad);
+            int rs = 0;
+            try {
+                rs = DBManager.addActividad(nombre,t.getId(),centro.getId(),precio,dificultad,descripcion);
+
+                if (rs > 0) {
+                    listActividades.add(new Actividad(nombre, descripcion,dificultad,precio, t,centro));
+                    DBManager.close();
+                    return true;
+                }
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+
+        }
+        DBManager.close();
+        return false;
+    }
+
+    public static int borrarActividad(int id){
+        int result = 0;
+        if (DBManager.connect()) {
+            try {
+                result = DBManager.borrarActividad(id);
+
+                if (result > 0) {
+                    listActividades.remove(PantallaActividades.posicion);
+                    DBManager.close();
+                    return result;
+                }
+            } catch (SQLException e) {
+                DBManager.close();
+                return 0;
+            }
+        }
+        return 0;
     }
 
     /**
@@ -827,56 +919,6 @@ public class DataManager {
         return result;
     }
 
-    // TODO
-
-    /*public static boolean agregarTrabajador(Trabajador trabajador){
-        int idCentro = trabajador.getCentro().getId();
-
-        try {
-            if (DBManager.connect() && (DBManager.agregarTrabajador(trabajador, idCentro) != 0)){
-                listTrabajador.add(trabajador);
-                DBManager.close();
-                return true;
-            }
-        } catch (SQLException e) {
-            DBManager.close();
-            return false;
-        }
-        return false;
-    }
-
-    public static boolean editarTrabajador(Trabajador trabajador, String nif){
-        int idCentro = trabajador.getCentro().getId();
-
-
-        try {
-            if (DBManager.connect() && (DBManager.editarTrabajador(trabajador, nif, idCentro) != 0)){
-                for (Trabajador t: listTrabajador){
-                    if (t.getNif().equals(nif)){
-                        try{
-                            t.setNombre(String.valueOf(trabajador.getNombre()));
-                            t.setApellido(String.valueOf(trabajador.getApellido()));
-                            t.setSalario(trabajador.getSalario());
-                            t.setEdad(trabajador.getEdad());
-                            t.setIdCentro(trabajador.getCentro());
-
-                            DBManager.close();
-                            return true;
-                        } catch (ExceptionUsuario e){
-                            JOptionPane.showMessageDialog(null, "Alguno de los campos es incorrecto",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            return false;
-                        }
-
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "No se ha podido actualizar el trabajador",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return false;
-    }*/
 
     /**
      * Metodo para obtener la lista de actividades
@@ -972,6 +1014,25 @@ public class DataManager {
         return true;
     }
 
+
+    public static int borrarReserva(String date, String nif, int idAct){
+        int result = 0;
+        if (DBManager.connect()) {
+            try {
+                result = DBManager.borrarReserva(date, nif, idAct);
+
+                if (result > 0) {
+                    listReservas.remove(PantallaReservas.posicion);
+                    DBManager.close();
+                    return result;
+                }
+            } catch (SQLException e) {
+                DBManager.close();
+                return 0;
+            }
+        }
+        return 0;
+    }
     /**
      * Metodo para obtener el precio de una actividad por su id
      * @param id

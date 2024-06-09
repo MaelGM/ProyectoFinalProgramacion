@@ -66,8 +66,11 @@ public class PantallaProveedores extends JFrame{
      */
     private ActionListener editProveedor() {
         return e -> {
-            proveedorSeleccionado = getSelectedProveedor();
             if (proveedorSeleccionado != null) {
+                proveedorSeleccionado.setNombre((String) tblProvSeleccionado.getModel().getValueAt(0,0));
+                proveedorSeleccionado.setTelefono((String) tblProvSeleccionado.getModel().getValueAt(0,1));
+                proveedorSeleccionado.setEmail((String) tblProvSeleccionado.getModel().getValueAt(0,2));
+
                 if (DataManager.editProveedor(proveedorSeleccionado))
                     JOptionPane.showMessageDialog(null, "Proveedor "+proveedorSeleccionado.getNombre()+" ha sido modificado con exito",
                             "Edit proveedor", JOptionPane.INFORMATION_MESSAGE);

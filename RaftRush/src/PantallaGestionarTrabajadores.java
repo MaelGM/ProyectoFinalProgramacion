@@ -40,6 +40,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
     private JLabel lblCentro;
     private DefaultTableModel model;
     private Trabajador trabajadorSeleccionado = null;
+    public static int posicion = 0;
 
     /**
      * Constructor de la clase donde se llaman a los métodos necesarios para inicializar la pantalla. También se
@@ -124,21 +125,63 @@ public class PantallaGestionarTrabajadores extends JFrame {
         cmbCentro.addActionListener(filtrar());
         btnAdd.addActionListener(pedirPassword());
         rellenarTablaModificar();
-        //btnEdit.addActionListener(editarTrabajador());
+        btnEdit.addActionListener(editarTrabajador());
+        btnDelete.addActionListener(eliminarTrabajador());
     }
 
-    /*private ActionListener editarTrabajador(){
+    private ActionListener eliminarTrabajador(){
         return e -> {
-            /*
-            //Trabajador trabajador = nuevoTrabajador(null);
-            //String id = trabajador.getNif();
-
-            if(DataManager.editarTrabajador(trabajador, id)){
-                JOptionPane.showMessageDialog(null, "Se han actualizado los datos del trabajador",
-                        "Actualización BBDD", JOptionPane.INFORMATION_MESSAGE);
+            if (!checkTextFields()) {
+                JOptionPane.showMessageDialog(null,"No has elegido a un paciente");
+            }else{
+                int opcion = JOptionPane.showConfirmDialog(null,"Estas seguro que deseas eliminar a ese trabajador : " + trabajadorSeleccionado.getNif());
+                System.out.println(opcion);
+                if (opcion == 0) {
+                    JOptionPane.showMessageDialog(null, "Eliminando al paciente: " + trabajadorSeleccionado.getNif());
+                    int trabajadorBorrar = DataManager.borrarTrabajador(trabajadorSeleccionado.getNif());
+                    if (trabajadorBorrar == 0) {
+                        JOptionPane.showMessageDialog(null, "ERROR. No se puedo borrar el trabajador null.");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Trabajador borrado correctamente");
+                    }
+                    datosMainTable(DataManager.getListTrabajador());
+                }
             }
         };
-    }*/
+    }
+
+    private ActionListener editarTrabajador(){
+        return e -> {
+            if (checkTextFields()) {
+                String nif = (String) tblNuevoTrabajador.getModel().getValueAt(0, 0);
+                String nombre = (String) tblNuevoTrabajador.getModel().getValueAt(0, 1);
+                String apellido = (String) tblNuevoTrabajador.getModel().getValueAt(0, 2);
+                Object edadO = tblNuevoTrabajador.getModel().getValueAt(0, 3);
+                int edad = Integer.parseInt(edadO.toString());
+                Object salarioO = tblNuevoTrabajador.getModel().getValueAt(0, 4);
+                double salario = Double.parseDouble(salarioO.toString());
+                Centro centro = DataManager.getCentroByName((String) tblNuevoTrabajador.getModel().getValueAt(0, 5));
+                try {
+                    Trabajador tempTrabajador = new Trabajador(nif, trabajadorSeleccionado.getContrasenya(), nombre, apellido, salario,edad,centro);
+                    if(DataManager.editarTrabajador(tempTrabajador)){
+
+                        DataManager.getListTrabajador().get(posicion).setNombre(tempTrabajador.getNombre());
+                        DataManager.getListTrabajador().get(posicion).setApellido(tempTrabajador.getApellido());
+                        DataManager.getListTrabajador().get(posicion).setSalario(tempTrabajador.getSalario());
+                        DataManager.getListTrabajador().get(posicion).setEdad(tempTrabajador.getEdad());
+                        DataManager.getListTrabajador().get(posicion).setIdCentro(tempTrabajador.getCentro());
+
+                        JOptionPane.showMessageDialog(null, "Se han actualizado los datos del trabajador",
+                                "Actualización BBDD", JOptionPane.INFORMATION_MESSAGE);
+
+                        datosMainTable(DataManager.getListTrabajador());
+                    }
+                } catch (ExceptionUsuario ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        };
+    }
 
     /**
      * ActionListener encargado de filtrar cuando se cambie el valor del comboBox
@@ -399,6 +442,8 @@ public class PantallaGestionarTrabajadores extends JFrame {
                     tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getEdad(), 0, 3);
                     tblNuevoTrabajador.getModel().setValueAt(trabajadorSeleccionado.getSalario(), 0, 4);
                     tblNuevoTrabajador.getModel().setValueAt(DataManager.getNomCentro(trabajadorSeleccionado.getCentro().getId()), 0, 5);
+
+                    posicion = tblTrabajadores.getSelectedRow();
                 }
             }
         });

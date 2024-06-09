@@ -184,17 +184,17 @@ public class DBManager {
     /**
      * Metodo para editar un proveedor
      * @param p
-     * @param codigo
      * @return int 0 si no cambia nada, 1 si cambia
      */
-    public static int updateProveedor(Proveedor p, int codigo) {
+
+    public static int updateProveedor(Proveedor p) {
         try {
             String query = "UPDATE proveedor SET nombre= ?, telefono= ?, email= ? WHERE id = ?";
             try(PreparedStatement pstmt = conn.prepareStatement(query)){
                 pstmt.setString(1, p.getNombre());
                 pstmt.setString(2, p.getTelefono());
                 pstmt.setString(3, p.getEmail());
-                pstmt.setInt(4, codigo);
+                pstmt.setInt(4, p.getId());
 
                 return pstmt.executeUpdate();
             }
@@ -204,12 +204,19 @@ public class DBManager {
         }
     }
 
+
+    public static ResultSet getProveedorId(Proveedor proveedor) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM proveedor WHERE proveedor.nombre = '" + proveedor.getNombre()
+                + "' AND proveedor.telefono = '" + proveedor.getTelefono() + "' AND proveedor.email = '" + proveedor.getEmail() + "'");
+    }
+
     /**
      * Metodo para agregar un cliente a la base de datos
      * @param cliente
      * @return int 0 si no se ha podido agregar, 1 si que ha podido.
      * @throws SQLException
      */
+    
     public static int agregarCliente(Cliente cliente) throws SQLException {
         String query = "INSERT INTO cliente (nif, contrasenya, telefono, nombre, edad) VALUES (?,?,?,?,?)";
 
@@ -270,6 +277,25 @@ public class DBManager {
             return pstmt.executeUpdate();
         }
     }
+
+
+    public static int addActividad(String nombre, int tipo, int idCentro, Double precio,
+                                     String dificultad, String descripcion) throws SQLException{
+        String query = "INSERT INTO actividad (nombre, descripcion, dificultad, precio, idTipo, idCentro) VALUES (?,?,?,?,?,?)";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, nombre);
+            pstmt.setString(2,descripcion);
+            pstmt.setString(3,dificultad);
+            pstmt.setDouble(4,precio);
+            pstmt.setInt(5,tipo);
+            pstmt.setInt(6,idCentro);
+
+
+            return pstmt.executeUpdate();
+        }
+    }
+
     /**
      * Metodo para editar un cliente
      * @param cliente
@@ -277,6 +303,7 @@ public class DBManager {
      * @throws SQLException
      * @deprecated
      */
+    
     public static int editarCliente(Cliente cliente) throws SQLException {
         String query = "UPDATE cliente SET nif= ?, contrasenya= ?, telefono= ?, nombre= ?,edad= ? WHERE cliente.nif = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
@@ -315,13 +342,45 @@ public class DBManager {
         }
     }
 
-    /**
+
+    public static int editarTrabajador(Trabajador trabajador, int idCentro) throws SQLException {
+        String query = "UPDATE trabajador SET " +
+                "nombre = ?, apellido = ?, salario = ?, edad = ?, idCentro = ?" +
+                " WHERE nif = ?";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, trabajador.getNombre());
+            pstmt.setString(2, trabajador.getApellido());
+            pstmt.setDouble(3, trabajador.getSalario());
+            pstmt.setInt(4, trabajador.getEdad());
+            pstmt.setInt(5, idCentro);
+            pstmt.setString(6, trabajador.getNif());
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    public static int borrarTrabajador(String nif) throws SQLException {
+        return conn.createStatement().executeUpdate("DELETE FROM trabajador where trabajador.nif = '" + nif + "'");
+    }
+
+    public static int borrarActividad(int id) throws SQLException {
+        return conn.createStatement().executeUpdate("DELETE FROM actividad where actividad.id = " + id);
+    }
+
+    public static int borrarReserva(String date, String nif, int idAct) throws SQLException {
+        return conn.createStatement().executeUpdate("DELETE FROM reservaclienteActividad WHERE reservaclienteActividad.fechaDeReserva = '"
+                + date + "' AND reservaclienteActividad.nifCli = '" + nif + "' AND reservaclienteActividad.idActividad = " + idAct);
+    }
+
+        /**
      * Metodo para obtener la lista de entregas de la base de datos
      * @param material
      * @param proveedor
      * @return ResulSet de la consulta realizada.
      * @throws SQLException
      */
+    
     public static ResultSet getEntregas(Material material, Proveedor proveedor) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM entregaproveedormaterial WHERE entregaproveedormaterial.idProv = "
                 + proveedor.getId() + " AND entregaproveedormaterial.codMaterial = " + material.getCodigo());
@@ -405,5 +464,5 @@ public class DBManager {
     public static ResultSet sacarUltimoIDProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor ORDER BY proveedor.id DESC LIMIT 1");
     }
-    */
+
 }
