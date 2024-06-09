@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="panelGeneral" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1414" height="639"/>
+      <xy x="20" y="20" width="1484" height="639"/>
     </constraints>
     <properties>
       <background color="-16438980"/>
@@ -59,7 +59,7 @@
                 </properties>
                 <border type="none"/>
                 <children>
-                  <component id="7b126" class="javax.swing.JTable" binding="tblReservas">
+                  <component id="7b126" class="javax.swing.JTable" binding="tblEntregas">
                     <constraints/>
                     <properties>
                       <background color="-9534578"/>
@@ -76,13 +76,13 @@
               </scrollpane>
             </children>
           </grid>
-          <grid id="84f1b" binding="panelFiltro" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="84f1b" binding="panelFiltro" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <minimum-size width="216" height="200"/>
-                <preferred-size width="216" height="200"/>
-                <maximum-size width="216" height="200"/>
+                <minimum-size width="216" height="150"/>
+                <preferred-size width="216" height="150"/>
+                <maximum-size width="216" height="150"/>
               </grid>
             </constraints>
             <properties>
@@ -103,7 +103,7 @@
                   <font name="Inter" size="16" style="1"/>
                   <foreground color="-15461356"/>
                   <model>
-                    <item value="Select"/>
+                    <item value="Todos"/>
                   </model>
                 </properties>
               </component>
@@ -116,34 +116,6 @@
                   <font name="Inter" size="18" style="1"/>
                   <foreground color="-1"/>
                   <text value="Centro"/>
-                </properties>
-              </component>
-              <component id="cd96d" class="javax.swing.JLabel" binding="lblProveedor">
-                <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <background color="-1"/>
-                  <font name="Inter" size="18" style="1"/>
-                  <foreground color="-1"/>
-                  <text value="Proveedor"/>
-                </properties>
-              </component>
-              <component id="798d9" class="javax.swing.JComboBox" binding="cmbProveedor">
-                <constraints>
-                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                    <minimum-size width="165" height="40"/>
-                    <preferred-size width="165" height="40"/>
-                    <maximum-size width="165" height="40"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <background color="-16400469"/>
-                  <font name="Inter" size="16" style="1"/>
-                  <foreground color="-15461356"/>
-                  <model>
-                    <item value="Select"/>
-                  </model>
                 </properties>
               </component>
             </children>

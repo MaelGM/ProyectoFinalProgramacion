@@ -1,6 +1,6 @@
 import Objetos.Actividad;
 import Objetos.Centro;
-import Objetos.Tipos;
+import Objetos.Tipo;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -13,9 +13,12 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+/**
+ * Esta clase es la encargada de hacer funcionar y modificar estéticamente la pantalla de gestión de actividades.
+ */
+import java.util.List;
 
 public class PantallaActividades extends JFrame {
 
@@ -23,7 +26,6 @@ public class PantallaActividades extends JFrame {
     private JPanel panelPrincipal;
     private JPanel panelContenido;
     private JPanel panelEliminarAct;
-    private JScrollPane jspTabla;
     private JTable tblActividades;
     private JScrollPane ScrollPanelRegAct;
     private JTable tblActSeleccionada;
@@ -33,11 +35,18 @@ public class PantallaActividades extends JFrame {
     private JComboBox cmbLocalidad;
     private JComboBox cmbTipo;
     private JPanel panelDerecho;
+    private JScrollPane jspTabla;
     private JPanel panelTabla;
+    private static Actividad actSeleccionada = null;
+    public static int posicion = 0;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloAct.png");
 
+    /**
+     * Constructor de la clase donde se llaman a los métodos necesarios para inicializar la pantalla. También se asigna un título
+     * a la pantalla
+     */
     public PantallaActividades() { //Constructor
         super("Lista de actividades");
         init();
@@ -45,9 +54,11 @@ public class PantallaActividades extends JFrame {
         estilo();
         cargarListeners();
         panelActividadesProperties();
-        rellenarTablaModificar();
     }
 
+    /**
+     * Método en el que se inicializa la pantalla, algunos valores como lo son el tamaño.
+     */
     public void init(){
         setSize(1480, 774);
         setVisible(true);
@@ -58,6 +69,9 @@ public class PantallaActividades extends JFrame {
         imgCorporativa.setIcon(imgCorporativaCabecera);
     }
 
+    /**
+     * Se carga el estilo de algunos paneles y las tablas.
+     */
     private void estilo() {
         tablaActProperties();
         panelActividadesProperties();
@@ -65,42 +79,109 @@ public class PantallaActividades extends JFrame {
         panelActSeleccionadaProperties();
     }
 
+    /**
+     * Se cargan los datos de la BD, se cargan las opciones del comboBox, la tabla, y la tabla inferior.
+     */
     public void cargarDatos(){
-        if (DataManager.getActividades() && DataManager.getCentros() && DataManager.getTipos()) {
+        if (DataManager.getTipos() && DataManager.getCentros() && DataManager.getActividades()) {
             actualizaComboBox();
             datosMainTable(DataManager.getListActividades());
             datosActSeleccionada();
         }
     }
 
+    /**
+     * En este método cargamos algunos de los listeners de los botones, comboBox o MouseListener.
+     */
     private void cargarListeners() {
-        btnAddActividad.addActionListener(addActividad());
-        cmbCentro.addActionListener(filtrar());
+        cmbLocalidad.addActionListener(filtrar());
         cmbTipo.addActionListener(filtrar());
         Utils.cursorPointerBoton(btnAddActividad);
         Utils.cursorPointerBoton(btnEliminarActividad);
+        rellenarTablaModificar();
+        btnAddActividad.addActionListener(addActividad());
+        btnEliminarActividad.addActionListener(eliminarActividad());
     }
 
-    // AVISO: Lo tengo que hacer usando los centros, ya que la actividad tiene idCentro, pero en caso de que haya dos centros en la misma ciudad, no se diferenciaran.
+    /**
+     * Este método devuelve el ActionListener encargado de filtrar la tabla. Primero se leen los valores de ambos comboBoxes,
+     * se comprueban y filtran la lista. Una vez filtrada, se llama al método encargado de cargar la tabla, pero enviándole la lista
+     * filtrada.
+     * @return Devuelve la propia acción del comboBox.
+     */
     private ActionListener filtrar() {
         return e -> {
-            Tipos tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
-            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
+            Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
+            Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbLocalidad.getSelectedItem()));
             List<Actividad> actividades = DataManager.getListActividades();
 
-            if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo.getId()).toList();
-            if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getIdCentro() == centro.getId()).toList();
+            if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo).toList();
+            if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getCentro() == centro).toList();
             datosMainTable(actividades);
         };
     }
 
+    /**
+     * Este método también filtra de la misma manera que el anterior, pero a este método se le pasa una lista, y devuelve
+     * esa misma lista pero ya filtrada.
+     * @param lista Lista que quiere ser filtrada.
+     * @return La lista una vez filtrada.
+     */
+    private List<Actividad> filtrar(List<Actividad> lista) {
+        Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
+        Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbLocalidad.getSelectedItem()));
+        List<Actividad> actividades = DataManager.getListActividades();
+
+        if (tipo != null) lista = actividades.stream().filter(actividad -> actividad.getTipo() == tipo).toList();
+        if (centro != null) lista = actividades.stream().filter(actividad -> actividad.getCentro() == centro).toList();
+        return lista;
+    }
+
+    /**
+     * Se abre una nueva pantalla con el propósito de crear una nueva actividad.
+     * @return Devuelve la acción de abrir la pantalla.
+     */
     private ActionListener addActividad() {
         return e -> {
             new PantallaCrearAct();
-            dispose(); // ¿La dejamos abierta para que vea las ya existentes o no?
+            dispose();
         };
     }
 
+    /**
+     * Se encarga de eliminar la actividad seleccionada
+     * @return Devuelve la acción de eliminar la actividad de la base de datos
+     */
+    private ActionListener eliminarActividad(){
+        return e -> {
+            if (!checkTextFields()) {
+                JOptionPane.showMessageDialog(null,"No has elegido una actividad");
+            }else{
+                int opcion = JOptionPane.showConfirmDialog(null,"Estas seguro que deseas eliminar " +
+                        "la actividad: " + tblActSeleccionada.getModel().getValueAt(0, 0));
+                System.out.println(opcion);
+                if (opcion == 0) {
+                    JOptionPane.showMessageDialog(null, "Eliminando la actividad");
+
+                    Object actividadO = tblActividades.getModel().getValueAt(posicion, 0);
+                    int idAct = (Integer) actividadO;
+
+                    int acticidadBorrar = DataManager.borrarActividad(idAct);
+                    if (acticidadBorrar == 0) {
+                        JOptionPane.showMessageDialog(null, "ERROR. No se puedo borrar la actividad.");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Actividad borrado correctamente");
+
+                        datosMainTable(DataManager.getListActividades());
+                    }
+                }
+            }
+        };
+    }
+    /**
+     * Se carga la tabla con los valores de la lista que se le pasa. También se centra el texto y algunas propiedades más.
+     * @param actividades Lista de actividades con los valores que se mostraran en la tabla.
+     */
     public void datosMainTable(List<Actividad> actividades){
         String[]header = {"ID", "Nombre", "Tipo", "Localidad", "Dificultad", "Precio"};
         Object[][]rows = new Object[actividades.size()][header.length];
@@ -109,8 +190,8 @@ public class PantallaActividades extends JFrame {
         for (Actividad actividad: actividades) {
             rows[i][0] = actividad.getId();
             rows[i][1] = actividad.getNombre();
-            rows[i][2] = DataManager.getTipo(actividad.getTipo());
-            rows[i][3] = DataManager.getLocalidad(actividad.getIdCentro());
+            rows[i][2] = actividad.getTipo().getNombre();
+            rows[i][3] = actividad.getCentro().getLocalidad();
             rows[i][4] = actividad.getDificultad();
             rows[i][5] = actividad.getPrecio();
 
@@ -128,13 +209,15 @@ public class PantallaActividades extends JFrame {
         for (int j = 0; j < tblActividades.getColumnCount(); j++) {
             tblActividades.getColumnModel().getColumn(j).setCellRenderer(centerRenderer);
         }
-
     }
+
+    /**
+     * Se inicializa (vacía) la tabla inferior, pero también asignando algunas propiedades de la misma.
+     */
     public void datosActSeleccionada(){
         String[]header = {"Nombre", "Tipo", "Localidad", "Dificultad", "Precio"};
         String[][]rows = new String[1][header.length];
 
-        ///Todo De cara a tomar datos, propongo tomar la información de cada celda.
         rows[0][0] = "";
         rows[0][1] = "";
         rows[0][2] = "";
@@ -154,6 +237,9 @@ public class PantallaActividades extends JFrame {
         }
     }
 
+    /**
+     * Propiedades de la tabla principal
+     */
     public void tablaActProperties(){
         tblActividades.setShowGrid(true);
         tblActividades.setGridColor(Color.BLACK);
@@ -165,6 +251,10 @@ public class PantallaActividades extends JFrame {
         JTableHeader headerActividades = tblActividades.getTableHeader();
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
     }
+
+    /**
+     * Propiedades de la tabla secundaria.
+     */
     public void tablaActSeleccionadaProperties(){
         tblActSeleccionada.setShowGrid(true);
         tblActSeleccionada.setGridColor(Color.BLACK);
@@ -175,6 +265,10 @@ public class PantallaActividades extends JFrame {
         JTableHeader headerEliminarAct = tblActSeleccionada.getTableHeader();
         headerEliminarAct.setPreferredSize(new Dimension(headerEliminarAct.getPreferredSize().width, 40));
     }
+
+    /**
+     * Propiedades del panel inferior
+     */
     public void panelActSeleccionadaProperties(){
         panelEliminarAct.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -187,6 +281,9 @@ public class PantallaActividades extends JFrame {
         panelEliminarAct.setBorder(titleBorder);
     }
 
+    /**
+     * Propiedades del panel principal
+     */
     public void panelActividadesProperties(){
         panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -199,6 +296,9 @@ public class PantallaActividades extends JFrame {
         panelDatos.setBorder(titleBorder);
     }
 
+    /**
+     * Asignación del tamaño de las columnas de la tabla principal
+     */
     public void asignarTamanyoColumnasAct(){
         TableColumn column;
         for (int i = 0; i < tblActividades.getColumnCount(); i++) {
@@ -210,6 +310,10 @@ public class PantallaActividades extends JFrame {
             }
         }
     }
+
+    /**
+     * Asignación del tamaño de las columnas de la tabla secundaria
+     */
     public void asignarTamanyoColumnasActSeleccionada(){
         TableColumn column;
         for (int i = 0; i < tblActSeleccionada.getColumnCount(); i++) {
@@ -232,12 +336,14 @@ public class PantallaActividades extends JFrame {
             public void mousePressed(MouseEvent e) {
                 int row = tblActividades.getSelectedRow();
                 if (e.getClickCount() == 2 && row != -1) {
-                    Actividad act = DataManager.getListActividades().get(row);
-                    tblActSeleccionada.getModel().setValueAt(act.getNombre(), 0, 0);
-                    tblActSeleccionada.getModel().setValueAt(act.getTipo(), 0, 1);
-                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(act.getIdCentro()), 0, 2);
-                    tblActSeleccionada.getModel().setValueAt(act.getDificultad(), 0, 3);
-                    tblActSeleccionada.getModel().setValueAt(act.getPrecio(), 0, 4);
+                    actSeleccionada = filtrar(DataManager.getListActividades()).get(row);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getNombre(), 0, 0);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getTipo().getNombre(), 0, 1);
+                    tblActSeleccionada.getModel().setValueAt(DataManager.getLocalidad(actSeleccionada.getCentro().getId()), 0, 2);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getDificultad(), 0, 3);
+                    tblActSeleccionada.getModel().setValueAt(actSeleccionada.getPrecio(), 0, 4);
+
+                    posicion = tblActividades.getSelectedRow();
                 }
             }
         });
@@ -251,5 +357,16 @@ public class PantallaActividades extends JFrame {
             cmbLocalidad.addItem(DataManager.getLocalidadesCentro().get(i));
             cmbTipo.addItem(DataManager.getTiposActividadesCentro().get(i));
         }
+    }
+
+    private boolean checkTextFields() {
+        if (tblActSeleccionada.getModel().getValueAt(0,0).equals("")
+                || tblActSeleccionada.getModel().getValueAt(0,1).equals("")
+                || tblActSeleccionada.getModel().getValueAt(0,2).equals("")
+                || tblActSeleccionada.getModel().getValueAt(0,3).equals("")
+                || tblActSeleccionada.getModel().getValueAt(0,4).equals("")) {
+            JOptionPane.showMessageDialog(null, "Rellene todos los campos", "Error en los datos", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else return true;
     }
 }

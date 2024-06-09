@@ -1,4 +1,3 @@
-import Excepciones.ExceptionUsuario;
 import Objetos.Cliente;
 import Objetos.Trabajador;
 import Objetos.Usuario;
@@ -9,8 +8,12 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 
+/**
+ * Clase encargada de realizar todas las funciones relacionadas con la pantalla destinada a iniciar sesión en la aplicación
+ */
 public class PantallaInicioSesion extends JFrame{
     private JPanel panelContenido;
     private JPanel panelPrincipal;
@@ -34,6 +37,9 @@ public class PantallaInicioSesion extends JFrame{
     private JLabel lblPassword;
     private JLabel lblNif;
     private JPasswordField passwdField;
+
+    public static String nifGuardar;
+    public Usuario user;
 
     ImageIcon aside = new ImageIcon("resources/imagenes/asideSimple.png");
 
@@ -120,35 +126,30 @@ public class PantallaInicioSesion extends JFrame{
 
     /**
      * Código ejecutado cuando se pulsa el botón iniciar sesión, en el que se validan los text fields, la existencia del usuario
-     * y que la contraseña coincida
+     * y que la contraseña coincida. Una vez comprobado, se revisa si es un trabajador o un cliente, para abrir un menu u otro
      * @return Devuelve la acción que ejecutara el programa en el momento en el que se pulse el botón.
      */
     private ActionListener iniciarSesion() {
         return e -> {
             if (checkTextFields() && DataManager.getUsuarios()){
-                Usuario user = DataManager.findUsuario(formTxtFldNif.getText());
-                if (user != null) checkPassword(user);
-                else
-                    JOptionPane.showMessageDialog(null, "No se ha encontrado un usuario con nif: "
-                            +formTxtFldNif.getText(), "Usuario no encontrado", JOptionPane.ERROR_MESSAGE);
+                try {
+                    char[] passwordChars = passwdField.getPassword();
+                    String password = new String(passwordChars);
+                    user = DataManager.findUsuario(formTxtFldNif.getText());
+                    if (PasswordUtils.checkPassword(password, DataManager.getHashPassword(user,formTxtFldNif.getText()))) {
+
+                        if (user instanceof Trabajador) new PantallaMenu(user); // TODO: Tendriamos que enviarle el usuario (Constructor nuevo) para asi que cambie la pestaña perfil
+                        else if (user instanceof Cliente) new PantallaActClientes(user);
+                        dispose();
+
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Contraseña incorrecta", "Contraseña",JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NoSuchAlgorithmException ex) {
+                    ex.printStackTrace();
+                }
             }
         };
-    }
-
-    /**
-     * Este método coge la contraseña escrita por el usuario y posteriormente, revisa que esta contraseña coincida con la del
-     * usuario al que le corresponde el NIF escrito (user). Después de comprobarlo, mira si el usuario es un trabajador o
-     * un cliente, enviándolo a una pantalla u otra, dependiendo de esto mismo.
-     * @param user Usuario del que se comprobara la contraseña.
-     */
-    private void checkPassword(Usuario user) {
-        if (DataManager.checkPassword(user, new String(passwdField.getPassword()))) {
-            if (user instanceof Trabajador) new PantallaMenu(); // TODO: Tendriamos que enviarle el usuario (Constructor nuevo) para asi que cambie la pestaña perfil
-            else if (user instanceof Cliente) new PantallaActClientes();
-            dispose();
-        }else
-            JOptionPane.showMessageDialog(null, "La contraseña no es correcta",
-                    "Error en los datos", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
