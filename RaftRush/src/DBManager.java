@@ -318,7 +318,18 @@ public class DBManager {
         }
     }
 
-
+    /**
+     * Metodo para agregar una actividad a la base de datos
+     * @param nombre
+     * @param tipo
+     * @param idCentro
+     * @param precio
+     * @param idCentro
+     * @param dificultad
+     * @param descripcion
+     * @return int 0 si no ha podido agragar la actividad, 1 si que ha podido.
+     * @throws SQLException
+     */
     public static int addActividad(String nombre, int tipo, int idCentro, Double precio,
                                      String dificultad, String descripcion) throws SQLException{
         String query = "INSERT INTO actividad (nombre, descripcion, dificultad, precio, idTipo, idCentro) VALUES (?,?,?,?,?,?)";
@@ -382,7 +393,13 @@ public class DBManager {
         }
     }
 
-
+    /**
+     * Metodo para editar un trabajador a la base de datos
+     * @param trabajador
+     * @param idCentro
+     * @return int 0 si no ha podido editar el trabajador, 1 si que ha podido editarlo.
+     * @throws SQLException
+     */
     public static int editarTrabajador(Trabajador trabajador, int idCentro) throws SQLException {
         String query = "UPDATE trabajador SET " +
                 "nombre = ?, apellido = ?, salario = ?, edad = ?, idCentro = ?" +
@@ -400,20 +417,40 @@ public class DBManager {
         }
     }
 
+    /**
+     * Metodo para eliminar un trabajador a la base de datos
+     * @param nif
+     * @return int 0 si no ha podido eliminar el trabajador, 1 si que ha podido agregala.
+     * @throws SQLException
+     */
     public static int borrarTrabajador(String nif) throws SQLException {
         return conn.createStatement().executeUpdate("DELETE FROM trabajador where trabajador.nif = '" + nif + "'");
     }
-
+    /**
+     * Metodo para eliminar una actividad a la base de datos
+     * @param id
+     * @return int 0 si no ha podido eliminar la actividad, 1 si que ha podido agregala.
+     * @throws SQLException
+     */
     public static int borrarActividad(int id) throws SQLException {
         borrarReservaByID(id);
         return conn.createStatement().executeUpdate("DELETE FROM actividad where actividad.id = " + id);
     }
-
+    /**
+     * Metodo para eliminar una reserva a la base de datos
+     * @param nif
+     * @return int 0 si no ha podido eliminar la reserva, 1 si que ha podido agregala.
+     * @throws SQLException
+     */
     public static int borrarReserva(String date, String nif, int idAct) throws SQLException {
         return conn.createStatement().executeUpdate("DELETE FROM reservaclienteActividad WHERE reservaclienteActividad.fechaDeReserva = '"
                 + date + "' AND reservaclienteActividad.nifCli = '" + nif + "' AND reservaclienteActividad.idActividad = " + idAct);
     }
-
+    /**
+     * Metodo para eliminar una reserva dependiendo del id de actividad a la base de datos
+     * @param idAct
+     * @throws SQLException
+     */
     public static void borrarReservaByID(int idAct) throws SQLException {
         conn.createStatement().executeUpdate("DELETE FROM reservaclienteActividad WHERE reservaclienteActividad.idActividad = " + idAct);
     }
@@ -491,26 +528,5 @@ public class DBManager {
             return pstmt.executeUpdate();
         }
     }
-
-    /*
-        Esto no hace falta, ya que al ser incremental, se asigna el ID automaticamente
-
-    //TODO Este codigo lo hago para sacar el ultimo id u codigo que se ha creado para luego insertarlo a la nueva instancia Author -->Hakeem
-    //TODO no he hecho la de tipo porque no estaba muy seguro de ello Author --> Hakeem
-    public static ResultSet sacarUltimoIDCentro() throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM centro ORDER BY centro.id DESC LIMIT 1");
-    }
-
-    public static ResultSet sacarUltimoIDActividad() throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM actividad ORDER BY actividad.id DESC LIMIT 1");
-    }
-
-    public static ResultSet sacarUltimoCodigoMaterial() throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM material ORDER BY material.codigo DESC LIMIT 1");
-    }
-
-    public static ResultSet sacarUltimoIDProveedor() throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM proveedor ORDER BY proveedor.id DESC LIMIT 1");
-    }*/
 
 }

@@ -14,7 +14,7 @@ public class Main {
         FlatMacDarkLaf.setup();
         if (DBManager.loadDriver() && DBManager.connect()) {
             DBManager.close();
-            SwingUtilities.invokeLater(() -> new PantallaInicioSesion().setVisible(true));
+            SwingUtilities.invokeLater(() -> new PantallaInicial().setVisible(true));
         }
     }
 }

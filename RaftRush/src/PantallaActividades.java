@@ -148,7 +148,10 @@ public class PantallaActividades extends JFrame {
         };
     }
 
-
+    /**
+     * Se encarga de eliminar la actividad seleccionada
+     * @return Devuelve la acción de eliminar la actividad de la base de datos
+     */
     private ActionListener eliminarActividad(){
         return e -> {
             if (!checkTextFields()) {

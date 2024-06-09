@@ -608,26 +608,6 @@ public class DataManager {
         return dificultades;
     }
 
-    /*
-        public static boolean getTipos() {
-        if (DBManager.connect()) {
-            try{
-                listTipos.clear();
-                ResultSet rs = DBManager.getTipos();//Select all tipos de actividades
-                while(rs.next()){
-                    listTipos.add(new Tipo(rs.getInt(1), rs.getString(2)));
-                }
-            }catch (SQLException e){
-                e.printStackTrace();
-                DBManager.close();
-                return false;
-            }
-            DBManager.close();
-            return true;
-        }
-        return false;
-    } */
-
     /**
      * Metodo para agregar un trabajador a la lista
      * @param nif
@@ -656,7 +636,11 @@ public class DataManager {
         }else return false;
     }
 
-
+    /**
+     * Metodo para editar un trabajador a la lista
+     * @param trabajador
+     * @return true si ha podido editar el trabajador, false si no
+     */
     public static boolean editarTrabajador(Trabajador trabajador){
         int idCentro = trabajador.getCentro().getId();
 
@@ -670,7 +654,11 @@ public class DataManager {
         }
         return false;
     }
-
+    /**
+     * Metodo para eliminar un trabajador a la lista
+     * @param nif
+     * @return devuelce un int positivo si se ha podido eliminar, 0 si no.
+     */
     public static int borrarTrabajador(String nif){
         int result = 0;
         if (DBManager.connect()) {
@@ -810,7 +798,16 @@ public class DataManager {
         }
         return -1;
     }
-
+    /**
+     * Metodo para agregar una actividad a la lista
+     * @param nombre
+     * @param tipo
+     * @param localidad
+     * @param precio
+     * @param dificultad
+     * @param descripcion
+     * @return true si ha podido agregarse, false si no
+     */
     public static boolean addActividad(String nombre, String tipo, String localidad, Double precio,
                                        String dificultad, String descripcion){
         if (DBManager.connect()) {
@@ -834,7 +831,11 @@ public class DataManager {
         DBManager.close();
         return false;
     }
-
+    /**
+     * Metodo para eliminar una actividad de la lista
+     * @param id
+     * @return devuelce un int positivo si se ha podido eliminar, 0 si no.
+     */
     public static int borrarActividad(int id){
         int result = 0;
         if (DBManager.connect()) {
@@ -1056,7 +1057,13 @@ public class DataManager {
         return true;
     }
 
-
+    /**
+     * Metodo para eliminar una reserva de la lista
+     * @param date
+     * @param nif
+     * @param idAct
+     * @return devuelce un int positivo si se ha podido eliminar, 0 si no.
+     */
     public static int borrarReserva(String date, String nif, int idAct){
         int result = 0;
         if (DBManager.connect()) {

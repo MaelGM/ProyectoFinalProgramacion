@@ -129,7 +129,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
         btnEdit.addActionListener(editarTrabajador());
         btnDelete.addActionListener(eliminarTrabajador());
     }
-
+    /**
+     * ActionListener encargado de eliminar al trabajador seleccionado
+     * @return Devuelve la acción de eliminar el trabajador
+     */
     private ActionListener eliminarTrabajador(){
         return e -> {
             if (!checkTextFields()) {
@@ -150,7 +153,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
             }
         };
     }
-
+    /**
+     * ActionListener encargado de editar al trabajador seleccionado
+     * @return Devuelve la acción de editar el trabajador
+     */
     private ActionListener editarTrabajador(){
         return e -> {
             if (checkTextFields()) {
