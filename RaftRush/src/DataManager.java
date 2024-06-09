@@ -669,6 +669,41 @@ public class DataManager {
     }
 
     /**
+     * Metodo para agregar un centro a la lista
+     * @param centro
+     * @return true si ha podido agregarse, false si no
+     */
+    public static boolean addCentro(Centro centro) {
+        if (findCentro(centro.getId()) != null) return false;
+        if (DBManager.connect()) {
+            try {
+                int res = DBManager.agregarCentro(centro);
+                listCentros.add(centro);
+                DBManager.close();
+                return res != 0;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        } else return false;
+    }
+    /**
+     * Metodo para editar un centro.
+     * @param centro
+     * @return true si se ha podido editar, false si no.
+     */
+    public static boolean editCentro(Centro centro){
+        if (DBManager.connect()){
+            int codigo = getIdCentroByName(centro.getNombre());
+            if (codigo == -1) return false;
+            int rs = DBManager.updateCentro(centro, codigo);
+            if (rs == 0) return false;
+            DBManager.close();
+            return true;
+        }return false;
+    }
+
+    /**
      * Metodo para editar un proveedor
      * @param proveedor
      * @return true si se ha podido editar, false si no.

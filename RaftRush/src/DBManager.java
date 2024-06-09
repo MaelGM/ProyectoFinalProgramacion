@@ -225,6 +225,46 @@ public class DBManager {
     }
 
     /**
+     * Metodo para agregar un centro a la base de datos
+     * @param centro
+     * @return int 1 si seha podido agregar, 0 si no.
+     * @throws SQLException
+     */
+    public static int agregarCentro(Centro centro) throws SQLException {
+        String query = "INSERT INTO centro (nombre, localidad, presupuesto) VALUES (?,?,?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, centro.getNombre());
+            pstmt.setString(2, centro.getLocalidad());
+            pstmt.setDouble(3, centro.getPresupuesto());
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    /**
+     * Metodo para editar un centro en la base de datos
+     * @param centro
+     * @param codigo
+     * @return int 1 si se ha podido editar, 0 si no.
+     */
+    public static int updateCentro(Centro centro, int codigo) {
+        try {
+            String query = "UPDATE centro SET nombre= ?, localidad= ?, presupuesto= ? WHERE id = ?";
+            try(PreparedStatement pstmt = conn.prepareStatement(query)){
+                pstmt.setString(1, centro.getNombre());
+                pstmt.setString(2, centro.getLocalidad());
+                pstmt.setDouble(3, centro.getPresupuesto());
+                pstmt.setInt(4, codigo);
+
+                return pstmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
      * Metodo para agregar un trabajador a la base de datos
      * @param nif
      * @param nombre

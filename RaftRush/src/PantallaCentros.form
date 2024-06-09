@@ -141,19 +141,6 @@
                       <text value="Editar"/>
                     </properties>
                   </component>
-                  <component id="e1f73" class="javax.swing.JButton" binding="btnEliminar">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="50"/>
-                        <maximum-size width="150" height="50"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <background color="-680076"/>
-                      <font name="Inter" size="18" style="1"/>
-                      <text value="Eliminar"/>
-                    </properties>
-                  </component>
                   <component id="9253f" class="javax.swing.JButton" binding="btnAnyadir">
                     <constraints>
                       <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
