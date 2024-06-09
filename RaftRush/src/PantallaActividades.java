@@ -144,6 +144,7 @@ public class PantallaActividades extends JFrame {
     private ActionListener addActividad() {
         return e -> {
             new PantallaCrearAct();
+            dispose();
         };
     }
 

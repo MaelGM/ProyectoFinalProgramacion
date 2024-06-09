@@ -762,7 +762,7 @@ public class DataManager {
                 if (rs == 0) return false;
                 DBManager.close();
                 return true;
-            } catch (SQLException e) {
+            } catch (SQLException | ExceptionProveedor e) {
                 e.printStackTrace();
             }
         }return false;
@@ -802,14 +802,14 @@ public class DataManager {
      * @param proveedor
      * @return int id, -1 si no existe
      */
-    /*private static int getIdFromProveedor(Proveedor proveedor){
+    private static int getIdFromProveedor(Proveedor proveedor){
         for (Proveedor p: listProveedor) {
             if (p.getNombre().equals(proveedor.getNombre()) || p.getEmail().equals(proveedor.getEmail()) || p.getTelefono().equals(proveedor.getTelefono()))
                 return p.getId();
 
         }
         return -1;
-    }*/
+    }
 
     public static boolean addActividad(String nombre, String tipo, String localidad, Double precio,
                                        String dificultad, String descripcion){
@@ -825,7 +825,7 @@ public class DataManager {
                     DBManager.close();
                     return true;
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ExceptionActividad e) {
                 DBManager.close();
                 return false;
             }
@@ -935,11 +935,18 @@ public class DataManager {
      * @param nif
      * @return String result
      */
-    public static String getHashPassword(String nif){
+    public static String getHashPassword(Usuario user, String nif){
         String result = "";
         if (DBManager.connect()) {
             try{
-                ResultSet rs = DBManager.getHashPassword(nif);
+                ResultSet rs = null;
+
+                if (user instanceof Trabajador) {
+                    rs = DBManager.getHashPasswordTrab(nif);
+                }else if (user instanceof Cliente) {
+                    rs = DBManager.getHashPasswordCli(nif);
+                }
+
 
                 if (rs != null && rs.next()) {
                     result = rs.getString("contrasenya");

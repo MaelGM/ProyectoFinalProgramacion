@@ -405,12 +405,17 @@ public class DBManager {
     }
 
     public static int borrarActividad(int id) throws SQLException {
+        borrarReservaByID(id);
         return conn.createStatement().executeUpdate("DELETE FROM actividad where actividad.id = " + id);
     }
 
     public static int borrarReserva(String date, String nif, int idAct) throws SQLException {
         return conn.createStatement().executeUpdate("DELETE FROM reservaclienteActividad WHERE reservaclienteActividad.fechaDeReserva = '"
                 + date + "' AND reservaclienteActividad.nifCli = '" + nif + "' AND reservaclienteActividad.idActividad = " + idAct);
+    }
+
+    public static void borrarReservaByID(int idAct) throws SQLException {
+        conn.createStatement().executeUpdate("DELETE FROM reservaclienteActividad WHERE reservaclienteActividad.idActividad = " + idAct);
     }
 
         /**
@@ -432,8 +437,11 @@ public class DBManager {
      * @return ResulSet de la consulta realizada.
      * @throws SQLException
      */
-    public static ResultSet getHashPassword(String nif) throws SQLException {
+    public static ResultSet getHashPasswordTrab(String nif) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM trabajador where trabajador.nif = '" + nif + "'");
+    }
+    public static ResultSet getHashPasswordCli(String nif) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM cliente where cliente.nif = '" + nif + "'");
     }
 
     /**
@@ -503,6 +511,6 @@ public class DBManager {
 
     public static ResultSet sacarUltimoIDProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor ORDER BY proveedor.id DESC LIMIT 1");
-    }
+    }*/
 
 }

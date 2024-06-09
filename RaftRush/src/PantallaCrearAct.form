@@ -106,10 +106,17 @@
                           <font name="Inter" size="18"/>
                           <model>
                             <item value="Valencia"/>
-                            <item value="Alicane"/>
                             <item value="Barcelona"/>
                             <item value="Oviedo"/>
                             <item value="Andorra"/>
+                            <item value="Madrid"/>
+                            <item value="Sevilla"/>
+                            <item value="Bilbao"/>
+                            <item value="Zaragoza"/>
+                            <item value="Murcia"/>
+                            <item value="Valladolid"/>
+                            <item value="La Coruña"/>
+                            <item value="Granada"/>
                           </model>
                         </properties>
                       </component>
