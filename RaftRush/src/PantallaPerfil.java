@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.security.NoSuchAlgorithmException;
 
 public class PantallaPerfil extends JFrame{
     private JPanel panelGeneral;
@@ -80,12 +81,17 @@ public class PantallaPerfil extends JFrame{
             }
             if (txtContra.getText().isEmpty()) {
                 contrasenya = usu.getContrasenya();
+            }else{
+                try {
+                    contrasenya = PasswordUtils.hashPassword(txtContra.getText());
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
             }
 
-            Usuario tempUsu = usu;
             try{
-                tempUsu.setNombre(nombre);
-                tempUsu.setContrasenya(contrasenya);
+                usu.setNombre(nombre);
+                usu.setContrasenya(contrasenya);
                 if (DataManager.editarUsuario(usu, nombre, contrasenya, txtNif.getText()) > 0) {
                     //usu.setNombre(nombre);
                     //usu.setContrasenya(contrasenya);

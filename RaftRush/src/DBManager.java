@@ -189,6 +189,27 @@ public class DBManager {
         }
     }
 
+    public static int editarTrabajador(Trabajador trabajador, int idCentro) throws SQLException {
+        String query = "UPDATE trabajador SET " +
+                "nombre = ?, apellido = ?, salario = ?, edad = ?, idCentro = ?" +
+                " WHERE nif = ?";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, trabajador.getNombre());
+            pstmt.setString(2, trabajador.getApellido());
+            pstmt.setDouble(3, trabajador.getSalario());
+            pstmt.setInt(4, trabajador.getEdad());
+            pstmt.setInt(5, idCentro);
+            pstmt.setString(6, trabajador.getNif());
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    public static int borrarTrabajador(String nif) throws SQLException {
+        return conn.createStatement().executeUpdate("DELETE FROM trabajador where trabajador.nif = '" + nif + "'");
+    }
+
     public static ResultSet getEntregas(Material material, Proveedor proveedor) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM entregaproveedormaterial WHERE entregaproveedormaterial.idProv = "
                 + proveedor.getId() + " AND entregaproveedormaterial.codMaterial = " + material.getCodigo());
@@ -205,23 +226,6 @@ public class DBManager {
 
     public static ResultSet getPrecioAct(int id) throws SQLException{
         return conn.createStatement().executeQuery("SELECT * FROM actividad WHERE actividad.id = " + id);
-    }
-
-    public static int editarTrabajador(Trabajador trabajador, String nif, int idCentro) throws SQLException {
-        String query = "UPDATE trabajador SET " +
-                "nombre = ?, apellido = ?, salario = ?, edad = ?, idCentro = ?" +
-                "WHERE nif = ?";
-
-        try(PreparedStatement pstmt = conn.prepareStatement(query)){
-            pstmt.setString(1, trabajador.getNombre());
-            pstmt.setString(2, trabajador.getApellido());
-            pstmt.setDouble(3, trabajador.getSalario());
-            pstmt.setInt(4, trabajador.getEdad());
-            pstmt.setInt(5, idCentro);
-            pstmt.setString(6, nif);
-
-            return pstmt.executeUpdate();
-        }
     }
 
     /*
