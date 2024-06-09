@@ -156,30 +156,6 @@ public class DBManager {
     public static ResultSet getCentro(int id) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM centro WHERE centro.id = " + id);
     }
-    /**
-     * metodo para coger la lista de tipos de la base de datos por su id
-     * @return ResulSet con la consulta realizada
-     * @throws SQLException
-     */
-    public static ResultSet getTipo(int id) throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM tipo WHERE tipo.id = " + id);
-    }
-    /**
-     * metodo para coger la lista de clientes de la base de datos por su nif
-     * @return ResulSet con la consulta realizada
-     * @throws SQLException
-     */
-    public static ResultSet getCliente(String nif) throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM cliente WHERE cliente.nif = '" + nif + "'");
-    }
-    /**
-     * metodo para coger la lista de tabajador de la base de datos por su nif
-     * @return ResulSet con la consulta realizada
-     * @throws SQLException
-     */
-    public static ResultSet getTrabajador(String nif) throws SQLException {
-        return conn.createStatement().executeQuery("SELECT * FROM trabajador WHERE trabajador.nif = '" + nif + "'");
-    }
 
     /**
      * Metodo para editar un proveedor
@@ -318,7 +294,14 @@ public class DBManager {
         }
     }
 
-    
+    /**
+     * Este método se encarga de añadir una entrega a la base de datos.
+     * @param fecha Fecha en la que se solicitó el material
+     * @param proveedor Proveedor que realiza la entrega
+     * @param material Material de la entrega
+     * @return Devolvera un int, que si ese int es 0, significará que no ha funcionado.
+     * @throws SQLException Saltará esta exception en caso de que no funcione la inserción
+     */
     public static int addEntrega(LocalDate fecha, Proveedor proveedor, Material material) throws SQLException{
         String query = "INSERT INTO entregaproveedormaterial (fechaEntrega, idProv, codMaterial, idCentro) VALUES (?,?,?,?)";
 
@@ -362,6 +345,12 @@ public class DBManager {
         }
     }
 
+    /**
+     * Método encargado de añadir un material a la base de datos.
+     * @param material Material que se tiene que añadir a la base de datos
+     * @return Devolverá un int, que si ese int es 0, significará que no ha funcionado.
+     * @throws SQLException Saltará esta exception en caso de que no funcione la inserción
+     */
     public static int addMaterial(Material material) throws SQLException {
         String query = "INSERT INTO material (nombre, precio, cantidad, idCentro) VALUES (?,?,?,?)";
 
@@ -371,11 +360,17 @@ public class DBManager {
             pstmt.setInt(3, material.getCantidad());
             pstmt.setInt(4, material.getCentro().getId());
 
-
             return pstmt.executeUpdate();
         }
     }
 
+    /**
+     * Método encargado de modificar la cantidad de un material.
+     * @param material Material ya registrado en la base de datos
+     * @param cantidad Número de la cantidad nueva a modificar
+     * @return Devolverá un int, que si ese int es 0, significará que no ha funcionado.
+     * @throws SQLException Saltará esta exception en caso de que no funcione la inserción
+     */
     public static int editarCantidadMaterial(Material material, int cantidad) throws SQLException {
         String query = "UPDATE material SET cantidad= ? WHERE material.codigo = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
@@ -386,6 +381,13 @@ public class DBManager {
         }
     }
 
+    /**
+     * Método encargado de modificar el precio de un material.
+     * @param material Material ya registrado en la base de datos
+     * @param precio Número del precio nuevo a modificar
+     * @return Devolverá un int, que si ese int es 0, significará que no ha funcionado.
+     * @throws SQLException Saltará esta exception en caso de que no funcione la inserción
+     */
     public static int editarPrecioMaterial(Material material, double precio) throws SQLException {
         String query = "UPDATE material SET precio= ? WHERE material.codigo = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
@@ -403,7 +405,6 @@ public class DBManager {
      * @throws SQLException
      * @deprecated
      */
-    
     public static int editarCliente(Cliente cliente) throws SQLException {
         String query = "UPDATE cliente SET nif= ?, contrasenya= ?, telefono= ?, nombre= ?,edad= ? WHERE cliente.nif = ?";
         try(PreparedStatement pstmt = conn.prepareStatement(query)){
@@ -576,6 +577,4 @@ public class DBManager {
             return pstmt.executeUpdate();
         }
     }
-}
-
 }

@@ -94,6 +94,11 @@ public class PantallaMateriales extends JFrame{
         rellenarTablaModificar();
     }
 
+    /**
+     * ActionListener encargado de añadir un nuevo material, comprobando si se ha podido, mostrando un mensaje de confirmación.
+     * También se añade una nueva entrega.
+     * @return Devuelve la propia acción del código
+     */
     private ActionListener addMaterial() {
         return e -> {
             Material material = getMaterial();
@@ -107,6 +112,10 @@ public class PantallaMateriales extends JFrame{
         };
     }
 
+    /**
+     * Este método lee los datos de la tabla inferior y prueba a crear un material con ellos.
+     * @return Si lo logra, devuelve el propio material, si no, devuelve nulo.
+     */
     private Material getMaterial() {
         try {
             String nombre = tblModMaterial.getModel().getValueAt(0,0).toString();
@@ -154,7 +163,11 @@ public class PantallaMateriales extends JFrame{
         return lista;
     }
 
-
+    /**
+     * ActionListener que lee el nombre y el centro de la tabla inferior y busca un material que coincida con esta información.
+     * Si se encuentra un material, se revisan los cambios que se han realizado en otro método
+     * @return Devuelve la propia acción del código
+     */
     private ActionListener modificarMat(){
         return e -> {
             Material material = DataManager.getMaterial(tblModMaterial.getModel().getValueAt(0,0).toString(),
@@ -164,6 +177,11 @@ public class PantallaMateriales extends JFrame{
         };
     }
 
+    /**
+     * Aquí es donde se revisan los cambios de la cantidad y del precio de un material. Se revisa que dato se ha cambiado, o
+     * si se ha cambiado algo.
+     * @param material Material del que se está modificando la información
+     */
     private void checkCambios(Material material) {
         try {
             int cantidad = Integer.parseInt(tblModMaterial.getModel().getValueAt(0,1).toString());
@@ -184,6 +202,12 @@ public class PantallaMateriales extends JFrame{
         }
     }
 
+    /**
+     * Este método compara la cantidad antigua anterior a la modificación, y la nueva cantidad ya modificada. Una vez comprobado,
+     * modifica la cantidad, y si esto aumenta, se le obligará a añadir una nueva entrega de este material nuevo.
+     * @param material Material del que se está modificando la cantidad.
+     * @param cantidad Cantidad nueva.
+     */
     private void changeCantidad(Material material, int cantidad) {
         if (material.getCantidad() > cantidad && DataManager.changeCantidadMaterial(material, cantidad)){
             JOptionPane.showMessageDialog(null, "La cantidad se ha cambiado con exito a "+cantidad,
@@ -194,6 +218,12 @@ public class PantallaMateriales extends JFrame{
         }
     }
 
+    /**
+     * Este método compara el precio antiguo anterior a la modificación, y el nuevo precio ya modificado. Una vez comprobado,
+     * modifica el precio, mostrando un mensaje en caso de haber tenido éxito.
+     * @param material Material del que se está modificando la cantidad.
+     * @param precio Precio nuevo.
+     */
     private void changePrecio(Material material, double precio) {
         if (material.getPrecio() < precio && DataManager.changePrecioMaterial(material, precio)){
             JOptionPane.showMessageDialog(null, "El precio se ha cambiado con exito de a "+precio,

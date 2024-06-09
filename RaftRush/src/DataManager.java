@@ -502,6 +502,12 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Método en el que se recorre la lista de materiales en busqueda de un material.
+     * @param nombre Nombre del material que se busca
+     * @param centro Centro en el que está el material
+     * @return En caso de encontrar el material, devuelve el propio materia, pero en caso contrario, devuelve nulo.
+     */
     public static Material getMaterial(String nombre, String centro){
         for (Material m: listMaterial) {
             if (m.getCentro().getNombre().equalsIgnoreCase(centro) && m.getNombre().equalsIgnoreCase(nombre)) return m;
@@ -509,6 +515,12 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Método en el que se cambia la cantidad de stock de un material
+     * @param material Material del que se va a cambiar el stock
+     * @param cantidad Cantidad nueva del material
+     * @return Devuelve true si se ha podido insertar el cambio, y false en caso contrario.
+     */
     public static boolean changeCantidadMaterial(Material material, int cantidad) {
         if (DBManager.connect()){
             try {
@@ -523,6 +535,12 @@ public class DataManager {
         }else return false;
     }
 
+    /**
+     * Método en el que se cambia el precio de un material
+     * @param material Material del que se va a cambiar el precio
+     * @param precio Precio nuevo del material
+     * @return Devuelve true si se ha podido insertar el cambio, y false en caso contrario.
+     */
     public static boolean changePrecioMaterial(Material material, double precio) {
         if (DBManager.connect()){
             try {
@@ -1094,10 +1112,10 @@ public class DataManager {
 
     /**
      * Metodo para eliminar una reserva de la lista
-     * @param date
-     * @param nif
-     * @param idAct
-     * @return devuelce un int positivo si se ha podido eliminar, 0 si no.
+     * @param date Fecha del dia que se realizó la reserva
+     * @param nif Nif del cliente que ha realizado la reserva
+     * @param idAct Id de la actividad que se ha reservado
+     * @return Devuelve un int positivo si se ha podido eliminar, 0 si no.
      */
     public static int borrarReserva(String date, String nif, int idAct){
         int result = 0;
@@ -1119,7 +1137,7 @@ public class DataManager {
     }
     /**
      * Metodo para obtener el precio de una actividad por su id
-     * @param id
+     * @param id Id de la actividad
      * @return double resultado
      */
     public static double getPrecioAct(int id) {
