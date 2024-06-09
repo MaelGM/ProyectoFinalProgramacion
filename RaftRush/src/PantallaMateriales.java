@@ -1,3 +1,4 @@
+import Excepciones.ExceptionMaterial;
 import Objetos.Centro;
 import Objetos.Material;
 import Objetos.Proveedor;
@@ -14,6 +15,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -84,10 +88,40 @@ public class PantallaMateriales extends JFrame{
         Utils.cursorPointerBoton(btnModificar); // Te saldra para seleccionar un proveedor, en caso de que se haya aumentado la cantidad del stock
         Utils.cursorPointerBoton(btnSolicitar); // No me ha quedado claro que pasa si se le da a Solicitar --> Mael
         Utils.cursorPointerBoton(btnVerEntregas);
-        btnSolicitar.addActionListener(asignarProveedor());
+        btnSolicitar.addActionListener(addMaterial());
         btnModificar.addActionListener(modificarMat());
         cmbCentro.addActionListener(filtrar());
         rellenarTablaModificar();
+    }
+
+    private ActionListener addMaterial() {
+        return e -> {
+            Material material = getMaterial();
+            if (material != null && DataManager.getMaterial(material.getNombre(), material.getCentro().getNombre()) == null
+                    && DataManager.addMaterial(material)){
+                JOptionPane.showMessageDialog(null, "Se ha añadido el material "+material.getNombre(), "Material añadido", JOptionPane.INFORMATION_MESSAGE);
+                cargarDatos();
+                if (!DataManager.addEntrega(LocalDate.now(), getProveedor(), DataManager.getMaterial(material.getNombre(), material.getCentro().getNombre())))
+                    JOptionPane.showMessageDialog(null, "No se ha podido crear la entrega del material", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }else JOptionPane.showMessageDialog(null, "No se ha podido crear el material");
+        };
+    }
+
+    private Material getMaterial() {
+        try {
+            String nombre = tblModMaterial.getModel().getValueAt(0,0).toString();
+            int cantidad = Integer.parseInt(tblModMaterial.getModel().getValueAt(0,1).toString());
+            double precio = Double.parseDouble(tblModMaterial.getModel().getValueAt(0,2).toString());
+            Centro centro = DataManager.getCentroByName(tblModMaterial.getModel().getValueAt(0,3).toString());
+            if (centro == null || nombre.length() < 3) return null;
+            else {
+                    return new Material(nombre, precio, cantidad, centro);
+            }
+        } catch (ExceptionMaterial e) {
+            JOptionPane.showMessageDialog(null, "No se ha podido crear un nuevo material"+ e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
     }
 
     /**
@@ -123,36 +157,80 @@ public class PantallaMateriales extends JFrame{
 
     private ActionListener modificarMat(){
         return e -> {
-
+            Material material = DataManager.getMaterial(tblModMaterial.getModel().getValueAt(0,0).toString(),
+                    tblModMaterial.getModel().getValueAt(0,3).toString());
+            if (material != null) checkCambios(material);
+            else JOptionPane.showMessageDialog(null, "Debe seleccionar un material y modificar solamente el precio o la cantidad", "WARNING",JOptionPane.WARNING_MESSAGE);
         };
     }
+
+    private void checkCambios(Material material) {
+        try {
+            int cantidad = Integer.parseInt(tblModMaterial.getModel().getValueAt(0,1).toString());
+            double precio = Double.parseDouble(tblModMaterial.getModel().getValueAt(0,2).toString());
+            if (cantidad < 0 || precio <= 0) {
+                JOptionPane.showMessageDialog(null, "No se admiten modificaciones que sobrepasen el 0");
+                return;
+            }
+            if (material.getCantidad() == cantidad && material.getPrecio() == precio) {
+                JOptionPane.showMessageDialog(null, "No se ha encontrado ningun cambio en el precio o la cantidad", "ERROR", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            changeCantidad(material, cantidad);
+            changePrecio(material, precio);
+            cargarDatos();
+        }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Datos incorrectos: "+ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void changeCantidad(Material material, int cantidad) {
+        if (material.getCantidad() > cantidad && DataManager.changeCantidadMaterial(material, cantidad)){
+            JOptionPane.showMessageDialog(null, "La cantidad se ha cambiado con exito a "+cantidad,
+                    "Cantidad cambiada", JOptionPane.INFORMATION_MESSAGE);
+        }else if (material.getCantidad() < cantidad && DataManager.addEntrega(LocalDate.now(), getProveedor(), material) && DataManager.changeCantidadMaterial(material, cantidad)) {
+            JOptionPane.showMessageDialog(null, "La cantidad se ha cambiado con exito a "+cantidad,
+                    "Cantidad cambiada", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void changePrecio(Material material, double precio) {
+        if (material.getPrecio() < precio && DataManager.changePrecioMaterial(material, precio)){
+            JOptionPane.showMessageDialog(null, "El precio se ha cambiado con exito de a "+precio,
+                    "Precio cambiado", JOptionPane.INFORMATION_MESSAGE);
+        }else if (material.getPrecio() > precio && DataManager.changePrecioMaterial(material, precio)) {
+            JOptionPane.showMessageDialog(null, "El precio se ha cambiado con exito de a "+precio,
+                    "Precio cambiado", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+
     /**
      * Este método se encarga de la aparición de una pequeña pantalla en la que el usuario elegirá a que proveedor le solicitamos la entrega
      * @return La acción del botón
      */
-    private ActionListener asignarProveedor() {
-        return e -> {
-            List<String> proveedoresOptions = DataManager.getListProveedor().stream().map(Proveedor::getNombre).toList();
-            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(proveedoresOptions.toArray(new String[0]));
-            JComboBox<String> comboBox = new JComboBox<>(comboBoxModel);
+    private Proveedor getProveedor() {
+        List<String> proveedoresOptions = DataManager.getListProveedor().stream().map(Proveedor::getNombre).toList();
+        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(proveedoresOptions.toArray(new String[0]));
+        JComboBox<String> comboBox = new JComboBox<>(comboBoxModel);
 
-            for (int i = 0; i < (proveedoresOptions.size()/2)-5; i++) {
-                comboBox.addItem(proveedoresOptions.get(i));
-            }
+        for (int i = 0; i < (proveedoresOptions.size()/2)-5; i++) {
+            comboBox.addItem(proveedoresOptions.get(i));
+        }
 
-            JPanel panel = new JPanel();
-            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-            panel.add(new JLabel("Seleccione el proveedor de la entrega:"));
-            panel.add(comboBox);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(new JLabel("Seleccione el proveedor de la entrega:"));
+        panel.add(comboBox);
 
-            int option = JOptionPane.showConfirmDialog(
-                    null,
-                    panel,
-                    "Selección de proveedor",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.PLAIN_MESSAGE
-            );
-        };
+        JOptionPane.showConfirmDialog(
+                null,
+                panel,
+                "Selección de proveedor",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+        return DataManager.getProveedorByName(comboBoxModel.getSelectedItem().toString());
     }
 
     /**
@@ -195,7 +273,6 @@ public class PantallaMateriales extends JFrame{
             j++;
         }
 
-
         tblMat.setModel(new DefaultTableModel(rows, header));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -232,15 +309,12 @@ public class PantallaMateriales extends JFrame{
             tblModMaterial.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-
         tblModMaterial.getTableHeader().setOpaque(false);
         tblModMaterial.getTableHeader().setBackground(new Color(47, 75, 89));
         tblModMaterial.getTableHeader().setForeground(new Color(245, 159, 116));
         tblModMaterial.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
 
         tblModMaterial.getTableHeader().setReorderingAllowed(false);
-        tblModMaterial.setDefaultEditor(Object.class, null);
-
     }
 
     /**
@@ -294,9 +368,9 @@ public class PantallaMateriales extends JFrame{
             column = tblMat.getColumnModel().getColumn(i);
             switch (i){
                 case 0-> column.setPreferredWidth(50);
-                case 1-> column.setPreferredWidth(150);
+                case 1-> column.setPreferredWidth(100);
                 case 2, 3 -> column.setPreferredWidth(70);
-                case 4-> column.setPreferredWidth(300);
+                case 4-> column.setPreferredWidth(350);
             }
         }
     }

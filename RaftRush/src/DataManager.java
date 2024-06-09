@@ -4,6 +4,7 @@ import Objetos.*;
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -499,6 +500,40 @@ public class DataManager {
             if (material.getCodigo() == id) return material;
         }
         return null;
+    }
+
+    public static Material getMaterial(String nombre, String centro){
+        for (Material m: listMaterial) {
+            if (m.getCentro().getNombre().equalsIgnoreCase(centro) && m.getNombre().equalsIgnoreCase(nombre)) return m;
+        }
+        return null;
+    }
+
+    public static boolean changeCantidadMaterial(Material material, int cantidad) {
+        if (DBManager.connect()){
+            try {
+                int resultado = DBManager.editarCantidadMaterial(material, cantidad);
+                listMaterial.get(material.getCodigo()-1).setCantidad(cantidad);
+                DBManager.close();
+                return resultado != 0;
+            } catch (SQLException | ExceptionMaterial e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
+    }
+
+    public static boolean changePrecioMaterial(Material material, double precio) {
+        if (DBManager.connect()){
+            try {
+                int resultado = DBManager.editarPrecioMaterial(material, precio);
+                DBManager.close();
+                return resultado != 0;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
     }
 
     /**
@@ -1105,5 +1140,36 @@ public class DataManager {
         }
         DBManager.close();
         return 0;
+    }
+
+    public static boolean addEntrega(LocalDate fecha, Proveedor proveedor, Material material) {
+        if (proveedor == null || material == null) return false;
+        if (DBManager.connect()){
+            try {
+                int resultado = DBManager.addEntrega(fecha, proveedor, material);
+                DBManager.close();
+                return resultado != 0;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
+    }
+
+    public static boolean addMaterial(Material material) {
+        if (material == null) return false;
+        if (DBManager.connect()){
+            try {
+                int resultado = DBManager.addMaterial(material);
+                if (resultado != 0) {
+                    listMaterial.add(material);
+                }
+                DBManager.close();
+                return resultado != 0;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
     }
 }

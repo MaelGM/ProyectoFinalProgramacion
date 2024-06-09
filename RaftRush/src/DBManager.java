@@ -318,6 +318,21 @@ public class DBManager {
         }
     }
 
+    
+    public static int addEntrega(LocalDate fecha, Proveedor proveedor, Material material) throws SQLException{
+        String query = "INSERT INTO entregaproveedormaterial (fechaEntrega, idProv, codMaterial, idCentro) VALUES (?,?,?,?)";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setDate(1, Date.valueOf(fecha));
+            pstmt.setInt(2, proveedor.getId());
+            pstmt.setInt(3, material.getCodigo());
+            pstmt.setInt(4, material.getCentro().getId());
+
+
+            return pstmt.executeUpdate();
+        }
+    }
+
     /**
      * Metodo para agregar una actividad a la base de datos
      * @param nombre
@@ -342,6 +357,40 @@ public class DBManager {
             pstmt.setInt(5,tipo);
             pstmt.setInt(6,idCentro);
 
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    public static int addMaterial(Material material) throws SQLException {
+        String query = "INSERT INTO material (nombre, precio, cantidad, idCentro) VALUES (?,?,?,?)";
+
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setString(1, material.getNombre());
+            pstmt.setDouble(2, material.getPrecio());
+            pstmt.setInt(3, material.getCantidad());
+            pstmt.setInt(4, material.getCentro().getId());
+
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    public static int editarCantidadMaterial(Material material, int cantidad) throws SQLException {
+        String query = "UPDATE material SET cantidad= ? WHERE material.codigo = ?";
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setInt(1,cantidad);
+            pstmt.setInt(2,material.getCodigo());
+
+            return pstmt.executeUpdate();
+        }
+    }
+
+    public static int editarPrecioMaterial(Material material, double precio) throws SQLException {
+        String query = "UPDATE material SET precio= ? WHERE material.codigo = ?";
+        try(PreparedStatement pstmt = conn.prepareStatement(query)){
+            pstmt.setDouble(1,precio);
+            pstmt.setInt(2,material.getCodigo());
 
             return pstmt.executeUpdate();
         }
@@ -455,14 +504,13 @@ public class DBManager {
         conn.createStatement().executeUpdate("DELETE FROM reservaclienteActividad WHERE reservaclienteActividad.idActividad = " + idAct);
     }
 
-        /**
+    /**
      * Metodo para obtener la lista de entregas de la base de datos
      * @param material
      * @param proveedor
      * @return ResulSet de la consulta realizada.
      * @throws SQLException
      */
-    
     public static ResultSet getEntregas(Material material, Proveedor proveedor) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM entregaproveedormaterial WHERE entregaproveedormaterial.idProv = "
                 + proveedor.getId() + " AND entregaproveedormaterial.codMaterial = " + material.getCodigo());
@@ -528,5 +576,6 @@ public class DBManager {
             return pstmt.executeUpdate();
         }
     }
+}
 
 }

@@ -1,5 +1,6 @@
 import Excepciones.ExceptionUsuario;
 import Objetos.*;
+import Excepciones.ExceptionUsuario;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 

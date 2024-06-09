@@ -66,11 +66,10 @@ public class PantallaProveedores extends JFrame{
     private ActionListener editProveedor() {
         return e -> {
             if (proveedorSeleccionado != null) {
-                proveedorSeleccionado.setNombre((String) tblProvSeleccionado.getModel().getValueAt(0,0));
                 try {
+                    proveedorSeleccionado.setNombre((String) tblProvSeleccionado.getModel().getValueAt(0,0));
                     proveedorSeleccionado.setTelefono((String) tblProvSeleccionado.getModel().getValueAt(0,1));
                     proveedorSeleccionado.setEmail((String) tblProvSeleccionado.getModel().getValueAt(0,2));
-
                 } catch (ExceptionProveedor ex) {
                     throw new RuntimeException(ex);
                 }
