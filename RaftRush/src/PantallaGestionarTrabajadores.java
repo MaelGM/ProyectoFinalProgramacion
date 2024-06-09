@@ -1,4 +1,5 @@
 import Objetos.*;
+import Excepciones.ExceptionUsuario;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -169,7 +170,7 @@ public class PantallaGestionarTrabajadores extends JFrame {
                         DataManager.getListTrabajador().get(posicion).setApellido(tempTrabajador.getApellido());
                         DataManager.getListTrabajador().get(posicion).setSalario(tempTrabajador.getSalario());
                         DataManager.getListTrabajador().get(posicion).setEdad(tempTrabajador.getEdad());
-                        DataManager.getListTrabajador().get(posicion).setIdCentro(tempTrabajador.getCentro());
+                        DataManager.getListTrabajador().get(posicion).setCentro(tempTrabajador.getCentro());
 
                         JOptionPane.showMessageDialog(null, "Se han actualizado los datos del trabajador",
                                 "Actualización BBDD", JOptionPane.INFORMATION_MESSAGE);

@@ -129,7 +129,7 @@ public class PantallaEntregas extends JFrame{
                 return;
             }
 
-            String[] header = {"Fecha de entrega", "Proveedor", "Material", "Centro"};
+            String[] header = {"Fecha", "Proveedor", "Material", "Centro"};
 
             // Obtengo la longitud mínima para evitar ArrayIndexOutOfBoundsException
             int longitud = Math.min(fechas.size(), Math.min(materiales.size(), proveedores.size()));

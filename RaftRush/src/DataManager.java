@@ -4,6 +4,7 @@ import Objetos.*;
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -501,6 +502,40 @@ public class DataManager {
         return null;
     }
 
+    public static Material getMaterial(String nombre, String centro){
+        for (Material m: listMaterial) {
+            if (m.getCentro().getNombre().equalsIgnoreCase(centro) && m.getNombre().equalsIgnoreCase(nombre)) return m;
+        }
+        return null;
+    }
+
+    public static boolean changeCantidadMaterial(Material material, int cantidad) {
+        if (DBManager.connect()){
+            try {
+                int resultado = DBManager.editarCantidadMaterial(material, cantidad);
+                listMaterial.get(material.getCodigo()-1).setCantidad(cantidad);
+                DBManager.close();
+                return resultado != 0;
+            } catch (SQLException | ExceptionMaterial e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
+    }
+
+    public static boolean changePrecioMaterial(Material material, double precio) {
+        if (DBManager.connect()){
+            try {
+                int resultado = DBManager.editarPrecioMaterial(material, precio);
+                DBManager.close();
+                return resultado != 0;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
+    }
+
     /**
      * Metodo para obtener el centro por su localidad
      * @param localidad
@@ -762,7 +797,7 @@ public class DataManager {
                 if (rs == 0) return false;
                 DBManager.close();
                 return true;
-            } catch (SQLException e) {
+            } catch (SQLException | ExceptionProveedor e) {
                 e.printStackTrace();
             }
         }return false;
@@ -797,20 +832,6 @@ public class DataManager {
         }else return false;
     }
 
-    /**
-     * Metodo para obtener el id de un proveedor
-     * @param proveedor
-     * @return int id, -1 si no existe
-     */
-    /*private static int getIdFromProveedor(Proveedor proveedor){
-        for (Proveedor p: listProveedor) {
-            if (p.getNombre().equals(proveedor.getNombre()) || p.getEmail().equals(proveedor.getEmail()) || p.getTelefono().equals(proveedor.getTelefono()))
-                return p.getId();
-
-        }
-        return -1;
-    }*/
-
     public static boolean addActividad(String nombre, String tipo, String localidad, Double precio,
                                        String dificultad, String descripcion){
         if (DBManager.connect()) {
@@ -825,7 +846,7 @@ public class DataManager {
                     DBManager.close();
                     return true;
                 }
-            } catch (SQLException e) {
+            } catch (SQLException | ExceptionActividad e) {
                 DBManager.close();
                 return false;
             }
@@ -1091,5 +1112,36 @@ public class DataManager {
         }
         DBManager.close();
         return 0;
+    }
+
+    public static boolean addEntrega(LocalDate fecha, Proveedor proveedor, Material material) {
+        if (proveedor == null || material == null) return false;
+        if (DBManager.connect()){
+            try {
+                int resultado = DBManager.addEntrega(fecha, proveedor, material);
+                DBManager.close();
+                return resultado != 0;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
+    }
+
+    public static boolean addMaterial(Material material) {
+        if (material == null) return false;
+        if (DBManager.connect()){
+            try {
+                int resultado = DBManager.addMaterial(material);
+                if (resultado != 0) {
+                    listMaterial.add(material);
+                }
+                DBManager.close();
+                return resultado != 0;
+            } catch (SQLException e) {
+                DBManager.close();
+                return false;
+            }
+        }else return false;
     }
 }
