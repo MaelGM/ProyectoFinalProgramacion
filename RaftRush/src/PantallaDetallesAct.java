@@ -2,8 +2,6 @@ import Objetos.Actividad;
 import Objetos.Usuario;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
@@ -23,6 +21,19 @@ public class PantallaDetallesAct extends JFrame{
     private JLabel lblFoto;
     private JLabel lblCurrentDate;
 
+    private static String[] imagenes = new String[]{
+            "resources/imagenes/tiposActividad/actTipo1.png",
+            "resources/imagenes/tiposActividad/actTipo29.png",
+            "resources/imagenes/tiposActividad/actTipo3.png",
+            "resources/imagenes/tiposActividad/actTipo45.png",
+            "resources/imagenes/tiposActividad/actTipo45.png",
+            "resources/imagenes/tiposActividad/actTipo6.png",
+            "resources/imagenes/tiposActividad/actTipo78.png",
+            "resources/imagenes/tiposActividad/actTipo78.png",
+            "resources/imagenes/tiposActividad/actTipo29.png",
+            "resources/imagenes/tiposActividad/actTipo10.png"
+    };
+
     /**
      * Constructor de la clase en la que inicializamos la clase definiendo algunas de sus propiedades y estilo.
      * @param cliente Le pasamos el cliente, ya que necesitaremos su información en caso de que decida reservas la actividad.
@@ -35,7 +46,7 @@ public class PantallaDetallesAct extends JFrame{
         setDatos(actividad);
         btnReserva.putClientProperty("JButton.buttonType", "roundRect");
         //comboCantidad.putClientProperty("JComponent.roundRect", true);
-        background();
+        background(actividad);
 
         cargarListeners(cliente,actividad);
     }
@@ -96,10 +107,10 @@ public class PantallaDetallesAct extends JFrame{
     /**
      * Se carga el fondo de la pantalla.
      */
-    private void background(){
+    private void background(Actividad actividad){
         ImageIcon background = new ImageIcon("resources/imagenes/montanyas.png");
         lblBG.setIcon(background);
-        ImageIcon roundAct = new ImageIcon("resources/imagenes/fotoActividad.png");
+        ImageIcon roundAct = new ImageIcon(imagenes[actividad.getTipo().getId()-1]);
         lblFoto.setIcon(roundAct);
     }
 }

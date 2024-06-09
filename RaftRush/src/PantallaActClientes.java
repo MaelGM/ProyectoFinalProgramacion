@@ -109,7 +109,7 @@ public class PantallaActClientes extends JFrame{
                     tblActCli.setSelectionBackground(new Color(102,206,195));
                 } else if (e.getClickCount() == 2 && row != -1) {
                     tblActCli.setSelectionBackground(new Color(47,84,96));
-                    actividadSelected = DataManager.getListActividades().get(row);
+                    actividadSelected = getListFiltrada().get(row);
                     JOptionPane.showMessageDialog(null, "Has selecionado la actividad " + actividadSelected.getNombre());
                 }
             }
@@ -136,6 +136,22 @@ public class PantallaActClientes extends JFrame{
             if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getCentro() == centro).toList();
             cargarTabla(actividades);
         };
+    }
+
+    /**
+     * Este método se usa para obtener la lista de actividades que se está mostrando en este momento. Obtiene los valores
+     * por los que se está filtrando, filtra, y devuelve la lista de actividades ya filtrada.
+     * @return Lista de actividades filtrada
+     */
+    private List<Actividad> getListFiltrada() {
+        Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
+        //Tipo tipo = DataManager.getTipo(String.valueOf(cmbTipo.getSelectedItem()));
+        Centro centro = DataManager.getCentroByLocalidad(String.valueOf(cmbCentro.getSelectedItem()));
+        List<Actividad> actividades = DataManager.getListActividades();
+
+        if (tipo != null) actividades = actividades.stream().filter(actividad -> actividad.getTipo() == tipo).toList();
+        if (centro != null) actividades = actividades.stream().filter(actividad -> actividad.getCentro() == centro).toList();
+        return actividades;
     }
 
     /**
