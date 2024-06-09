@@ -1,4 +1,3 @@
-import Excepciones.ExceptionUsuario;
 import Objetos.*;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
@@ -15,12 +14,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Esta clase es la encargada de hacer funcionar y modificar estéticamente la pantalla de gestión de trabajadores.
+ */
 public class PantallaGestionarTrabajadores extends JFrame {
-
     private JLabel lblHeader;
     private JTable tblTrabajadores;
     private JPanel panelPrincipal;
@@ -42,7 +41,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
     private DefaultTableModel model;
     private Trabajador trabajadorSeleccionado = null;
 
-
+    /**
+     * Constructor de la clase donde se llaman a los métodos necesarios para inicializar la pantalla. También se
+     * define el título de la pantalla
+     */
     public PantallaGestionarTrabajadores(){
         super("Gestión de trabajadores");
         init();
@@ -51,6 +53,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         loadListeners();
     }
 
+    /**
+     * Inicialización de la pantalla con algunas de sus propiedades
+     */
     public void init(){
         setContentPane(panelPrincipal);
 
@@ -62,6 +67,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Estilo de la pantalla, como lo son las imágenes o las propiedades de las tablas
+     */
     private void estilo() {
         //Imágenes
         ImageIcon imgHeader = new ImageIcon("resources/imagenes/cabeceraConTituloTrabajadores.png");
@@ -74,6 +82,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         panelFiltroBorder();
     }
 
+    /**
+     * Se cargan los datos necesarios (centros y trabajadores) y se carga la tabla superior, inferior y los valores del comboBox.
+     */
     public void cargarDatos(){
         if (DataManager.getCentros() && DataManager.getTrabajador()) {
             cargarFiltro();
@@ -82,6 +93,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         }
     }
 
+    /**
+     * Se rellenan las opciones del comboBox
+     */
     private void cargarFiltro() {
         List<Centro> centros = DataManager.getListCentros();
         for (Centro c: centros) {
@@ -89,6 +103,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         }
     }
 
+    /**
+     * Se cargan todos los listeners de los botones o algunos de las tablas
+     */
     public void loadListeners(){
         Utils.cursorPointerBoton(btnAdd);
         Utils.cursorPointerBoton(btnDelete);
@@ -123,6 +140,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
         };
     }*/
 
+    /**
+     * ActionListener encargado de filtrar cuando se cambie el valor del comboBox
+     * @return Devuelve la acción que ejecutara el comboBox
+     */
     private ActionListener filtrar() {
         return e -> {
             Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
@@ -133,6 +154,11 @@ public class PantallaGestionarTrabajadores extends JFrame {
         };
     }
 
+    /**
+     * Otro método de filtración en el que se le pasa una lista y se devuelve esa propia lista pero filtrada.
+     * @param lista Lista que se quiere filtrar
+     * @return Lista de trabajadores ya filtrada
+     */
     private List<Trabajador> filtrar(List<Trabajador> lista) {
         Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
         if (centro != null) lista = DataManager.getListTrabajador().stream().filter(trabajador -> trabajador.getCentro() == centro).toList();
@@ -140,6 +166,12 @@ public class PantallaGestionarTrabajadores extends JFrame {
         return lista;
     }
 
+    /**
+     * ActionListener que se encarga de que cuando se quiera añadir un trabajador, aparezca una pantalla solicitando que se asigne una
+     * contraseña a ese nuevo trabajador. Se comprueba que ambos passwordField son iguales y se leen todos los datos para
+     * posteriormente crear una nueva cuenta trabajador.
+     * @return Devuelve la propia acción
+     */
     private ActionListener pedirPassword() {
         return e -> {
             if (checkTextFields()) {
@@ -184,6 +216,10 @@ public class PantallaGestionarTrabajadores extends JFrame {
         };
     }
 
+    /**
+     * Se revisa si hay alguna celda vacía para asi evitar errores. Muestra un mensaje en caso de detectar un error.
+     * @return True en caso de no haber ninguna celda vacía, false en caso contrario.
+     */
     private boolean checkTextFields() {
         if (tblNuevoTrabajador.getModel().getValueAt(0,0).equals("")
                 || tblNuevoTrabajador.getModel().getValueAt(0,1).equals("")
@@ -196,6 +232,11 @@ public class PantallaGestionarTrabajadores extends JFrame {
         }else return true;
     }
 
+    /**
+     * Método encargado de cargar los trabajadores en la tabla, cargar algunas propiedades de la tabla, hacerla visible,
+     * centrar el texto de las celdas...
+     * @param trabajadores Lista con la información de los trabajadores que se plasmarán en la tabla.
+     */
     public void datosMainTable(List<Trabajador> trabajadores){
         Object[][] data = new Object[trabajadores.size()][7];
 
@@ -226,6 +267,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         asignarTamanyoColumnasTrabajadores();
     }
 
+    /**
+     * Propiedades, header y texto centrado de la tabla inferior.
+     */
     public void datosNewTrabajador(){
         String[]header = {"NIF","Nombre", "Apellidos", "Edad", "Salario", "Centro"};
         String[][]rows = new String[1][header.length];
@@ -248,6 +292,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         }
     }
 
+    /**
+     * Propiedades de la tabla principal, como lo son su color y otras propiedades.
+     */
     public void tablaTrabajadoresProperties(){
         tblTrabajadores.setShowGrid(true);
         tblTrabajadores.setGridColor(Color.BLACK);
@@ -260,6 +307,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
     }
 
+    /**
+     * Propiedades del panel del filtro. Principalmente, es la creación del borde
+     */
     private void panelFiltroBorder() {
         panelFiltro.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -272,6 +322,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         panelFiltro.setBorder(titleBorder);
     }
 
+    /**
+     * Propiedades de la tabla inferior
+     */
     public void tablaNuevoTrabajadorProperties(){
         tblNuevoTrabajador.setShowGrid(true);
         tblNuevoTrabajador.setGridColor(Color.BLACK);
@@ -284,6 +337,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
     }
 
+    /**
+     * Propiedades del panel inferior. (Color, borde, titulo...)
+     */
     public void panelNuevoTrabajadorProperties(){
         panelNuevoTrabajador.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -296,6 +352,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         panelNuevoTrabajador.setBorder(titleBorder);
     }
 
+    /**
+     * Asignación del tamaño de las columnas de la tabla principal
+     */
     public void asignarTamanyoColumnasTrabajadores(){
         TableColumn column;
         for (int i = 0; i < tblTrabajadores.getColumnCount(); i++) {
@@ -307,6 +366,9 @@ public class PantallaGestionarTrabajadores extends JFrame {
         }
     }
 
+    /**
+     * Asignación del tamaño de las columnas de la tabla secundaria.
+     */
     public void asignarTamanyoColumnasNuevoTrabajador(){
         TableColumn column;
         for (int i = 0; i < tblNuevoTrabajador.getColumnCount(); i++) {

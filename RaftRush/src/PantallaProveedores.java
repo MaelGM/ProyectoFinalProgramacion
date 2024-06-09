@@ -1,3 +1,4 @@
+import Excepciones.ExceptionProveedor;
 import Objetos.Actividad;
 import Objetos.Proveedor;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -15,6 +16,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Esta clase es la encargada de hacer funcionar y modificar estéticamente la pantalla de gestión de proveedores.
+ */
 public class PantallaProveedores extends JFrame{
     private JPanel panelPrincipal;
     private JPanel PanelPrincipal;
@@ -32,7 +36,10 @@ public class PantallaProveedores extends JFrame{
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerProveedores.png");
 
-
+    /**
+     * Constructor de la clase donde se llaman a los métodos necesarios para inicializar la pantalla. También se asigna un título
+     * a la pantalla
+     */
     public PantallaProveedores() {
         super("Lista de proveedores");
         init();
@@ -42,6 +49,9 @@ public class PantallaProveedores extends JFrame{
         rellenarTablaModificar(); //todo metodo cargarListeners
     }
 
+    /**
+     * Se cargan los Listeners de los botones.
+     */
     private void cargarListeners() {
         Utils.cursorPointerBoton(btnAnyadir);
         Utils.cursorPointerBoton(btnEditar);
@@ -49,6 +59,11 @@ public class PantallaProveedores extends JFrame{
         btnEditar.addActionListener(editProveedor());
     }
 
+    /**
+     * ActionListener que obtiene el proveedor con los datos de la tabla inferior, comprueba que el proveedor es válido
+     * y lo edita. Se mostrará un mensaje diciendo si ha habido éxito o no en la modificación.
+     * @return Devuelve el propio código encargado de hacer la función.
+     */
     private ActionListener editProveedor() {
         return e -> {
             proveedorSeleccionado = getSelectedProveedor();
@@ -63,6 +78,11 @@ public class PantallaProveedores extends JFrame{
         };
     }
 
+    /**
+     * ActionListener que obtiene el proveedor con los datos de la tabla inferior, comprueba que el proveedor es válido
+     * y lo añade. Se mostrará un mensaje diciendo si ha habido éxito o no a la hora de añadir el proveedor.
+     * @return Devuelve el propio código encargado de hacer la función.
+     */
     private ActionListener addProveedor() {
         return e -> {
             proveedorSeleccionado = getSelectedProveedor();
@@ -77,14 +97,29 @@ public class PantallaProveedores extends JFrame{
         };
     }
 
+    /**
+     * Método encargado de la creación de un proveedor a partir de la tabla secundaria. Primero se comprueba si las celdas tienen datos.
+     * Después se intenta crear un proveedor.
+     * @return Si se consigue crear el proveedor, se devuelve el propio Proveedor, pero en caso contrario, se devolverá nulo
+     */
     private Proveedor getSelectedProveedor() {
         String nombre = tblProvSeleccionado.getModel().getValueAt(0,0).toString();
         String telefono = tblProvSeleccionado.getModel().getValueAt(0,1).toString();
         String email = tblProvSeleccionado.getModel().getValueAt(0,2).toString();
         if (nombre.equals("") || telefono.equals("") || email.equals("")) return null;
-        else return new Proveedor(nombre, telefono, email);
+        else {
+            try {
+                return new Proveedor(nombre, telefono, email);
+            } catch (ExceptionProveedor e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
     }
 
+    /**
+     * Método en el que se cargan algunas propiedades estéticas, como las imágenes.
+     */
     private void estilo() {
         imgCorporativa.setIcon(imgCorporativaCabecera);
         JTableHeader headerActividades = tblProveedores.getTableHeader();
@@ -96,6 +131,9 @@ public class PantallaProveedores extends JFrame{
         panelProveedorProperties();
     }
 
+    /**
+     * Se cargan los proveedores de la BD y posteriormente se inicializan ambas tablas.
+     */
     public void cargarDatos(){
         if (DataManager.getProveedor()) {
             datosMainTable();
@@ -103,6 +141,9 @@ public class PantallaProveedores extends JFrame{
         }
     }
 
+    /**
+     * Se crea el header y se rellena la tabla. Posteriormente, se asignan unas pocas propiedades a la tabla y se centra el texto de las celdas.
+     */
     public void datosMainTable(){
         String[]header = {"Codigo", "Nombre", "Telefono", "Email"};
         Object[][]rows = new Object[DataManager.getListProveedor().size()][header.length];
@@ -130,6 +171,9 @@ public class PantallaProveedores extends JFrame{
         }
     }
 
+    /**
+     * Se inicializa la tabla secundaria con las celdas vacías, centrando el texto y modificando algunas propiedades.
+     */
     public void datosProveedor(){
         String[]header = {"Nombre", "Telefono", "Email"};
         String[][]rows = new String[1][header.length];
@@ -151,6 +195,9 @@ public class PantallaProveedores extends JFrame{
         }
     }
 
+    /**
+     * Propiedades de la tabla principal
+     */
     public void tablaProveedoresProperties(){
         tblProveedores.setShowGrid(true);
         tblProveedores.setGridColor(Color.BLACK);
@@ -160,6 +207,9 @@ public class PantallaProveedores extends JFrame{
         tblProveedores.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
 
+    /**
+     * Propiedades de la tabla secundaria.
+     */
     public void tablaProveedorSeleccionadoProperties(){
         tblProvSeleccionado.setShowGrid(true);
         tblProvSeleccionado.setGridColor(Color.BLACK);
@@ -169,6 +219,9 @@ public class PantallaProveedores extends JFrame{
         tblProvSeleccionado.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
 
+    /**
+     * Propiedades del panel inferior.
+     */
     public void panelProveedorProperties(){
         panelEliminarProveedor.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -181,6 +234,9 @@ public class PantallaProveedores extends JFrame{
         panelEliminarProveedor.setBorder(titleBorder);
     }
 
+    /**
+     * Asignación del tamaño de las columnas de la tabla principal
+     */
     public void asignarTamanyoColumnasProveedores(){
         TableColumn column;
         for (int i = 0; i < tblProveedores.getColumnCount(); i++) {
@@ -193,6 +249,9 @@ public class PantallaProveedores extends JFrame{
         }
     }
 
+    /**
+     * Asignación del tamaño de las columnas de la tabla secundaria.
+     */
     public void asignarTamanyoColumnasProveedorSeleccionado(){
         TableColumn column;
         for (int i = 0; i < tblProvSeleccionado.getColumnCount(); i++) {
@@ -204,6 +263,9 @@ public class PantallaProveedores extends JFrame{
         }
     }
 
+    /**
+     * Método encargado de inicializar la pantalla asignando algunos atributos a la misma, como lo son el tamaño.
+     */
     public void init(){
         setContentPane(panelPrincipal);
         setSize(1480, 774);

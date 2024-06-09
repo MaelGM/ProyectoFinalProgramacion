@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Clase encargada de todas las funciones y estilo de la primera pantalla, la pantalla inicial.
+ */
 public class PantallaInicial extends JFrame{
     private JPanel panelContenido;
     private JButton btnIniciarSesion;
@@ -15,12 +18,19 @@ public class PantallaInicial extends JFrame{
     ImageIcon aside = new ImageIcon("resources/imagenes/asideSimple.png");
     ImageIcon logo = new ImageIcon("resources/imagenes/logoRaftRush.png");
 
+    /**
+     * Constructor de la clase PantallaInicial donde definimos el título de la página y llamamos a los metodos necesarios para
+     * dejar funcionando la pantalla
+     */
     public PantallaInicial() {
         super("Pantalla Inicial");
         init();
         loadListeners();
     }
 
+    /**
+     * Cargamos todos los listeners para que asi cada botón cumpla su función.
+     */
     private void loadListeners() {
         btnIniciarSesion.addActionListener(iniciarSesion());
         btnRegistrar.addActionListener(registrar());
@@ -28,6 +38,10 @@ public class PantallaInicial extends JFrame{
         Utils.cursorPointerBoton(btnRegistrar);
     }
 
+    /**
+     * Acción ejecutada por un botón que consiste en cerrar esta pantalla y avanzar a la pantalla de iniciar sesión
+     * @return Devuelve la propia acción del botón
+     */
     private ActionListener iniciarSesion(){
         return e -> {
             new PantallaInicioSesion();
@@ -35,6 +49,10 @@ public class PantallaInicial extends JFrame{
         };
     }
 
+    /**
+     * Acción ejecutada por un botón que consiste en cerrar esta pantalla y avanzar a la pantalla de registrarse
+     * @return Devuelve la propia acción del botón
+     */
     private ActionListener registrar(){
         return e -> {
             new PantallaRegistro();
@@ -42,6 +60,9 @@ public class PantallaInicial extends JFrame{
         };
     }
 
+    /**
+     * En este método se definen algunos valores de la página como sus propiedades, tamaño, icono etc...
+     */
     private void init() {
         setContentPane(panelContenido);
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());

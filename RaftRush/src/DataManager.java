@@ -1,5 +1,4 @@
-import Excepciones.ExceptionActividad;
-import Excepciones.ExceptionUsuario;
+import Excepciones.*;
 import Objetos.*;
 
 import javax.xml.stream.events.DTD;
@@ -31,7 +30,7 @@ public class DataManager {
                     listCentros.add(new Centro(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getDouble(4)));
                 }
-            }catch (SQLException e){
+            }catch (SQLException | ExceptionCentro e){
                 DBManager.close();
                 return false;
             }
@@ -92,7 +91,7 @@ public class DataManager {
                     listMaterial.add(new Material(rs.getInt(1), rs.getString(2), rs.getDouble(3),
                             rs.getInt(4), getCentroById(rs.getInt(5))));
                 }
-            }catch (SQLException e){
+            }catch (SQLException | ExceptionMaterial e){
                 DBManager.close();
                 return false;
             }
@@ -111,7 +110,7 @@ public class DataManager {
                     listProveedor.add(new Proveedor(rs.getInt(1), rs.getString(2), rs.getString(3),
                             rs.getString(4)));
                 }
-            }catch (SQLException e){
+            }catch (SQLException | ExceptionProveedor e){
                 DBManager.close();
                 return false;
             }

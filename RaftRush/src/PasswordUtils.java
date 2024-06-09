@@ -41,21 +41,4 @@ public class PasswordUtils {
         sr.nextBytes(salt);
         return salt;
     }
-
-    /*public static void main(String[] args) {
-        try {
-            // Ejemplo de uso
-            String password = "miContraseñaSegura";
-            String hashedPassword = hashPassword(password);
-
-            System.out.println("Contraseña: " + password);
-            System.out.println("Contraseña Hasheada: " + hashedPassword);
-
-            // Verificar la contraseña
-            boolean isPasswordCorrect = checkPassword("Hola", hashedPassword);
-            System.out.println("¿La contraseña es correcta? " + isPasswordCorrect);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

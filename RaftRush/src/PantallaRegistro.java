@@ -10,6 +10,9 @@ import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 
+/**
+ * Clase encargada de todas las funciones y estilo de la pantalla encargada del registro de cuentas de clientes.
+ */
 public class PantallaRegistro extends JFrame{
     private JLabel lblAside;
     private JPanel panelContenido;

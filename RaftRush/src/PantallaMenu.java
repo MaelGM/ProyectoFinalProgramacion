@@ -1,11 +1,12 @@
-import Objetos.Trabajador;
 import Objetos.Usuario;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Esta clase es la encargada de hacer funcionar y modificar estéticamente la pantalla del menu de los trabajadores.
+ */
 public class PantallaMenu extends JFrame{
 
     private JPanel panelPrincipal;
@@ -24,6 +25,11 @@ public class PantallaMenu extends JFrame{
     private JButton btnGestionarProveedores;
     private JButton btnGestionarCentros;
 
+    /**
+     * Constructor de la clase, en la que le ponemos título a la pantalla y llamamos a los métodos necesarios para
+     * hacer funcionar la pantalla.
+     * @param trabajador Se le pasa el usuario con el que se inició sesión y se pone en el JLabel.
+     */
     public PantallaMenu(Usuario trabajador){
         super("Menú Trabajadores");
         init();
@@ -31,6 +37,13 @@ public class PantallaMenu extends JFrame{
         loadListeners(trabajador);
     }
 
+    /**
+     * Carga varios listeners para hacer que los botones y JLabels funcionen correctamente. También hay otros Listeners
+     * como por ejemplo el WindowListener, que se encarga de que si se cierra esta pantalla, se cierren todas las otras y se abra la
+     * pantalla inicial.
+     * @param trabajador Se le pasa el trabajador, para que en caso de que se clique en el perfil, se le pueda enviar la información del
+     *                   trabajador.
+     */
     private void loadListeners(Usuario trabajador){
         addWindowListener(new WindowAdapter() {
             @Override
@@ -41,12 +54,12 @@ public class PantallaMenu extends JFrame{
                 new PantallaInicial();
             }
         });
-        btnGestionarAlmacen.addActionListener(gestMaterial());
-        btnGestionarTrabajadores.addActionListener(gestTrabajadores());
-        btnGestionarReservas.addActionListener(gestReservas());
-        btnGestionarActividad.addActionListener(gestAct());
-        btnGestionarCentros.addActionListener(gestCentros());
-        btnGestionarProveedores.addActionListener(gestProveedores());
+        btnGestionarAlmacen.addActionListener(e -> new PantallaMateriales());
+        btnGestionarTrabajadores.addActionListener(e -> new PantallaGestionarTrabajadores());
+        btnGestionarReservas.addActionListener(e -> new PantallaReservas());
+        btnGestionarActividad.addActionListener(e -> new PantallaActividades());
+        btnGestionarCentros.addActionListener(e -> new PantallaCentros());
+        btnGestionarProveedores.addActionListener(e -> new PantallaProveedores());
         Utils.cursorPointerBoton(btnGestionarAlmacen);
         Utils.cursorPointerBoton(btnGestionarTrabajadores);
         Utils.cursorPointerBoton(btnGestionarReservas);
@@ -64,37 +77,10 @@ public class PantallaMenu extends JFrame{
         });
     }
 
-    private ActionListener gestMaterial(){
-        return e -> {
-            new PantallaMateriales();
-        };
-    }
-    private ActionListener gestTrabajadores(){
-        return e -> {
-            new PantallaGestionarTrabajadores();
-        };
-    }
-    private ActionListener gestAct(){
-        return e -> {
-            new PantallaActividades();
-        };
-    }
-    private ActionListener gestReservas(){
-        return e -> {
-            new PantallaReservas();
-        };
-    }
-    private ActionListener gestProveedores() {
-        return e -> {
-            new PantallaProveedores();
-        };
-    }
-    private ActionListener gestCentros() {
-        return e -> {
-            new PantallaCentros();
-        };
-    }
-
+    /**
+     * Método inicializador en el que se definen las propiedades y estilo de la pantalla, como por ejemplo el icono, las
+     * imágenes o el tamaño.
+     */
     private void init(){
         setContentPane(panelPrincipal);
         ImageIcon imgHeader = new ImageIcon("resources/imagenes/cabeceraConTituloTrabajadores.png");

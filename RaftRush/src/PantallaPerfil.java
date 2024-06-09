@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Esta clase es la encargada de hacer funcionar y modificar estéticamente la pantalla de la visualización del perfil.
+ */
 public class PantallaPerfil extends JFrame{
     private JPanel panelGeneral;
     private JPanel panelDatos;
@@ -30,15 +33,24 @@ public class PantallaPerfil extends JFrame{
     private JLabel lblIcon2;
     private JLabel lblIcon3;
 
+    /**
+     * Constructor de la clase en la que se inicializa la pantalla.
+     * @param usu Usuario del cliente/trabajador que usamos para reflejar sus datos en os txtFields.
+     */
     public PantallaPerfil(Usuario usu){
         init();
         setContentPane(panelGeneral);
         panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 20");
         background();
         txtNif.setText(usu.getNif());
+        txtNombre.setText(usu.getNombre());
         cargarListeners(usu);
     }
 
+    /**
+     * Se cargan los listeners encargados de realizar las funciones del WindowClosing o de los botones.
+     * @param usu Le pasamos el usuario porque será necesario en métodos posteriores.
+     */
     private void cargarListeners(Usuario usu) {
         addWindowListener(new WindowAdapter() {
             @Override
@@ -61,15 +73,18 @@ public class PantallaPerfil extends JFrame{
             new PantallaInicial();
         });
 
-        btnAct.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                actualizarUsu(usu);
-                dispose();
-            }
+        btnAct.addActionListener(e -> {
+            actualizarUsu(usu);
+            dispose();
         });
     }
 
+    /**
+     * En este metodo, comprobamos la validez de los datos de los textFields y si son correctos, creamos un usuario temporal.
+     * Modificamos el usuario temporal y con esos datos, modificamos el usuario como tal. Una vez terminado, comprobamos
+     * si el usuario es un trabajador o es un cliente y le enviamos a una pantalla y otra dependiendo de ello.
+     * @param usu Usuario que se modificará
+     */
     private void actualizarUsu(Usuario usu){
         String nombre = txtNombre.getText();
         String contrasenya = txtContra.getText();
@@ -89,7 +104,7 @@ public class PantallaPerfil extends JFrame{
                 if (DataManager.editarUsuario(usu, nombre, contrasenya, txtNif.getText()) > 0) {
                     //usu.setNombre(nombre);
                     //usu.setContrasenya(contrasenya);
-                    JOptionPane.showMessageDialog(null, "Perfil De " + usu.getNombre() +" actualizado correctamente", "Actualizar Perfil", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Perfil de " + usu.getNombre() +" actualizado correctamente", "Actualizar Perfil", JOptionPane.INFORMATION_MESSAGE);
 
                     if (usu instanceof Trabajador) {
                         new PantallaMenu(usu);
@@ -109,6 +124,9 @@ public class PantallaPerfil extends JFrame{
         }
     }
 
+    /**
+     * Método en el que inicializamos la pantalla con el icono, el tamaño...
+     */
     private void init() {
         setSize(660,1033);
         setResizable(false);
@@ -118,6 +136,9 @@ public class PantallaPerfil extends JFrame{
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
     }
 
+    /**
+     * Creamos el background de la pantalla y asiganmos algunos iconos.
+     */
     private void background(){
         ImageIcon background = new ImageIcon("resources/imagenes/montanyas.png");
         lblBG.setIcon(background);

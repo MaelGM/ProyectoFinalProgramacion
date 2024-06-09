@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Esta es una clase con el propósito de hacer funcionar la pantalla de visualización de entregas.
+ */
 public class PantallaEntregas extends JFrame{
     private JPanel panelGeneral;
     private JLabel lblBG;
@@ -25,6 +28,10 @@ public class PantallaEntregas extends JFrame{
     private JComboBox cmbProveedor;
     private JLabel lblProveedor;
     private DefaultTableModel model;
+
+    /**
+     * Constructor de la clase en la que se le pone un título a la pantalla y se llaman a los métodos necesarios para inicializar la pantalla.
+     */
     public PantallaEntregas(){
         super("Entregas");
         init();
@@ -35,6 +42,9 @@ public class PantallaEntregas extends JFrame{
         tblEntregas.setShowGrid(true);//Mostrar grid color
     }
 
+    /**
+     * Se inicializa la pantalla asignándole el tamaño, icono, y más propiedades.
+     */
     private void init() {
         setSize(1480,774);
         setContentPane(panelGeneral);
@@ -44,6 +54,9 @@ public class PantallaEntregas extends JFrame{
         setVisible(true);
     }
 
+    /**
+     * Estilo de la pantalla (Color, tamaño, fuente...)
+     */
     private void estilo() {
         panelFiltro.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -63,11 +76,19 @@ public class PantallaEntregas extends JFrame{
         panelFiltro.setBorder(titleBorder);
     }
 
+    /**
+     * Se cargan los listeners de los comboBox
+     */
     private void cargarListeners() {
         cmbProveedor.addActionListener(filtrar());
         cmbCentro.addActionListener(filtrar());
     }
 
+    /**
+     * Método de filtración en el que se obtienen todos los datos en tres listas diferentes y se filtran en caso de que el comboBox
+     * sí que esté asignado. Después de ello, llama al método cargar tabla enviándole las listas filtradas.
+     * @return Devuelve la propia acción que realiza el código
+     */
     private ActionListener filtrar() {
         return e -> {
             String nombreProveedorSeleccionado = (String) cmbProveedor.getSelectedItem();
@@ -89,7 +110,9 @@ public class PantallaEntregas extends JFrame{
         };
     }
 
-
+    /**
+     * Se cargan los datos necesarios de la BD, las opciones de los comboBoxes, y la tabla.
+     */
     public void cargarDato(){
         if (DataManager.getCentros() && DataManager.getProveedor() && DataManager.getMaterial() && DataManager.getEntregas()) {
             actualizaComboBox();
@@ -97,6 +120,14 @@ public class PantallaEntregas extends JFrame{
         }
     }
 
+    /**
+     * Primero se comprueba que las listas no son nulas ni están vacías. Después se mira cuál de las tres listas es más
+     * corta para darle ese tamaño a la matriz, y posteriormente se rellena la tabla usando los datos de las 3 listas.
+     * Por último, se centra el texto de las celdas y se definen algunas propiedades.
+     * @param fechas Lista con todas las listas de las entregas.
+     * @param materiales Lista con todos los materiales de las entregas.
+     * @param proveedores Lista con todos los proveedores de las entregas.
+     */
     private void cargarEntregaTable(List<Date> fechas, List<Material> materiales, List<Proveedor> proveedores) {
         if (fechas != null && materiales != null && proveedores != null) {
             // Verifico que todas las listas tengan al menos un elemento
@@ -133,18 +164,9 @@ public class PantallaEntregas extends JFrame{
         }
     }
 
-    private int getLongitud(List<Material> materiales, List<Proveedor> proveedores) {
-        int longitud;
-        if (materiales.size() > proveedores.size()) {
-            longitud = proveedores.size();
-        }else if (materiales.size() < proveedores.size()){
-            longitud = materiales.size();
-        }else {
-            longitud = materiales.size();
-        }
-        return longitud;
-    }
-
+    /**
+     * Asignación del tamaño de las columnas de la tabla
+     */
     public void asignarTamanyoColumnasReservas(){
         TableColumn column;
         for (int i = 0; i < tblEntregas.getColumnCount(); i++) {
@@ -157,12 +179,18 @@ public class PantallaEntregas extends JFrame{
         }
     }
 
+    /**
+     * Se carga el fondo de la pantalla
+     */
     private void background(){
         ImageIcon background = new ImageIcon("resources/imagenes/cabeceraConTituloEntregas.png");
 
         lblBG.setIcon(background);
     }
 
+    /**
+     * Se rellenan las opciones de los comboBoxes.
+     */
     private void actualizaComboBox() {
         for (Centro centro : DataManager.getListCentros()) {
             cmbCentro.addItem(centro.getNombre());

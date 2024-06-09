@@ -13,6 +13,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Esta clase es la encargada de hacer funcionar y modificar estéticamente la pantalla de gestión de centros.
+ */
 public class PantallaCentros extends JFrame {
     private JPanel panelContenido;
     private JLabel imgCorporativa;
@@ -33,6 +36,10 @@ public class PantallaCentros extends JFrame {
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     private static final ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/headerCentros.png");
 
+    /**
+     * Constructor de la clase donde se llaman a los métodos necesarios para inicializar la pantalla. También se asigna un título
+     * a la pantalla
+     */
     public PantallaCentros() {
         super("Lista de centros");
         init();
@@ -43,6 +50,9 @@ public class PantallaCentros extends JFrame {
         tablaCentrosProperties();
     }
 
+    /**
+     * Método encargado de inicializar la pantalla asignando algunos atributos a la misma, como lo son el tamaño.
+     */
     public void init(){
         setSize(1480, 774);
         setContentPane(panelPrincipal);
@@ -52,12 +62,18 @@ public class PantallaCentros extends JFrame {
         setIconImage(logo.getImage());
     }
 
+    /**
+     * Método en el que se cargan algunas propiedades estéticas, como las imágenes.
+     */
     private void estilo() {
         imgCorporativa.setIcon(imgCorporativaCabecera);
         JTableHeader headerActividades = tblCentros.getTableHeader();
         headerActividades.setPreferredSize(new Dimension(headerActividades.getPreferredSize().width, 40));
     }
 
+    /**
+     * Se cargan todos los listeners de los botones y el mouseListenes de la tabla.
+     */
     private void cargarListeners() {
         Utils.cursorPointerBoton(btnAnyadir);
         Utils.cursorPointerBoton(btnEditar);
@@ -65,12 +81,19 @@ public class PantallaCentros extends JFrame {
         rellenarTxtField();
     }
 
+    /**
+     * Se cargan los datos de la BD (Centros) y posteriormente la tabla.
+     */
     public void cargarDatos(){
         if (DataManager.getCentros()) {
             datosMainTable();
         }
     }
 
+    /**
+     * Se crea el header, se obtiene la lista de centros y se rellena la tabla. También se asignan algunas propiedades de la tabla
+     * y se centra el texto de las celdas.
+     */
     public void datosMainTable(){
         String[]header = {"ID", "Nombre", "Localidad", "Presupuesto"};
         Object[][]rows = new Object[DataManager.getListCentros().size()][header.length];
@@ -97,6 +120,9 @@ public class PantallaCentros extends JFrame {
         }
     }
 
+    /**
+     * Se asigna el tamaño de las columnas de la tabla
+     */
     public void asignarTamanyoColumnasCentros(){
         TableColumn column;
         for (int i = 0; i < tblCentros.getColumnCount(); i++) {
@@ -110,6 +136,9 @@ public class PantallaCentros extends JFrame {
         }
     }
 
+    /**
+     * Propiedades del panel principal
+     */
     public void panelProveedorProperties(){
         panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -122,6 +151,9 @@ public class PantallaCentros extends JFrame {
         panelDatos.setBorder(titleBorder);
     }
 
+    /**
+     * Propiedades de la tabla principal
+     */
     public void tablaCentrosProperties(){
         tblCentros.setShowGrid(true);
         tblCentros.setGridColor(Color.BLACK);
@@ -130,6 +162,7 @@ public class PantallaCentros extends JFrame {
         tblCentros.getTableHeader().setForeground(new Color(245, 159, 116));
         tblCentros.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
+
     /**
      * Metodo para rellenar los txtField al seleccionar un centro
      */

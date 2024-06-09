@@ -14,6 +14,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
+/**
+ * Clase encargada de hacer funcionar correctamente la pantalla de gestión de materiales.
+ */
 public class PantallaMateriales extends JFrame{
     private JPanel gestionMaterialesPane;
     private JButton btnVerEntregas;
@@ -36,16 +39,21 @@ public class PantallaMateriales extends JFrame{
     private JPanel jplNuePedido;
     private static Material materialSeleccionado = null;
 
-    ///ToDo, el tamaño del ComboBox
+    /**
+     * Constructor de la clase en la que se inicializa la pantalla y se le pone título a la misma.
+     */
     public PantallaMateriales(){
         super("Gestión de Material");
         init();
         cargarDatos();
-        cargaModTabla();//ESTO SERIA TEMPORAL, ES PARA COMPROBAR QUE FUNCIONE LA TABLA AUTHOR-->HAKEEM
+        cargaModTabla();
         cargarListeners();
         panelMaterialesProperties();
     }
 
+    /**
+     * Método encargado de inicializar la pantalla, con su respectivo tamaño, imágenes, etc...
+     */
     public void init(){
         setContentPane(gestionMaterialesPane);
         //Imágenes
@@ -66,6 +74,9 @@ public class PantallaMateriales extends JFrame{
 
     }
 
+    /**
+     * En este método se cargan todas las funciones de los botones o comboBoxes.
+     */
     private void cargarListeners() {
         btnVerEntregas.addActionListener(e -> new PantallaEntregas());
         Utils.cursorPointerBoton(btnModificar); // Te saldra para seleccionar un proveedor, en caso de que se haya aumentado la cantidad del stock
@@ -76,6 +87,12 @@ public class PantallaMateriales extends JFrame{
         rellenarTablaModificar();
     }
 
+    /**
+     * Este método se encarga de que en cualquier momento de que se modifique el comboBox, se comprobara el valor del mismo y
+     * se filtrará la lista de materiales según este valor. Posteriormente, se llama al método encargado de mostrar los materiales
+     * en la tabla pero enviándole la lista filtrada.
+     * @return Devuelve la propia acción de filtrado
+     */
     private ActionListener filtrar() {
         return e -> {
             Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
@@ -86,6 +103,12 @@ public class PantallaMateriales extends JFrame{
         };
     }
 
+    /**
+     * Este método es similar al anterior, pero no se ejecutará cuando se accione con el comboBox. Este método
+     * modifica una lista.
+     * @param lista Lista que se le envía con el propósito de ser modificada.
+     * @return Lista que se le ha enviado pero modificada
+     */
     private List<Material> filtrar(List<Material> lista) {
         Centro centro = DataManager.getCentroByName(String.valueOf(cmbCentro.getSelectedItem()));
         List<Material> materiales = DataManager.getListMaterial();
@@ -94,6 +117,10 @@ public class PantallaMateriales extends JFrame{
         return lista;
     }
 
+    /**
+     * Este método se encarga de la aparición de una pequeña pantalla en la que el usuario elegirá a que proveedor le solicitamos la entrega
+     * @return La acción del botón
+     */
     private ActionListener asignarProveedor() {
         return e -> {
             // Crear los ComboBox con las opciones de contraseñas
@@ -117,6 +144,9 @@ public class PantallaMateriales extends JFrame{
         };
     }
 
+    /**
+     * Se cargan los datos de centros y materiales, y posteriormente, se carga la tabla y los valores del comboBox.
+     */
     public void cargarDatos(){
         if (DataManager.getCentros() && DataManager.getMaterial()) {
             datosMaterialTable(DataManager.getListMaterial());
@@ -124,6 +154,9 @@ public class PantallaMateriales extends JFrame{
         }
     }
 
+    /**
+     * Se cargan las diferentes opciones del comboBox.
+     */
     private void cargarFiltro() {
         List<Centro> centros = DataManager.getListCentros();
         for (Centro c: centros) {
@@ -131,6 +164,11 @@ public class PantallaMateriales extends JFrame{
         }
     }
 
+    /**
+     * Se le pasa una lista, y con esta lista, se define un header y se rellena la tabla de datos. Después se centra el
+     * texto de las celdas y se asignan unas pocas propiedades de la tabla
+     * @param materiales Lista con los materiales que se mostraran en la tabla.
+     */
     public void datosMaterialTable(List<Material> materiales){
         String[]header = {"Código", "Nombre", "Cantidad", "Precio", "Nombre Centro"};
         Object[][]rows = new Object[materiales.size()][header.length];
@@ -161,6 +199,9 @@ public class PantallaMateriales extends JFrame{
         asignarTamanyoColumnas();
     }
 
+    /**
+     * Se cargan las propiedades de la tabla inferior
+     */
     private void cargaModTabla(){
         tblModMaterial.setShowGrid(true);//Mostrar grid color
         String[]header = {"Nombre", "Cantidad", "Precio", "Nombre Centro"};
@@ -191,6 +232,9 @@ public class PantallaMateriales extends JFrame{
 
     }
 
+    /**
+     * Aquí se carga el estilo de la tabla, como por ejemplo el color de esta.
+     */
     public void tablaMaterialProperties(){
         tblMat.setShowGrid(true);
         tblMat.setGridColor(Color.BLACK);
@@ -200,6 +244,9 @@ public class PantallaMateriales extends JFrame{
         tblMat.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
 
+    /**
+     * Otro método destinado al estilo del panel inferior de la pantalla
+     */
     public void panelNuevoPedidoProperties(){
         panelModMaterial.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -212,6 +259,9 @@ public class PantallaMateriales extends JFrame{
         panelModMaterial.setBorder(titleBorder);
     }
 
+    /**
+     * Método con más estilo de otro panel
+     */
     public void panelMaterialesProperties(){
         panelDatos.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -224,6 +274,9 @@ public class PantallaMateriales extends JFrame{
         panelDatos.setBorder(titleBorder);
     }
 
+    /**
+     * Se asignan los tamaños de las columnas.
+     */
     public void asignarTamanyoColumnas(){
         TableColumn column;
         for (int i = 0; i < tblMat.getColumnCount(); i++) {
@@ -238,7 +291,7 @@ public class PantallaMateriales extends JFrame{
     }
 
     /**
-     * Metodo para rellenar tabla de material seleccionado
+     * Método para rellenar tabla de material seleccionado
      */
     public void rellenarTablaModificar() {
         tblMat.addMouseListener(new MouseAdapter() {

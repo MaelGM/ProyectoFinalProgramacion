@@ -11,6 +11,9 @@ import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 
+/**
+ * Clase encargada de realizar todas las funciones relacionadas con la pantalla destinada a iniciar sesión en la aplicación
+ */
 public class PantallaInicioSesion extends JFrame{
     private JPanel panelContenido;
     private JPanel panelPrincipal;
@@ -123,7 +126,7 @@ public class PantallaInicioSesion extends JFrame{
 
     /**
      * Código ejecutado cuando se pulsa el botón iniciar sesión, en el que se validan los text fields, la existencia del usuario
-     * y que la contraseña coincida
+     * y que la contraseña coincida. Una vez comprobado, se revisa si es un trabajador o un cliente, para abrir un menu u otro
      * @return Devuelve la acción que ejecutara el programa en el momento en el que se pulse el botón.
      */
     private ActionListener iniciarSesion() {

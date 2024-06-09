@@ -14,6 +14,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
+/**
+ * Clase destinada al funcionamiento y presentación de la pantalla encargada de listar las actividades de cara a los clientes.
+ */
 public class PantallaActClientes extends JFrame{
     private JPanel panelGeneral;
     private JLabel lblBG;
@@ -39,6 +42,10 @@ public class PantallaActClientes extends JFrame{
     private DefaultTableModel model;
     private Actividad actividadSelected = null;
 
+    /**
+     * Constructor de la clase en donde se le asigna un título a la pantalla y se inicializa esta misma.
+     * @param cliente Cliente que ha iniciado sesión
+     */
     public PantallaActClientes(Usuario cliente){
         super("Actividades Clientes");
         init();
@@ -50,7 +57,9 @@ public class PantallaActClientes extends JFrame{
         lblNombre.setText(cliente.getNombre());
     }
 
-
+    /**
+     * Método encargado de la inicialización de la pantalla.
+     */
     private void init() {
         setSize(1534,774);
         setContentPane(panelGeneral);
@@ -60,6 +69,10 @@ public class PantallaActClientes extends JFrame{
         setIconImage(new ImageIcon("resources/imagenes/logo.png").getImage());
     }
 
+    /**
+     * Se cargan todos los listeners de todos los botones, mouseListener, windowClosing, comboBoxes...
+     * @param cliente Le pasamos el cliente, ya que será necesario para algunos métodos posteriores.
+     */
     private void cargarListners(Usuario cliente) {
         btnVerReservas.addActionListener(verReservas(cliente));
         btnReservar.addActionListener(verDetalles(cliente));
@@ -107,7 +120,11 @@ public class PantallaActClientes extends JFrame{
         Utils.cursorPointerBoton(btnVerReservas);
     }
 
-    // AVISO: Lo tengo que hacer usando los centros, ya que la actividad tiene idCentro, pero en caso de que haya dos centros en la misma ciudad, no se diferenciaran.
+    /**
+     * Se comprueba el valor de los comboBoxes y se filtra la lista de actividades según estos valores. Después se llama
+     * al método encargado de cargar la tabla pero pasándole la lista filtrada.
+     * @return Se devuelve la propia acción del código
+     */
     private ActionListener filtrar() {
         return e -> {
             Tipo tipo = DataManager.getTipoByName(String.valueOf(cmbTipo.getSelectedItem()));
@@ -121,12 +138,24 @@ public class PantallaActClientes extends JFrame{
         };
     }
 
+    /**
+     * Se cierra la pantalla actual y se abre otra con las reservas del cliente en el que estamos iniciados.
+     * @param cliente Cliente con el que hemos iniciado sesión y lo usamos para ver solamente las reservas del cliente
+     * @return Se devuelve la propia acción del código
+     */
     private ActionListener verReservas(Usuario cliente){
         return e -> {
             new PantallaReservasClientes(cliente);
             dispose();
         };
     }
+
+    /**
+     * En este método comprobamos si hay alguna actividad seleccionada, y si la hay, nos lleva a otra pantalla, pero en caso
+     * de no haber ninguna seleccionada, se mostrará un mensaje.
+     * @param cliente Le pasamos el cliente, ya que en la pantalla posterior, nos hará falta en caso de querer hacer una reserva.
+     * @return Se devuelve la propia acción del código
+     */
     private ActionListener verDetalles(Usuario cliente){
             return e -> {
                 if (actividadSelected != null) {
@@ -138,6 +167,9 @@ public class PantallaActClientes extends JFrame{
             };
     }
 
+    /**
+     * Se cargan los datos de la BD junto con los comboBoxes y la tabla
+     */
     public void cargarDato(){
         if (DataManager.getCentros() && DataManager.getTipos() && DataManager.getActividades()) {
             actualizaComboBox();
@@ -145,6 +177,10 @@ public class PantallaActClientes extends JFrame{
         }
     }
 
+    /**
+     * Se carga la tabla con la información de la lista que se le pasa y se definen algunas propiedades
+     * @param actividades Lista de actividades con la información que se plasmará en la tabla
+     */
     private void cargarTabla(List<Actividad> actividades){
         Object[][] data = new Object[actividades.size()][5];
 
@@ -168,6 +204,9 @@ public class PantallaActClientes extends JFrame{
 
     }
 
+    /**
+     * En este método se carga el estilo de la pantalla (Color, borde, fuente, etc)
+     */
     private void estilo() {
         setBorderPanel();
         background();
@@ -185,6 +224,9 @@ public class PantallaActClientes extends JFrame{
         }
     }
 
+    /**
+     * Se define el borde del panel del filtro.
+     */
     private void setBorderPanel() {
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
 
@@ -196,6 +238,9 @@ public class PantallaActClientes extends JFrame{
         jplFiltro.setBorder(titleBorder);
     }
 
+    /**
+     * Se define el fondo de la pantalla.
+     */
     private void background(){
         ImageIcon background = new ImageIcon("resources/imagenes/cabeceraActClientes.png");
 

@@ -18,9 +18,10 @@ import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
-
+/**
+ * Esta clase es la encargada de hacer funcionar y modificar estéticamente la pantalla de gestión de reservas.
+ */
 public class PantallaReservas extends JFrame {
-
     private JLabel lblImgCorporativa;
     private JPanel panelPrincipal;
     private JPanel panelEliminarRes;
@@ -35,7 +36,11 @@ public class PantallaReservas extends JFrame {
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloRes.png");
 
-    public PantallaReservas() { //Constructor
+    /**
+     * Constructor de la clase donde se llaman a los métodos necesarios para inicializar la pantalla. También se asigna un título
+     * a la pantalla
+     */
+    public PantallaReservas() {
         super("Lista de actividades");
         init();
         estilo();
@@ -46,6 +51,9 @@ public class PantallaReservas extends JFrame {
         panelReservasProperties();
     }
 
+    /**
+     * Método encargado de inicializar la pantalla asignando algunos atributos a la misma, como lo son el tamaño.
+     */
     public void init(){
         setSize(1480, 774);
         setContentPane(panelPrincipal);
@@ -55,6 +63,9 @@ public class PantallaReservas extends JFrame {
         setIconImage(logo.getImage());
     }
 
+    /**
+     * Método en el que se cargan algunas propiedades estéticas, como las imágenes.
+     */
     private void estilo() {
         lblImgCorporativa.setIcon(imgCorporativaCabecera);
         JTableHeader headerActividades = tblReservas.getTableHeader();
@@ -63,12 +74,18 @@ public class PantallaReservas extends JFrame {
         headerEliminarAct.setPreferredSize(new Dimension(headerEliminarAct.getPreferredSize().width, 40));
     }
 
+    /**
+     * Se cargan todas las funciones de los botones y un mouseListener
+     */
     private void cargarListeners() {
         Utils.cursorPointerBoton(btnAnularReserva);
         // TODO: Al clicar, se leen los datos de la tabla inferior y se elimina esa reserva de la BD
         rellenaTablaModificar();
     }
 
+    /**
+     * Se cargan los datos de la BD (Centros, clientes, actividades y reservas) y después se cargan las listas y cada uno.
+     */
     public void cargarDatos(){
         if (DataManager.getCentros() && DataManager.getClientes() && DataManager.getActividades() && DataManager.getReservas()){
             cargarListas();
@@ -76,6 +93,10 @@ public class PantallaReservas extends JFrame {
         }
     }
 
+    /**
+     * Se cargan las tres listas, enviando nulo al método de DataManager, devolviendo asi la lista de todas las reservas. Se llama al método
+     * encargado de cargar la tabla enviándole las 3 listas.
+     */
     private void cargarListas() {
         List<Date> fechas = DataManager.getFechasReservas(null); // Si el usuario es nulo, devolvera la lista entera
         List<Actividad> actividades = DataManager.getActividadesReservas(null);
@@ -83,6 +104,13 @@ public class PantallaReservas extends JFrame {
         datosMainTable(fechas, actividades, clientes);
     }
 
+    /**
+     * Primero comprueba que las listas no son nulas, y en caso de no serlo, define el header y empieza a rellenar la tabla.
+     * Posteriormente, define algunas propiedades de la tabla y centra el texto de las celdas.
+     * @param fechas Lista con todas las fechas de todas las reservas
+     * @param actividades Lista con todas las actividades de todas las reservas
+     * @param clientes Lista con todas los clientes con reservas.
+     */
     public void datosMainTable(List<Date> fechas, List<Actividad> actividades, List<Cliente> clientes){
         if (clientes != null && fechas != null && actividades != null){
             String[]header = {"Fecha de reserva", "NIF del cliente", "Actividad", "Precio", "Centro"};
@@ -112,11 +140,13 @@ public class PantallaReservas extends JFrame {
         }
     }
 
+    /**
+     * Se carga el header y algunas propiedades de la tabla inferior. También se inicializan las celdas, dejándolas vacías.
+     */
     public void datosReserva(){
         String[]header = {"Fecha de reserva", "Id de la actividad", "NIF del cliente", "Precio de la actividad", "Centro"};
         String[][]rows = new String[1][header.length];
 
-        ///Todo De cara a tomar datos, propongo tomar la información de cada celda.
         rows[0][0] = "";
         rows[0][1] = "";
         rows[0][2] = "";
@@ -136,6 +166,9 @@ public class PantallaReservas extends JFrame {
         }
     }
 
+    /**
+     * Propiedades de la tabla principal.
+     */
     public void tablaReservasProperties(){
         tblReservas.setShowGrid(true);
         tblReservas.setGridColor(Color.BLACK);
@@ -145,6 +178,9 @@ public class PantallaReservas extends JFrame {
         tblReservas.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
 
+    /**
+     * Propiedades de la tabla secundaria.
+     */
     public void tablaReservaSeleccionadaProperties(){
         tblResSeleccionada.setShowGrid(true);
         tblResSeleccionada.setGridColor(Color.BLACK);
@@ -154,6 +190,9 @@ public class PantallaReservas extends JFrame {
         tblResSeleccionada.getTableHeader().setFont(new Font("Inter", Font.BOLD,16));
     }
 
+    /**
+     * Propiedades del panel inferior (Borde)
+     */
     public void panelReservasProperties(){
         panelEliminarRes.putClientProperty(FlatClientProperties.STYLE, "arc: 8");
         Border lineBorder = new FlatLineBorder(new Insets(16, 16, 16, 16), Color.cyan, 1, 8);
@@ -166,6 +205,9 @@ public class PantallaReservas extends JFrame {
         panelEliminarRes.setBorder(titleBorder);
     }
 
+    /**
+     * Tamaño de las columnas de la tabla principal
+     */
     public void asignarTamanyoColumnasReservas(){
         TableColumn column;
         for (int i = 0; i < tblReservas.getColumnCount(); i++) {
@@ -179,6 +221,9 @@ public class PantallaReservas extends JFrame {
         }
     }
 
+    /**
+     * Tamaño de las columnas de la tabla secundaria.
+     */
     public void asignarTamanyoColumnasReservaSeleccionada(){
         TableColumn column;
         for (int i = 0; i < tblResSeleccionada.getColumnCount(); i++) {

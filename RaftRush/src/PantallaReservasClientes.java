@@ -13,6 +13,9 @@ import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Clase encargada del funcionamiento y estética de la pantalla encargada de la visualización de las reservas del cliente.
+ */
 public class PantallaReservasClientes extends JFrame{
     private JPanel jplGeneral;
     private JTable tblReservas;
@@ -22,6 +25,9 @@ public class PantallaReservasClientes extends JFrame{
     private JButton btnAnularReserva;
     private DefaultTableModel model;
 
+    /**
+     * Constructor de la clase donde se le asigna un título a la pantalla y se inicializa a través de ciertos métodos.
+     */
     public PantallaReservasClientes(Usuario cliente){
         super("Reservas");
         init();
@@ -34,6 +40,9 @@ public class PantallaReservasClientes extends JFrame{
         tblReservas.setShowGrid(true);//Mostrar grid color
     }
 
+    /**
+     * Método encargado del estilo de la pantalla (Color, fuente, centrar el texto...)
+     */
     private void estilo() {
         tblReservas.setGridColor(Color.black);
         tblReservas.getTableHeader().setOpaque(false);
@@ -51,6 +60,10 @@ public class PantallaReservasClientes extends JFrame{
         }
     }
 
+    /**
+     * Se cargan los listeners del botón anular reserva y del windowClosing
+     * @param cliente Cliente para poder volver a la pantalla anterior enviándole el cliente en el que se ha iniciado sesión.
+     */
     private void cargarListeners(Usuario cliente) {
         addWindowListener(new WindowAdapter() {
             @Override
@@ -61,6 +74,11 @@ public class PantallaReservasClientes extends JFrame{
         Utils.cursorPointerBoton(btnAnularReserva); // TODO: Funcion que elimine una reserva seleccionada
     }
 
+    /**
+     * Se cargan las listas con la información de las reservas y, si el cliente tiene reservas, se llama al método
+     * que cargara la tabla junto con el cliente, si no, se muestra un mensaje de aviso.
+     * @param cliente Cliente del cual queremos saber sus reservas.
+     */
     private void cargarListas(Usuario cliente) {
         try{
             List<Date> fechas = DataManager.getFechasReservas(cliente);
@@ -72,6 +90,9 @@ public class PantallaReservasClientes extends JFrame{
         }
     }
 
+    /**
+     * Método de inicialización de la pantalla.
+     */
     private void init() {
         setSize(1480,774);
         setResizable(false);
@@ -80,6 +101,12 @@ public class PantallaReservasClientes extends JFrame{
         setVisible(true);
     }
 
+    /**
+     * Se carga la tabla con la information de las listas que se le pasa.
+     * @param fechas Lista con las fechas de cuando se realizaron las reservas
+     * @param actividades Lista con las actividades de las reservas
+     * @param cliente Cliente que ha realizado las reservas.
+     */
     private void cargarDatos(List<Date> fechas, List<Actividad> actividades, Cliente cliente){
         if (cliente != null && fechas != null && actividades != null) {
             String[] header = {"Fecha de reserva", "NIF del cliente", "Actividad", "Precio", "Localidad"};
@@ -104,6 +131,9 @@ public class PantallaReservasClientes extends JFrame{
         }
     }
 
+    /**
+     * Asignación del tamaño de las columnas.
+     */
     public void asignarTamanyoColumnasReservas(){
         TableColumn column;
         for (int i = 0; i < tblReservas.getColumnCount(); i++) {
@@ -117,6 +147,9 @@ public class PantallaReservasClientes extends JFrame{
         }
     }
 
+    /**
+     * Se carga el fondo de la pantalla.
+     */
     private void background(){
         ImageIcon background = new ImageIcon("resources/imagenes/cabeceraResClientes.png");
 
