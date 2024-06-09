@@ -82,6 +82,15 @@ public class DataManager {
         return null;
     }
 
+    public static int filterActividadIDByName(String actividad) {
+        for (int i = 0; i < listActividades.size(); i++) {
+            if (listActividades.get(i).getNombre().equalsIgnoreCase(actividad)) {
+                return listActividades.get(i).getId();
+            }
+        }
+        return -1;
+    }
+
     public static boolean getMaterial(){
         if (DBManager.connect()) {
             try{
@@ -699,6 +708,25 @@ public class DataManager {
         }
         DBManager.close();
         return true;
+    }
+
+    public static int borrarReserva(String date, String nif, int idAct){
+        int result = 0;
+        if (DBManager.connect()) {
+            try {
+                result = DBManager.borrarReserva(date, nif, idAct);
+
+                if (result > 0) {
+                    listReservas.remove(PantallaReservas.posicion);
+                    DBManager.close();
+                    return result;
+                }
+            } catch (SQLException e) {
+                DBManager.close();
+                return 0;
+            }
+        }
+        return 0;
     }
 
     public static double getPrecioAct(int id) {

@@ -210,6 +210,11 @@ public class DBManager {
         return conn.createStatement().executeUpdate("DELETE FROM trabajador where trabajador.nif = '" + nif + "'");
     }
 
+    public static int borrarReserva(String date, String nif, int idAct) throws SQLException {
+        return conn.createStatement().executeUpdate("DELETE FROM reservaclienteActividad WHERE reservaclienteActividad.fechaDeReserva = '"
+                + date + "' AND reservaclienteActividad.nifCli = '" + nif + "' AND reservaclienteActividad.idActividad = " + idAct);
+    }
+
     public static ResultSet getEntregas(Material material, Proveedor proveedor) throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM entregaproveedormaterial WHERE entregaproveedormaterial.idProv = "
                 + proveedor.getId() + " AND entregaproveedormaterial.codMaterial = " + material.getCodigo());

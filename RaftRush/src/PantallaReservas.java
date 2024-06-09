@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.List;
 import java.awt.event.MouseAdapter;
@@ -31,6 +32,7 @@ public class PantallaReservas extends JFrame {
     private JPanel panelTabla;
     private List<Map<String, Object>> reservaSeleccionada = new ArrayList<>();
     private DefaultTableModel model;
+    public static int posicion = 0;
 
     private static final ImageIcon logo = new ImageIcon("resources/imagenes/logo.png");
     ImageIcon imgCorporativaCabecera= new ImageIcon("resources/imagenes/cabeceraConTituloRes.png");
@@ -66,6 +68,7 @@ public class PantallaReservas extends JFrame {
     private void cargarListeners() {
         Utils.cursorPointerBoton(btnAnularReserva);
         // TODO: Al clicar, se leen los datos de la tabla inferior y se elimina esa reserva de la BD
+        btnAnularReserva.addActionListener(eliminarReserva());
         rellenaTablaModificar();
     }
 
@@ -81,6 +84,39 @@ public class PantallaReservas extends JFrame {
         List<Actividad> actividades = DataManager.getActividadesReservas(null);
         List<Cliente> clientes = DataManager.getClientesReservas();
         datosMainTable(fechas, actividades, clientes);
+    }
+
+    private ActionListener eliminarReserva(){
+        return e -> {
+            if (!checkTextFields()) {
+                JOptionPane.showMessageDialog(null,"No has elegido una reserva");
+            }else{
+                int opcion = JOptionPane.showConfirmDialog(null,"Estas seguro que deseas eliminar " +
+                        "la reserva del cliente : " + tblResSeleccionada.getModel().getValueAt(0, 2));
+                System.out.println(opcion);
+                if (opcion == 0) {
+                    JOptionPane.showMessageDialog(null, "Eliminando la reserva");
+                    Object dateO = tblResSeleccionada.getModel().getValueAt(0,0);
+                    String date = dateO.toString();
+                    String nif = (String) tblResSeleccionada.getModel().getValueAt(0, 2);
+                    //Object idActO = tblResSeleccionada.getModel().getValueAt(0, 3);
+
+                    Object actividadO = tblResSeleccionada.getModel().getValueAt(0, 1);
+                    int idAct = (Integer) actividadO;
+
+                    int reservaBorrar = DataManager.borrarReserva(date, nif, idAct);
+                    if (reservaBorrar == 0) {
+                        JOptionPane.showMessageDialog(null, "ERROR. No se puedo borrar la reserva.");
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Reserva borrado correctamente");
+                        List<Date> fechas = DataManager.getFechasReservas(null); // Si el usuario es nulo, devolvera la lista entera
+                        List<Actividad> actividades = DataManager.getActividadesReservas(null);
+                        List<Cliente> clientes = DataManager.getClientesReservas();
+                        datosMainTable(fechas,actividades,clientes);
+                    }
+                }
+            }
+        };
     }
 
     public void datosMainTable(List<Date> fechas, List<Actividad> actividades, List<Cliente> clientes){
@@ -205,8 +241,21 @@ public class PantallaReservas extends JFrame {
                         tblResSeleccionada.getModel().setValueAt(DataManager.getListReservas().get(row).get("columna3"), 0, 1);
                         tblResSeleccionada.getModel().setValueAt(DataManager.getPrecioAct((Integer) DataManager.getListReservas().get(row).get("columna3")), 0, 3);
                         tblResSeleccionada.getModel().setValueAt(DataManager.getNomCentro((Integer) DataManager.getListReservas().get(row).get("columna4")), 0, 4);
+
+                        posicion = tblReservas.getSelectedRow();
                     }
             }
         });
+    }
+
+    private boolean checkTextFields() {
+        if (tblResSeleccionada.getModel().getValueAt(0,0).equals("")
+                || tblResSeleccionada.getModel().getValueAt(0,1).equals("")
+                || tblResSeleccionada.getModel().getValueAt(0,2).equals("")
+                || tblResSeleccionada.getModel().getValueAt(0,3).equals("")
+                || tblResSeleccionada.getModel().getValueAt(0,4).equals("")) {
+            JOptionPane.showMessageDialog(null, "Rellene todos los campos", "Error en los datos", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else return true;
     }
 }
