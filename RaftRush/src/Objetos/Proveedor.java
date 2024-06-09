@@ -5,7 +5,6 @@ public class Proveedor {
     private String nombre;
     private String telefono;
     private String email;
-
     public Proveedor(int id, String nombre, String telefono, String email) {
         this.id = id;
         this.nombre = nombre;
@@ -15,6 +14,7 @@ public class Proveedor {
     }
 
     public Proveedor(String nombre, String telefono, String email) {
+        this.id = 0;
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;

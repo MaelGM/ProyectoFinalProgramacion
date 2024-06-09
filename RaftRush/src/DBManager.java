@@ -98,14 +98,14 @@ public class DBManager {
         return conn.createStatement().executeQuery("SELECT * FROM trabajador WHERE trabajador.nif = '" + nif + "'");
     }
 
-    public static int updateProveedor(Proveedor p, int codigo) {
+    public static int updateProveedor(Proveedor p) {
         try {
             String query = "UPDATE proveedor SET nombre= ?, telefono= ?, email= ? WHERE id = ?";
             try(PreparedStatement pstmt = conn.prepareStatement(query)){
                 pstmt.setString(1, p.getNombre());
                 pstmt.setString(2, p.getTelefono());
                 pstmt.setString(3, p.getEmail());
-                pstmt.setInt(4, codigo);
+                pstmt.setInt(4, p.getId());
 
                 return pstmt.executeUpdate();
             }
@@ -113,6 +113,11 @@ public class DBManager {
             ex.printStackTrace();
             return 0;
         }
+    }
+
+    public static ResultSet getProveedorId(Proveedor proveedor) throws SQLException {
+        return conn.createStatement().executeQuery("SELECT * FROM proveedor WHERE proveedor.nombre = '" + proveedor.getNombre()
+                + "' AND proveedor.telefono = '" + proveedor.getTelefono() + "' AND proveedor.email = '" + proveedor.getEmail() + "'");
     }
 
     public static int agregarCliente(Cliente cliente) throws SQLException {
@@ -233,8 +238,6 @@ public class DBManager {
         return conn.createStatement().executeQuery("SELECT * FROM actividad WHERE actividad.id = " + id);
     }
 
-    /*
-        Esto no hace falta, ya que al ser incremental, se asigna el ID automaticamente
 
     //TODO Este codigo lo hago para sacar el ultimo id u codigo que se ha creado para luego insertarlo a la nueva instancia Author -->Hakeem
     //TODO no he hecho la de tipo porque no estaba muy seguro de ello Author --> Hakeem
@@ -253,5 +256,5 @@ public class DBManager {
     public static ResultSet sacarUltimoIDProveedor() throws SQLException {
         return conn.createStatement().executeQuery("SELECT * FROM proveedor ORDER BY proveedor.id DESC LIMIT 1");
     }
-    */
+
 }

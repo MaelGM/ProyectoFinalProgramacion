@@ -1,7 +1,6 @@
 import Excepciones.ExceptionUsuario;
 import Objetos.*;
 
-import javax.xml.stream.events.DTD;
 import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -537,12 +536,19 @@ public class DataManager {
 
     public static boolean editProveedor(Proveedor proveedor){
         if (DBManager.connect()){
-            int codigo = getIdFromProveedor(proveedor);
-            if (codigo == -1) return false;
-            int rs = DBManager.updateProveedor(proveedor, codigo);
-            if (rs == 0) return false;
-            DBManager.close();
-            return true;
+            try {
+                ResultSet resultSet = DBManager.getProveedorId(proveedor);
+                if (resultSet != null && resultSet.next()) {
+                    proveedor.setId(resultSet.getInt("id"));
+                }
+
+                int rs = DBManager.updateProveedor(proveedor);
+                if (rs == 0) return false;
+                DBManager.close();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }return false;
     }
 
@@ -570,14 +576,14 @@ public class DataManager {
         }else return false;
     }
 
-    private static int getIdFromProveedor(Proveedor proveedor){
+    /*private static int getIdFromProveedor(Proveedor proveedor){
         for (Proveedor p: listProveedor) {
             if (p.getNombre().equals(proveedor.getNombre()) || p.getEmail().equals(proveedor.getEmail()) || p.getTelefono().equals(proveedor.getTelefono()))
                 return p.getId();
 
         }
         return -1;
-    }
+    }*/
 
     public static boolean agregarReserva(Usuario cliente, Actividad actividad) {
         if (DBManager.connect()){
