@@ -1,3 +1,4 @@
+import Excepciones.ExceptionActividad;
 import Excepciones.ExceptionUsuario;
 import Objetos.*;
 
@@ -54,7 +55,7 @@ public class DataManager {
                             rs.getString(4),rs.getDouble(5), tipo,
                             centro));
                 }
-            }catch (SQLException e){
+            }catch (SQLException | ExceptionActividad e){
                 DBManager.close();
                 return false;
             }
@@ -438,6 +439,14 @@ public class DataManager {
             if (proveedor.getId() == id) return proveedor;
         }
         return null;
+    }
+
+    public static List<String> getDificultades(){
+        ArrayList<String> dificultades = new ArrayList<>();
+        for (Actividad a: listActividades) {
+            if (!dificultades.contains(a.getDificultad())) dificultades.add(a.getDificultad());
+        }
+        return dificultades;
     }
 
     /*

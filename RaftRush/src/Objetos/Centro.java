@@ -1,5 +1,8 @@
 package Objetos;
 
+import Excepciones.ExceptionActividad;
+import Excepciones.ExceptionCentro;
+
 import java.util.Objects;
 
 public class Centro {
@@ -8,31 +11,30 @@ public class Centro {
     private String localidad;
     private double presupuesto;
 
-    public Centro(int id, String nombre, String localidad, double presupuesto) {
-        this.id = id;
-        this.nombre = nombre;
-        this.localidad = localidad;
-        this.presupuesto = presupuesto;
+    public Centro(int id, String nombre, String localidad, double presupuesto) throws ExceptionCentro {
+        setId(id);
+        setNombre(nombre);
+        setLocalidad(localidad);
+        setPresupuesto(presupuesto);
     }
 
-    public Centro(String nombre, String localidad, double presupuesto) {
-        this.nombre = nombre;
-        this.localidad = localidad;
-        this.presupuesto = presupuesto;
+    public Centro(String nombre, String localidad, double presupuesto) throws ExceptionCentro {
+        setNombre(nombre);
+        setLocalidad(localidad);
+        setPresupuesto(presupuesto);
     }
 
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id) throws ExceptionCentro {
+        if (id >= 0) this.id = id;
+        else throw new ExceptionCentro("El id del centro debe ser mayor o igual que 0");
     }
 
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -40,7 +42,6 @@ public class Centro {
     public String getLocalidad() {
         return localidad;
     }
-
     public void setLocalidad(String localidad) {
         this.localidad = localidad;
     }
@@ -48,9 +49,9 @@ public class Centro {
     public double getPresupuesto() {
         return presupuesto;
     }
-
-    public void setPresupuesto(double presupuesto) {
-        this.presupuesto = presupuesto;
+    public void setPresupuesto(double presupuesto) throws ExceptionCentro {
+        if (presupuesto >= 0) this.presupuesto = presupuesto;
+        else throw new ExceptionCentro("El presupuesto de un centro no puede ser negativo");
     }
 
     @Override

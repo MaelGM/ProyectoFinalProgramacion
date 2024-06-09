@@ -1,5 +1,8 @@
 package Objetos;
 
+import Excepciones.ExceptionActividad;
+
+
 public class Actividad {
     private int id;
     private String nombre;
@@ -9,30 +12,31 @@ public class Actividad {
     private Tipo tipo;
     private Centro centro;
 
-    public Actividad(int id, String nombre, String descripcion, String dificultad, double precio, Tipo tipo, Centro centro) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.dificultad = dificultad;
-        this.precio = precio;
-        this.tipo = tipo;
-        this.centro = centro;
+    public Actividad(int id, String nombre, String descripcion, String dificultad, double precio, Tipo tipo, Centro centro) throws ExceptionActividad {
+        setId(id);
+        setNombre(nombre);
+        setDescripcion(descripcion);
+        setDificultad(dificultad);
+        setPrecio(precio);
+        setTipo(tipo);
+        setCentro(centro);
     }
 
-    public Actividad(String nombre, String descripcion, String dificultad, double precio, Tipo tipo, Centro centro) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.dificultad = dificultad;
-        this.precio = precio;
-        this.tipo = tipo;
-        this.centro = centro;
+    public Actividad(String nombre, String descripcion, String dificultad, double precio, Tipo tipo, Centro centro) throws ExceptionActividad {
+        setNombre(nombre);
+        setDescripcion(descripcion);
+        setDificultad(dificultad);
+        setPrecio(precio);
+        setTipo(tipo);
+        setCentro(centro);
     }
 
     public int getId() {
         return id;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id) throws ExceptionActividad {
+        if (id >= 0) this.id = id;
+        else throw new ExceptionActividad("El id de la actividad debe ser mayor o igual que 0");
     }
 
     public String getNombre() {
@@ -59,8 +63,9 @@ public class Actividad {
     public double getPrecio() {
         return precio;
     }
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrecio(double precio) throws ExceptionActividad {
+        if (precio > 0) this.precio = precio;
+        else throw new ExceptionActividad("El precio debe ser mayor que 0");
     }
 
 
