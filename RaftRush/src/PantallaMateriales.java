@@ -1,6 +1,6 @@
 import Objetos.Centro;
 import Objetos.Material;
-import Objetos.Trabajador;
+import Objetos.Proveedor;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.ui.FlatLineBorder;
 
@@ -11,7 +11,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class PantallaMateriales extends JFrame{
@@ -71,7 +73,8 @@ public class PantallaMateriales extends JFrame{
         Utils.cursorPointerBoton(btnModificar); // Te saldra para seleccionar un proveedor, en caso de que se haya aumentado la cantidad del stock
         Utils.cursorPointerBoton(btnSolicitar); // No me ha quedado claro que pasa si se le da a Solicitar --> Mael
         Utils.cursorPointerBoton(btnVerEntregas);
-        btnModificar.addActionListener(asignarProveedor());
+        btnSolicitar.addActionListener(asignarProveedor());
+        btnModificar.addActionListener(modificarMat());
         cmbCentro.addActionListener(filtrar());
         rellenarTablaModificar();
     }
@@ -94,19 +97,27 @@ public class PantallaMateriales extends JFrame{
         return lista;
     }
 
+    private ActionListener modificarMat(){
+        return e -> {
+
+        };
+    }
+
     private ActionListener asignarProveedor() {
         return e -> {
-            // Crear los ComboBox con las opciones de contraseñas
-            String[] passwordOptions = {"proveedor1", "proveedor2", "proveedor3"};
-            JComboBox<String> passwordComboBox = new JComboBox<>(passwordOptions);
+            List<String> proveedoresOptions = DataManager.getListProveedor().stream().map(Proveedor::getNombre).toList();
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(proveedoresOptions.toArray(new String[0]));
+            JComboBox<String> comboBox = new JComboBox<>(comboBoxModel);
 
-            // Crear el panel que contendrá los ComboBox
+            for (int i = 0; i < (proveedoresOptions.size()/2)-5; i++) {
+                comboBox.addItem(proveedoresOptions.get(i));
+            }
+
             JPanel panel = new JPanel();
             panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
             panel.add(new JLabel("Seleccione el proveedor de la entrega:"));
-            panel.add(passwordComboBox);
+            panel.add(comboBox);
 
-            // Mostrar el cuadro de diálogo de entrada
             int option = JOptionPane.showConfirmDialog(
                     null,
                     panel,
@@ -118,7 +129,7 @@ public class PantallaMateriales extends JFrame{
     }
 
     public void cargarDatos(){
-        if (DataManager.getCentros() && DataManager.getMaterial()) {
+        if (DataManager.getCentros() && DataManager.getMaterial() && DataManager.getProveedor()) {
             datosMaterialTable(DataManager.getListMaterial());
             cargarFiltro();
         }
