@@ -7,7 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+/**
+ * En esta clase se define los metodos para la manipulacion de las listas obtenidas por el DBManager de la base de datos.
+ * @see DBManager
+ */
 public class DataManager {
+    /**
+     * Campos de la clase.
+     */
     private static List<Actividad> listActividades = new ArrayList<>();
     private static List<Centro> listCentros = new ArrayList<>();
     private static List<Material> listMaterial = new ArrayList<>();
@@ -17,10 +24,18 @@ public class DataManager {
     private static List<Tipo> listTipos = new ArrayList<>();
     private static List<Map<String, Object>> listReservas = new ArrayList<>();
 
+    /**
+     * Metodo para obtener los ususarios
+     * @return true si ha podido obtenerlos, false si no.
+     */
     public static boolean getUsuarios() {
         return getClientes() && getTrabajador();
     }
 
+    /**
+     * Metodo para rellenar la lista de centros
+     * @return true si ha podido rellenar la lista, false si no
+     */
     public static boolean getCentros(){
         if (DBManager.connect()) {
             try{
@@ -40,6 +55,10 @@ public class DataManager {
         return false;
     }
 
+    /**
+     * Metodo para rellenar la lista de actividades
+     * @return true si ha podido rellenar la lista, false si no
+     */
     public static boolean getActividades(){
         if (DBManager.connect()) {
             try{
@@ -64,6 +83,11 @@ public class DataManager {
         return false;
     }
 
+    /**
+     * Metodo para filtrar un centro por su id
+     * @param centroId
+     * @return Centro centro obtenido por el id
+     */
     private static Centro filterCentroById(int centroId) {
         for (int i = 0; i < listCentros.size(); i++) {
             if (listCentros.get(i).getId() == centroId) {
@@ -73,6 +97,11 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para filtrar el tipo por su id
+     * @param id
+     * @return Tipo tipo obtenido por el id
+     */
     private static Tipo filterTipoById(int id) {
         for (int i = 0; i < listTipos.size(); i++) {
             if (listTipos.get(i).getId() == id) {
@@ -81,7 +110,10 @@ public class DataManager {
         }
         return null;
     }
-
+    /**
+     * Metodo para rellenar la lista de materiales
+     * @return true si ha podido rellenar la lista, false si no
+     */
     public static boolean getMaterial(){
         if (DBManager.connect()) {
             try{
@@ -100,7 +132,10 @@ public class DataManager {
         }
         return false;
     }
-
+    /**
+     * Metodo para rellenar la lista de proveedores
+     * @return true si ha podido rellenar la lista, false si no
+     */
     public static boolean getProveedor(){
         if (DBManager.connect()) {
             try{
@@ -119,7 +154,10 @@ public class DataManager {
         }
         return false;
     }
-
+    /**
+     * Metodo para comprobar la lista de entregas
+     * @return true si la lista contiene entregas, false si no
+     */
     public static boolean getEntregas(){
         if (DBManager.connect()) {
             try{
@@ -136,7 +174,10 @@ public class DataManager {
         }
         return false;
     }
-
+    /**
+     * Metodo para rellenar una lista de proveedores por entregas
+     * @return List <Proveedor> proveedores
+     */
     public static List<Proveedor> getProveedoresEntregas(){
         if (DBManager.connect()) {
             List<Proveedor> proveedores = new ArrayList<>();
@@ -154,7 +195,10 @@ public class DataManager {
         }
         return null;
     }
-
+    /**
+     * Metodo para rellenar una lista de materiales por entregas
+     * @return List <Material> materiales
+     */
     public static List<Material> getMaterialEntregas(){
         if (DBManager.connect()) {
             List<Material> materiales = new ArrayList<>();
@@ -173,6 +217,10 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener las fechas de las entregas
+     * @return List <Date> fechasReservas
+     */
     public static List<Date> getFechasEntregas(){
         if (DBManager.connect()) {
             List<Date> fechasReservas = new ArrayList<>();
@@ -191,6 +239,10 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener todas las reservas
+     * @return true si la lista no esta vacia, false si si.
+     */
     public static boolean getReservasGeneral(){
         if (DBManager.connect()) {
             try{
@@ -208,6 +260,10 @@ public class DataManager {
         return false;
     }
 
+    /**
+     * Metodo para obtener los clientes por sus reservas
+     * @return List <Cliente> clientes
+     */
     public static List<Cliente> getClientesReservas(){
         if (DBManager.connect()) {
             List<Cliente> clientes = new ArrayList<>();
@@ -226,6 +282,11 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener las actividades por las reservas hechas de estas
+     * @param user
+     * @return List <Actividad> actividades
+     */
     public static List<Actividad> getActividadesReservas(Usuario user){
         if (DBManager.connect()) {
             List<Actividad> actividades = new ArrayList<>();
@@ -244,7 +305,11 @@ public class DataManager {
         }
         return null;
     }
-
+    /**
+     * Metodo para obtener las fechas de las reservas
+     * @param user
+     * @return List <Date> fechasReservas
+     */
     public static List<Date> getFechasReservas(Usuario user){
         if (DBManager.connect()) {
             List<Date> fechasReservas = new ArrayList<>();
@@ -264,6 +329,10 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para rellenar la lista de trabajadores
+     * @return true si ha podido rellenarla, false si no.
+     */
     public static boolean getTrabajador() {
         if (DBManager.connect()) {
             try{
@@ -282,7 +351,10 @@ public class DataManager {
         }
         return false;
     }
-
+    /**
+     * Metodo para rellenar la lista de Clientes
+     * @return true si ha podido rellenarla, false si no.
+     */
     public static boolean getClientes() {
         if (DBManager.connect()) {
             try{
@@ -302,7 +374,10 @@ public class DataManager {
         }
         return false;
     }
-
+    /**
+     * Metodo para rellenar la lista de tipos
+     * @return true si ha podido rellenarla, false si no.
+     */
     public static boolean getTipos() {
         if (DBManager.connect()) {
             try {
@@ -322,6 +397,11 @@ public class DataManager {
         return false;
     }
 
+    /**
+     * Metodo para obtener la localidad por el id del centro
+     * @param id
+     * @return String result
+     */
     public static String getLocalidad(int id){
         String result = "";
         if (DBManager.connect()) {
@@ -341,6 +421,11 @@ public class DataManager {
         return result;
     }
 
+    /**
+     * Metodo para obtener el nombre del centro por su id
+     * @param id
+     * @return String result
+     */
     public static String getNomCentro(int id){
         String result = "";
         if (DBManager.connect()) {
@@ -359,7 +444,11 @@ public class DataManager {
         }
         return result;
     }
-
+    /**
+     * Metodo para obtener el cliente por su nif
+     * @param nif
+     * @return Cliente c, null si no hay cliente con ese nif
+     */
     public static Cliente getCliente(String nif){
         for (Cliente c: listClientes) {
             if (c.getNif().equalsIgnoreCase(nif)) return c;
@@ -367,19 +456,34 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener el tipo por su nombre
+     * @param nombre
+     * @return Tipo tipo, null si no existe
+     */
     public static Tipo getTipoByName(String nombre){
         for (Tipo tipo: listTipos) {
             if (tipo.getNombre().equalsIgnoreCase(nombre)) return tipo;
         }
         return null;
     }
+
+    /**
+     * Metodo para obtener el tipo por su id
+     * @param id
+     * @return Tipo tipo, null si no existe
+     */
     public static Tipo getTipoById(int id){
         for (Tipo tipo: listTipos) {
             if (tipo.getId() == id) return tipo;
         }
         return null;
     }
-
+    /**
+     * Metodo para obtener el material por su id
+     * @param id
+     * @return Material material, null si no existe
+     */
     public static Material getMaterialById(int id){
         for (Material material: listMaterial) {
             if (material.getCodigo() == id) return material;
@@ -387,18 +491,34 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener el centro por su localidad
+     * @param localidad
+     * @return Centro centro, null si no existe
+     */
     public static Centro getCentroByLocalidad(String localidad){
         for (Centro centro: listCentros) {
             if (centro.getLocalidad().equalsIgnoreCase(localidad)) return centro;
         }
         return null;
     }
+    /**
+     * Metodo para obtener el centro por su nombre
+     * @param nombre
+     * @return Centro centro, null si no existe
+     */
     public static Centro getCentroByName(String nombre){
         for (Centro centro: listCentros) {
             if (centro.getNombre().equalsIgnoreCase(nombre)) return centro;
         }
         return null;
     }
+
+    /**
+     * Metodo para obtener el centro por su id
+     * @param id
+     * @return Centro centro, null si no existe
+     */
     public static Centro getCentroById(int id){
         for (Centro centro: listCentros) {
             if (centro.getId() == id) return centro;
@@ -406,6 +526,11 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener el id del centro por su nombre
+     * @param centro
+     * @return int id
+     */
     public static int getIdCentroByName(String centro) {
         for (Centro centro1:listCentros) {
             if (centro1.getNombre().equalsIgnoreCase(centro)) return centro1.getId();
@@ -413,6 +538,11 @@ public class DataManager {
         return 0;
     }
 
+    /**
+     * Metodo para obtener la actividad por su id
+     * @param id
+     * @return Actividad actividad, null si no existe
+     */
     private static Actividad getActividadById(int id){
         for (Actividad actividad: listActividades) {
             if (actividad.getId() == id) return actividad;
@@ -420,6 +550,11 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener el cliente por su nif
+     * @param nif
+     * @return Cliente cliente, null si no existe
+     */
     private static Cliente getClienteByNif(String nif){
         for (Cliente cliente: listClientes) {
             if (cliente.getNif().equalsIgnoreCase(nif)) return cliente;
@@ -427,12 +562,23 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener un proveedor por su nombre
+     * @param nombre
+     * @return Proveedor proveedor, null si no existe
+     */
     public static Proveedor getProveedorByName(String nombre){
         for (Proveedor proveedor: listProveedor) {
             if (proveedor.getNombre().equalsIgnoreCase(nombre)) return proveedor;
         }
         return null;
     }
+
+    /**
+     * Metodo para obtener el proveedor por su id
+     * @param id
+     * @return Proveedor proveedor, null si no existe
+     */
     public static Proveedor getProveedorId(int id){
         for (Proveedor proveedor: listProveedor) {
             if (proveedor.getId() == id) return proveedor;
@@ -440,6 +586,10 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener las dificultades de las actividades
+     * @return List <String> dificultades
+     */
     public static List<String> getDificultades(){
         ArrayList<String> dificultades = new ArrayList<>();
         for (Actividad a: listActividades) {
@@ -468,6 +618,17 @@ public class DataManager {
         return false;
     } */
 
+    /**
+     * Metodo para agregar un trabajador a la lista
+     * @param nif
+     * @param nombre
+     * @param apellido
+     * @param edad
+     * @param salario
+     * @param idCentro
+     * @param contrasenya
+     * @return true si ha podido agregarse, false si no
+     */
     public static boolean agregarTrabajador(String nif, String nombre, String apellido, int edad, double salario, int idCentro, String contrasenya) {
         Centro centro = findCentro(idCentro);
         if (DBManager.connect()){
@@ -486,6 +647,11 @@ public class DataManager {
         }else return false;
     }
 
+    /**
+     * Metodo para agregar un cliente a la lista
+     * @param cliente
+     * @return true si ha podido agregarse, false si no
+     */
     public static boolean addCliente(Cliente cliente){
         if (findUsuario(cliente.getNif()) != null) return false;
         if (DBManager.connect()){
@@ -502,6 +668,11 @@ public class DataManager {
         }else return false;
     }
 
+    /**
+     * Metodo para editar un proveedor
+     * @param proveedor
+     * @return true si se ha podido editar, false si no.
+     */
     public static boolean editProveedor(Proveedor proveedor){
         if (DBManager.connect()){
             int codigo = getIdFromProveedor(proveedor);
@@ -513,6 +684,11 @@ public class DataManager {
         }return false;
     }
 
+    /**
+     * Metodo para agregar un proveedor
+     * @param proveedor
+     * @return true si se ha podido agregar, false si no
+     */
     public static boolean addProveedor(Proveedor proveedor){
         if (listProveedor.contains(proveedor)) return false;
         if (DBManager.connect()){
@@ -537,6 +713,11 @@ public class DataManager {
         }else return false;
     }
 
+    /**
+     * Metodo para obtener el id de un proveedor
+     * @param proveedor
+     * @return int id, -1 si no existe
+     */
     private static int getIdFromProveedor(Proveedor proveedor){
         for (Proveedor p: listProveedor) {
             if (p.getNombre().equals(proveedor.getNombre()) || p.getEmail().equals(proveedor.getEmail()) || p.getTelefono().equals(proveedor.getTelefono()))
@@ -546,6 +727,12 @@ public class DataManager {
         return -1;
     }
 
+    /**
+     * Metodo para agregar una reserva
+     * @param cliente
+     * @param actividad
+     * @return true si se ha podido agregar, false si no
+     */
     public static boolean agregarReserva(Usuario cliente, Actividad actividad) {
         if (DBManager.connect()){
             try {
@@ -564,6 +751,14 @@ public class DataManager {
         return false;
     }
 
+    /**
+     * Metodo para editar un usuario
+     * @param usu
+     * @param nombre
+     * @param contrasenya
+     * @param nif
+     * @return int rs si se ha podido editar, 0 si no
+     */
     public static int editarUsuario(Usuario usu, String nombre, String contrasenya, String nif){
         if (DBManager.connect()) {
             try{
@@ -581,6 +776,11 @@ public class DataManager {
         return 0;
     }
 
+    /**
+     * Metodo para encontrar un usuario por su nif
+     * @param nif
+     * @return Usuario t si es trabajador, c si es cliente, null si no se ha podido encontrar
+     */
     public static Usuario findUsuario(String nif){
         for (Trabajador t: listTrabajador) {
             if (t.getNif().equals(nif)) return t;
@@ -591,6 +791,11 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para encontrar un centro por su id
+     * @param id
+     * @return Centro centro, null si no se ha encontrado
+     */
     public static Centro findCentro(int id){
         for (Centro centro:listCentros) {
             if (centro.getId() == id) return centro;
@@ -598,6 +803,11 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * Metodo para obtener la contraseña por su nif
+     * @param nif
+     * @return String result
+     */
     public static String getHashPassword(String nif){
         String result = "";
         if (DBManager.connect()) {
@@ -668,35 +878,70 @@ public class DataManager {
         return false;
     }*/
 
-
+    /**
+     * Metodo para obtener la lista de actividades
+     * @return List <Actividad> actividades
+     */
     public static List<Actividad> getListActividades(){
         return listActividades;
     }
+    /**
+     * Metodo para obtener la lista de centros
+     * @return List <Centro> centros
+     */
     public static List<Centro> getListCentros(){
         return listCentros;
     }
+    /**
+     * Metodo para obtener la lista de materiales
+     * @return List <Material> materiales
+     */
     public static List<Material> getListMaterial(){
         return listMaterial;
     }
+    /**
+     * Metodo para obtener la lista de proveedores
+     * @return List <Proveedor> proveedores
+     */
     public static List<Proveedor> getListProveedor(){return listProveedor;}
+    /**
+     * Metodo para obtener la lista de trabajadores
+     * @return List <Trabajador> trabajadores
+     */
     public static List<Trabajador> getListTrabajador(){return listTrabajador;}
     public static List<Tipo> getListTipos(){
         return listTipos;
     }
+    /**
+     * Metodo para obtener la lista de clientes
+     * @return List <Cliente> clientes
+     */
     public static List<Cliente> getListClientes(){return listClientes;}
+    /**
+     * Metodo para obtener la lista de localidades de los centros
+     * @return List <String>
+     */
     public static List<String> getLocalidadesCentro() {
         return listCentros.stream().map(Centro::getLocalidad).distinct().toList();
     }
+    /**
+     * Metodo para obtener la lista de tipos de actividad por centro
+     * @return List <String>
+     */
     public static List<String> getTiposActividadesCentro() {
         return listTipos.stream().map(Tipo::getNombre).distinct().toList();
     }
-
+    /**
+     * Metodo para obtener la lista de reservas
+     * @return List List<Map<String, Object>> listReservas
+     */
     public static List<Map<String, Object>> getListReservas() {
         listReservas.sort(Comparator.comparing(r -> ((Date) r.get("columna1"))));
         return listReservas;
     }
     /**
      * Metodo para hacer una lista de reservas
+     * @return true si ha podido hacerla, false si no
      */
     public static boolean getReservas(){
 
@@ -727,6 +972,11 @@ public class DataManager {
         return true;
     }
 
+    /**
+     * Metodo para obtener el precio de una actividad por su id
+     * @param id
+     * @return double resultado
+     */
     public static double getPrecioAct(int id) {
         double resultado = 0;
         if (DBManager.connect()) {
@@ -746,9 +996,4 @@ public class DataManager {
         DBManager.close();
         return 0;
     }
-
-
-
-
-
 }
